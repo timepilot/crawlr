@@ -2,84 +2,90 @@ import pygame
 from pygame.locals import *
 from data import *
 from constants import *
+from dice import Die
 from terrain import TERRAIN_ALL
 
 class BasicSprite(pygame.sprite.DirtySprite):
     """The base sprite from which all other sprites derive."""
 
-    def __init__(self, window, map, width, height, direction, stop, start,
-                 spritesheet, currentTerrain, currentRegion, imageList,
-                 spriteCollideSize, spriteCollideOffset, animspeed,
-                 spriteMovementSpeed):
+    def __init__(self, window, map, width, height, start_direction, direction,
+                stopped, start_location, spritesheet, image_dict, collide_size,
+                collide_offset, speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
-        self.SPRITE_COLLIDE_SIZE = spriteCollideSize
-        self.SPRITE_COLLIDE_OFFSET = spriteCollideOffset
-        self.SPRITE_MOVE_SPEED = spriteMovementSpeed
         self.window = window
         self.map = map
         self.width = width
         self.height = height
+        self.start_direction = start_direction
         self.direction = direction
-        self.stop = stop
-        self.start = start
+        self.stopped = stopped
         self.sprite = LoadSprite(spritesheet)
-        self.current_terrain = currentTerrain
-        self.current_region = currentRegion
-        self.north = self.sprite.images(imageList['north'], -1)
-        self.south = self.sprite.images(imageList['south'], -1)
-        self.east = self.sprite.images(imageList['east'], -1)
-        self.west = self.sprite.images(imageList['west'], -1)
+        self.current_terrain = ""
+        self.current_region = ""
+        self.north = self.sprite.images(image_dict['north'], -1)
+        self.south = self.sprite.images(image_dict['south'], -1)
+        self.east = self.sprite.images(image_dict['east'], -1)
+        self.west = self.sprite.images(image_dict['west'], -1)
         self.walking = {
             'up': self.north,
             'down': self.south,
             'right': self.east,
-            'left': self.west}
-        self.animcounter = 0
-        self.animspeed = animspeed
+            'left': self.west }
         self.collide = {}
+        self.collide_size = collide_size
+        self.collide_offset = collide_offset
+        self.speed_walk = speed_walk
+        self.speed_animate = speed_animate
+        self.animate_counter = 0
         self.current_space = 0
         self.frame = 0
-        self.x = self.map.start_tile[0]*self.map.tile_size[0]
-        self.y = self.map.start_tile[1]*self.map.tile_size[1]
-        self.image = self.walking[self.map.start_direction][self.frame]
+        self.x = start_location[0]
+        self.y = start_location[1]
+        self.image = self.walking[self.start_direction][self.frame]
         self.rect = self.image.get_rect(left=self.x, top=self.y)
-        self.collide_surface = pygame.Surface(spriteCollideSize)
+        self.collide_surface = pygame.Surface(collide_size)
         self.collide_rect = self.collide_surface.get_rect(
-            left=self.rect.left + spriteCollideOffset[0],
-            bottom=self.rect.bottom + spriteCollideOffset[1])
+            left=self.rect.left + collide_offset[0],
+            bottom=self.rect.bottom + collide_offset[1])
 
     def draw(self):
         """Cycle move animation frames and redraw at the new location."""
 
-        self.animcounter = (self.animcounter + 1) % self.animspeed
-        if self.animcounter == 0:
-            self.frame = (self.frame + 1) % len(self.walking[self.direction])
-        self.image = self.walking[self.direction][self.frame]
+        direction = self.walking[self.direction]
+        self.animate_counter = (self.animate_counter + 1) % self.speed_animate
+        if self.animate_counter == 0:
+            self.frame = (self.frame + 1) % len(direction)
+        self.image = direction[self.frame]
         self.collide_rect.left = self.rect.left - self.scroll_pos[0] + (
-            self.SPRITE_COLLIDE_OFFSET[0])
+            self.collide_offset[0])
         self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
-            self.SPRITE_COLLIDE_OFFSET[1])
+            self.collide_offset[1])
 
     def update(self):
         """Redraw the sprite if it moved."""
 
-        self.movement = self.SPRITE_MOVE_SPEED
+        self.movement = self.speed_walk
         if self.direction:
             if self.stop:
-                self.stop_moving()
+                self.image = self.walking[self.direction][0]
+                self.dirty = 1
             else:
                 self.move_check()
                 self.move()
                 self.draw()
 
-    def stop_moving(self):
-        """Stop moving sprite."""
-
-        self.image = self.walking[self.direction][0]
-        self.dirty = 1
-
     def move_check(self):
-        pass
+        """Check for walls, terrain, region, and random encounters."""
+
+        directions = {
+                'up': self.collide_rect.move(0, -self.movement),
+                'down': self.collide_rect.move(0, self.movement),
+                'left': self.collide_rect.move(-self.movement, 0),
+                'right': self.collide_rect.move(self.movement, 0) }
+        for key, rect in directions.iteritems():
+            self.check_walls(key, rect)
+            self.check_terrain(rect)
+            self.check_region(rect)
 
     def check_walls(self, key, rect):
         """Check if movement is blocked by a wall."""
@@ -115,8 +121,10 @@ class PlayerSprite(BasicSprite):
     def __init__(self, window, map):
         width = PLAYER_WIDTH
         height = PLAYER_HEIGHT
-        start_location = [ -(map.start_tile[0] * map.tile_size[0]),
-                -(map.start_tile[0] * map.tile_size[1]) ]
+        start_location = [
+            map.start_tile[0] * map.tile_size[0],
+            map.start_tile[1] * map.tile_size[1] ]
+        start_direction = map.start_direction
         image_file = 'party'
         images = {
             'north': [
@@ -142,8 +150,50 @@ class PlayerSprite(BasicSprite):
         self.move_keys = []
         self.scroll_pos = [0,0]
         BasicSprite.__init__(self, window, map, width, height,
-                None, True, start_location, image_file, "", "",
+                start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
 
+    def move(self):
+        """Move the player."""
+
+        self.check_encounter()
+        self.dirty = 1
+        direction = self.direction
+        map_rect = self.map.mapLayer['terrain'].rect
+        if not self.collide[direction]:
+            if direction == "up":
+                if self.rect.centery < SCROLL_TOP and self.scroll_pos[1] < 0:
+                    self.scroll_pos[1] += self.movement
+                    self.map.move_map([0, self.movement])
+                else: self.rect.move_ip(0, -self.movement)
+            elif direction == "down":
+                if self.rect.centery > SCROLL_BOTTOM and (map_rect.height +
+                        self.scroll_pos[1] > CAMERA_SIZE[1]):
+                    self.scroll_pos[1] -= self.movement
+                    self.map.move_map([0, -self.movement])
+                else: self.rect.move_ip(0, self.movement)
+            elif direction == "left":
+                if self.rect.centerx < SCROLL_LEFT and self.scroll_pos[0] < 0:
+                    self.scroll_pos[0] += self.movement
+                    self.map.move_map([self.movement, 0])
+                else: self.rect.move_ip(-self.movement, 0)
+            elif direction == "right":
+                if self.rect.centerx > SCROLL_RIGHT and (map_rect.width +
+                        self.scroll_pos[0] > CAMERA_SIZE[0]):
+                    self.scroll_pos[0] -= self.movement
+                    self.map.move_map([-self.movement, 0])
+                else: self.rect.move_ip(self.movement, 0)
+
+    def check_encounter(self):
+        """Check for a random encounter."""
+
+        spaces = CHECK_SPACES_NORMAL
+        if self.rect.collidelistall(self.map.danger) != []:
+            spaces = CHECK_SPACES_DANGER
+        self.current_space += 1
+        if self.current_space == spaces * self.width:
+            if Die(6).roll() == 6:
+                print "TODO: random encounter"
+            self.current_space = 0
 
