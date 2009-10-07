@@ -10,7 +10,7 @@ from dice import Die
 class Map(object):
     """The game world."""
 
-    def __init__(self, mapId):
+    def __init__(self, level):
         self.layers = []
         self.nowalk = []
         self.danger = []
@@ -23,7 +23,7 @@ class Map(object):
             FOREST: TerrainForest(),
             WATER: TerrainWater() }
         self.mapLayer = {}
-        self.mapConfig = load_map(mapId)
+        self.mapConfig = load_map(level)
         self.create_map()
 
     def configure(self):

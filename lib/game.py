@@ -28,7 +28,7 @@ class Game(object):
         """Runs the main game loop."""
 
         self.clock = pygame.time.Clock()
-        self.scene = Scene(self.window)
+        self.scene = Scene(self.window, 1)
 
         while self.running:
             self.clock.tick(FRAME_RATE)
@@ -47,7 +47,6 @@ class Game(object):
                 key_name = pygame.key.name
                 key = event.key
 
-                # Exit the game when 'Esc' key is pressed.
                 if event.key == K_ESCAPE:
                     self.running = False
 
@@ -59,7 +58,7 @@ class Game(object):
                 elif event.key == K_n:
                     for sprite in self.scene.all_sprites:
                         sprite.kill()
-                    self.scene = Scene(self.window)
+                    self.run()
 
                 # Toggle dialog window when 'D' key is pressed.
                 elif event.key == K_d:

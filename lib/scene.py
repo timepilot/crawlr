@@ -7,10 +7,9 @@ from player import Player
 class Scene(object):
     """A scene in the game that loads and manages a level."""
 
-    def __init__(self, window):
+    def __init__(self, window, level):
         self.window = window
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
-        level = 1
         self.map = Map(level)
         self.layers = pygame.sprite.LayeredDirty()
         self.player = Player(window, self.map)

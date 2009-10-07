@@ -7,4 +7,3 @@ class Player(PlayerSprite):
     def __init__(self, window, map):
         PlayerSprite.__init__(self, window, map)
         self.name = "Player Name"
-

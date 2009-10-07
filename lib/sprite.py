@@ -31,9 +31,6 @@ class BasicSprite(pygame.sprite.DirtySprite):
             'down': self.south,
             'right': self.east,
             'left': self.west }
-        self.collide = {}
-        self.collide_size = collide_size
-        self.collide_offset = collide_offset
         self.speed_walk = speed_walk
         self.speed_animate = speed_animate
         self.animate_counter = 0
@@ -43,6 +40,9 @@ class BasicSprite(pygame.sprite.DirtySprite):
         self.y = start_location[1]
         self.image = self.walking[self.start_direction][self.frame]
         self.rect = self.image.get_rect(left=self.x, top=self.y)
+        self.collide = {}
+        self.collide_size = collide_size
+        self.collide_offset = collide_offset
         self.collide_surface = pygame.Surface(collide_size)
         self.collide_rect = self.collide_surface.get_rect(
             left=self.rect.left + collide_offset[0],
