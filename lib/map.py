@@ -11,36 +11,36 @@ class Map(object):
     """The game world."""
 
     def __init__(self, level):
-        self.layers = []
         self.nowalk = []
         self.danger = []
         self.types = {}
         self.regions = {}
-        self.mapPos = {}
+        self.position = {}
         self.terrain = {
             PLAINS: TerrainPlains(),
             DIRT: TerrainDirt(),
             FOREST: TerrainForest(),
             WATER: TerrainWater() }
-        self.mapLayer = {}
-        self.mapConfig = load_map(level)
+        self.layer_list = []
+        self.layers = {}
+        self.config = load_map(level)
         self.create_map()
 
     def configure(self):
         """Reads and stores keys from the map config."""
 
-        mapOptions = self.mapConfig['Options']
+        options = self.config['Options']
         self.start_tile = [
-            int(mapOptions['start_tile'][0]),
-            int(mapOptions['start_tile'][1]) ]
+            int(options['start_tile'][0]),
+            int(options['start_tile'][1]) ]
         self.tile_size = [
-            int(mapOptions['tile_size'][0]),
-            int(mapOptions['tile_size'][1]) ]
+            int(options['tile_size'][0]),
+            int(options['tile_size'][1]) ]
         self.num_tiles = [
-            int(mapOptions['num_tiles'][0]),
-            int(mapOptions['num_tiles'][1]) ]
-        self.region_numbers = mapOptions['regions']
-        self.start_direction = mapOptions['start_direction']
+            int(options['num_tiles'][0]),
+            int(options['num_tiles'][1]) ]
+        self.region_numbers = options['regions']
+        self.start_direction = options['start_direction']
 
     def create_map(self):
         """Reads and creates the map from the config."""
@@ -54,16 +54,18 @@ class Map(object):
         """Create the map's layers."""
 
         temp_layer = []
-        mapLayers = self.mapConfig['Layers']
-        for layer in mapLayers:
-            for line in mapLayers[layer]:
-                temp_layer.append(mapLayers[layer][line])
-            self.layers.append(temp_layer)
+        layers = self.config['Layers']
+        for layer in layers:
+            for line in layers[layer]:
+                temp_layer.append(layers[layer][line])
+            self.layer_list.append(temp_layer)
             temp_layer = []
-        self.mapLayer['terrain'] = MapLayer(self.tile_size[0],
-            len(self.layers[0][0]), self.tile_size[1], len(self.layers[0]))
-        self.mapLayer['foreground'] = MapLayer(self.tile_size[0],
-            len(self.layers[0][0]), self.tile_size[1], len(self.layers[0]))
+        self.layers['terrain'] = LayerSprite(self.tile_size[0],
+            len(self.layer_list[0][0]), self.tile_size[1],
+            len(self.layer_list[0]))
+        self.layers['foreground'] = LayerSprite(self.tile_size[0],
+            len(self.layer_list[0][0]), self.tile_size[1],
+            len(self.layer_list[0]))
 
     def get_size(self):
         """Get the size of the map."""
@@ -77,7 +79,7 @@ class Map(object):
 
         row_num = 0
         tile_num = 0
-        for row in self.layers[LAYER_TERRAIN]:
+        for row in self.layer_list[LAYER_TERRAIN]:
             for tile in row:
                 offset = (tile_num * self.tile_size[0],
                     row_num * self.tile_size[1])
@@ -89,10 +91,10 @@ class Map(object):
     def draw_map(self):
         """Draws the layers to the map."""
 
-        for layer in range(0, len(self.layers)):
+        for layer in range(0, len(self.layer_list)):
             row_num = 0
             tile_num = 0
-            for row in self.layers[layer]:
+            for row in self.layer_list[layer]:
                 for tile in row:
                     offset = (tile_num * self.tile_size[0],
                         row_num * self.tile_size[1])
@@ -104,8 +106,8 @@ class Map(object):
     def draw_tile(self, layer, tile, offset):
         """Draws a tile to the correct layer."""
 
-        terrain = self.mapPos[offset]
-        blit = self.mapLayer['terrain'].image.blit
+        terrain = self.position[offset]
+        blit = self.layers['terrain'].image.blit
 
         if tile != ".":
             if layer == LAYER_DATA:
@@ -118,7 +120,7 @@ class Map(object):
                 blit(terrain[0].image, offset)
                 self.set_edges(offset)
                 self.draw_transitions(terrain, offset)
-                terrain[0].draw_details(self.mapLayer['terrain'], offset)
+                terrain[0].draw_details(self.layers['terrain'], offset)
                 if not terrain[0].walkable:
                     self.set_nowalk(offset)
 
@@ -145,10 +147,10 @@ class Map(object):
         corners = terrain[0].corners
         sides = ('n', 'e', 's', 'w')
         diags = ('ne', 'se', 'sw', 'nw')
-        blit = self.mapLayer['terrain'].image.blit
+        blit = self.layers['terrain'].image.blit
         dict = terrain[1]
 
-        if offset in self.mapPos:
+        if offset in self.position:
             for depth in range(4):
                 if depth > order:
                     for type in (FOREST, DIRT):
@@ -188,8 +190,8 @@ class Map(object):
             curX, curY = current
             maxX, maxY = self.get_size()
             if (0 <= curX <= maxX and 0 <= curY <= maxY and
-                current in self.mapPos and offset in self.mapPos):
-                self.mapPos[offset][1][edge] = self.mapPos[current][0].type
+                current in self.position and offset in self.position):
+                self.position[offset][1][edge] = self.position[current][0].type
 
     def align_objects(self, w, h, offset):
         """Re-align bigger tiles to fit the rest."""
@@ -207,9 +209,9 @@ class Map(object):
     def move_map(self, offset):
         """Scroll the map when when the player needs it to move."""
 
-        self.mapLayer['terrain'].dirty = 1
-        for layer in self.mapLayer:
-            self.mapLayer[layer].rect.move_ip(offset)
+        self.layers['terrain'].dirty = 1
+        for layer in self.layers:
+            self.layers[layer].rect.move_ip(offset)
 
     def set_nowalk(self, offset, size=[32,32], pos=[0,0]):
         """Sets the parts of the tile that are unwalkable."""
@@ -221,7 +223,7 @@ class Map(object):
         """Draws the correct piece of the tile to the foreground."""
 
         if (width > self.tile_size[0]) or (height > self.tile_size[1]):
-            self.mapLayer['foreground'].image.blit(tile, offset, section)
+            self.layers['foreground'].image.blit(tile, offset, section)
 
     def set_terrain(self, tile, offset, size=[32,32], pos=[0,0]):
         """Sets the terrain type of the tile."""
@@ -239,7 +241,7 @@ class Map(object):
                 size[1])
             self.terrain[tile].collide.append(tile_rect)
             self.types[tile] = self.terrain[tile].collide
-            self.mapPos[offset] = [ self.terrain[tile], {} ]
+            self.position[offset] = [ self.terrain[tile], {} ]
 
     def set_region(self, tile, offset, size=[32,32], pos=[0,0]):
         """Sets the region number for the tile."""
@@ -251,7 +253,7 @@ class Map(object):
             self.regions[tile] = []
 
 
-class MapLayer(pygame.sprite.DirtySprite):
+class LayerSprite(pygame.sprite.DirtySprite):
     """Creates a map layer."""
 
     def __init__(self, w, numx, h, numy):

@@ -160,7 +160,7 @@ class PlayerSprite(BasicSprite):
         self.check_encounter()
         self.dirty = 1
         direction = self.direction
-        map_rect = self.map.mapLayer['terrain'].rect
+        map_rect = self.map.layers['terrain'].rect
         if not self.collide[direction]:
             if direction == "up":
                 if self.rect.centery < SCROLL_TOP and self.scroll_pos[1] < 0:

@@ -17,13 +17,16 @@ class Scene(object):
         # Characters to be drawn.
         self.characters = pygame.sprite.Group([self.player])
 
-        # All sprites to be drawn.
-        self.all_sprites = pygame.sprite.Group([self.characters])
+        # All sprites to be drawn in order.
+        self.all_sprites = pygame.sprite.OrderedUpdates([
+            self.map.layers['terrain'],
+            self.characters,
+            self.map.layers['foreground']
+            ])
 
-        # All objects to be drawn in order.
-        self.layers.add(self.map.mapLayer['terrain'])
-        self.layers.add(self.characters)
-        self.layers.add(self.map.mapLayer['foreground'])
+        # Add all of the sprites to the scene.
+        for sprite in self.all_sprites:
+            self.layers.add(sprite)
 
         # Scroll the map to the player's starting location.
         self.scroll()

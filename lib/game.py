@@ -58,6 +58,7 @@ class Game(object):
                 elif event.key == K_n:
                     for sprite in self.scene.all_sprites:
                         sprite.kill()
+                        sprite = None
                     self.run()
 
                 # Toggle dialog window when 'D' key is pressed.
