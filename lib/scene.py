@@ -11,25 +11,31 @@ class Scene(object):
         self.window = window
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(level)
-        self.layers = pygame.sprite.LayeredDirty()
         self.player = Player(window, self.map)
+        self.layers = pygame.sprite.LayeredDirty()
+
+        # Add items to the scene.
+        self.add()
+
+        # Scroll the map to the player's starting location.
+        self.scroll()
+
+    def add(self):
+        """Add sprites to the scene in the correct order."""
 
         # Characters to be drawn.
-        self.characters = pygame.sprite.Group([self.player])
+        characters = pygame.sprite.Group([self.player])
 
         # All sprites to be drawn in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
-            self.characters,
+            characters,
             self.map.layers['foreground']
             ])
 
         # Add all of the sprites to the scene.
         for sprite in self.all_sprites:
             self.layers.add(sprite)
-
-        # Scroll the map to the player's starting location.
-        self.scroll()
 
     def draw(self):
         """Draws the sprites to the scene and updates the window."""
@@ -57,8 +63,14 @@ class Scene(object):
         if map_h < camera_h:
             b_y = (map_h - camera_h) / 2
         if map_w < camera_w:
-            b_x - (map_w - canera_h) / 2
+            b_x - (map_w - camera_w) / 2
         self.camera.topleft = [ -b_x, -b_y ]
         self.map.move_map([ self.camera[0], self.camera[1] ])
         self.player.rect.move_ip([ self.camera[0], self.camera[1] ])
         self.player.scroll_pos = [ self.camera[0], self.camera[1] ]
+
+    def destroy(self):
+        """Destroy the current scene."""
+
+        for sprite in self.all_sprites:
+            sprite.kill()
