@@ -38,6 +38,8 @@ class Game(object):
     def check_events(self):
         """Check for user input in the game."""
 
+        move_keys = self.scene.player.move_keys
+
         for event in pygame.event.get():
 
             if event.type == QUIT:
@@ -56,9 +58,7 @@ class Game(object):
 
                 # Reload the scene when 'N' key is pressed.
                 elif event.key == K_n:
-                    for sprite in self.scene.all_sprites:
-                        sprite.kill()
-                        sprite = None
+                    self.scene.destroy()
                     self.run()
 
                 # Toggle dialog window when 'D' key is pressed.
@@ -70,9 +70,8 @@ class Game(object):
 
                 # Move the player when arrow keys are pressed.
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    self.scene.player.move_keys.append(key_name(key))
-                    self.scene.player.direction = (
-                        self.scene.player.move_keys[-1])
+                    move_keys.append(key_name(key))
+                    self.scene.player.direction = move_keys[-1]
                     self.scene.player.stop = False
 
             elif event.type == KEYUP:
@@ -81,13 +80,11 @@ class Game(object):
 
                 # Stop moving the player when arrow keys are released.
                 if event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    if len(self.scene.player.move_keys) > 0:
-                        keyid = self.scene.player.move_keys.index(
-                            key_name(key))
-                        del self.scene.player.move_keys[keyid]
-                        if len(self.scene.player.move_keys) != 0:
-                            self.scene.player.direction = (
-                                self.scene.player.move_keys[-1])
+                    if len(move_keys) > 0:
+                        keyid = move_keys.index(key_name(key))
+                        del move_keys[keyid]
+                        if len(move_keys) != 0:
+                            self.scene.player.direction = (move_keys[-1])
                         else:
                             self.scene.player.stop = True
 
@@ -106,10 +103,10 @@ class Game(object):
 
         # Show collisions.
         if SHOW_RECTS:
-            self.scene.map.mapLayer['terrain'].image.fill(
+            self.scene.map.layers['terrain'].image.fill(
                 (0,0,0), self.scene.player.collide_rect)
             for rect in (self.scene.map.nowalk):
-                self.scene.map.mapLayer['terrain'].image.fill(
+                self.scene.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
 
         # Print current terrain type.
