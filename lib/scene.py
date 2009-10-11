@@ -12,8 +12,8 @@ class Scene(object):
         self.window = window
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(level)
-        self.player = Player(window, self.map)
-        self.monster = Monster(window, self.map)
+        self.player = Player(self)
+        self.monster = Monster(self)
         self.layers = pygame.sprite.LayeredDirty()
 
         # Add items to the scene.
