@@ -197,3 +197,40 @@ class PlayerSprite(BasicSprite):
                 print "TODO: random encounter"
             self.current_space = 0
 
+
+class MonsterSprite(BasicSprite):
+
+    def __init__(self, window, map):
+        width = 32
+        height = 48
+        start_location = [
+            map.start_tile[0]-1 * map.tile_size[0],
+            map.start_tile[1]+12 * map.tile_size[1] ]
+        start_direction = map.start_direction
+        image_file = 'party'
+        images = {
+            'north': [
+                (32, 144, width, height),
+                (0, 144, width, height),
+                (32, 144, width, height),
+                (64, 144, width, height) ],
+            'south': [
+                (32, 0, width, height),
+                (0, 0, width, height),
+                (32, 0, width, height),
+                (64, 0, width, height) ],
+            'east': [
+                (32, 96, width, height),
+                (0, 96, width, height),
+                (32, 96, width, height),
+                (64, 96, width, height) ],
+            'west': [
+                (32, 48, width, height),
+                (0, 48, width, height),
+                (32, 48, width, height),
+                (64, 48, width, height) ] }
+        self.scroll_pos = [0,0]
+        BasicSprite.__init__(self, window, map, width, height,
+                start_direction, None, True, start_location, image_file,
+                images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
+                PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)

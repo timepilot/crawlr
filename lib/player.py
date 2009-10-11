@@ -1,6 +1,6 @@
 from constants import *
-from sprite import PlayerSprite
-from character import PlayerCharacter
+from sprite import *
+from character import *
 
 class Player(PlayerSprite, PlayerCharacter):
     """The main player character."""

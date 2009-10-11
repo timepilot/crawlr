@@ -7,7 +7,7 @@ class BaseCharacter(object):
         self.hp = hp
         self.hp_max = hp_max
         self.mp = mp
-        self.mp_map = mp_max
+        self.mp_max = mp_max
         self.attack = attack
         self.defense = defense
         self.spells = spells
@@ -46,3 +46,6 @@ class NonPlayerCharacter(BaseCharacter):
         self.num_attacks = num_attacks
         self.damage = damage
         self.morale = morale
+
+
+

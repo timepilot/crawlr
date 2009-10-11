@@ -3,6 +3,7 @@ from pygame.locals import *
 from constants import *
 from map import Map
 from player import Player
+from monster import Monster
 
 class Scene(object):
     """A scene in the game that loads and manages a level."""
@@ -12,6 +13,7 @@ class Scene(object):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(level)
         self.player = Player(window, self.map)
+        self.monster = Monster(window, self.map)
         self.layers = pygame.sprite.LayeredDirty()
 
         # Add items to the scene.
@@ -24,7 +26,7 @@ class Scene(object):
         """Add sprites to the scene in the correct order."""
 
         # Characters to be drawn.
-        characters = pygame.sprite.Group([self.player])
+        characters = pygame.sprite.Group([self.player, self.monster])
 
         # All sprites to be drawn in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
