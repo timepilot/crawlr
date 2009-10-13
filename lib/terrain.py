@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from random import choice
 from constants import *
 from data import load_tile

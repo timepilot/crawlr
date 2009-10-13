@@ -2,8 +2,9 @@ import pygame
 from pygame.locals import *
 from constants import *
 from map import Map
-from player import Player
-from monster import Monster
+from characters import Player, Monster
+from monsters import *
+from random import choice
 
 class Scene(object):
     """A scene in the game that loads and manages a level."""
@@ -13,7 +14,7 @@ class Scene(object):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(level)
         self.player = Player(self)
-        self.monster = Monster(self)
+        self.monster = choice(MONSTER_LIST)(self)
         self.layers = pygame.sprite.LayeredDirty()
 
         # Add items to the scene.
