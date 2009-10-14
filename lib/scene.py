@@ -3,8 +3,7 @@ from pygame.locals import *
 from constants import *
 from map import Map
 from characters import Player, Monster
-from monsters import *
-from random import choice
+from battle import Battle
 
 class Scene(object):
     """A scene in the game that loads and manages a level."""
@@ -14,7 +13,6 @@ class Scene(object):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(level)
         self.player = Player(self)
-        self.monster = choice(MONSTER_LIST)(self)
         self.layers = pygame.sprite.LayeredDirty()
 
         # Add items to the scene.
@@ -27,14 +25,13 @@ class Scene(object):
         """Add sprites to the scene in the correct order."""
 
         # Characters to be drawn.
-        characters = pygame.sprite.Group([self.player, self.monster])
+        characters = pygame.sprite.Group([self.player])
 
         # All sprites to be drawn in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
-            self.map.layers['foreground']
-            ])
+            self.map.layers['foreground']])
 
         # Add all of the sprites to the scene.
         for sprite in self.all_sprites:
@@ -71,6 +68,10 @@ class Scene(object):
         self.map.move_map([ self.camera[0], self.camera[1] ])
         self.player.rect.move_ip([ self.camera[0], self.camera[1] ])
         self.player.scroll_pos = [ self.camera[0], self.camera[1] ]
+
+    def start_battle(self):
+        self.battle = Battle(self)
+        self.battle.create_monsters()
 
     def destroy(self):
         """Destroy the current scene."""

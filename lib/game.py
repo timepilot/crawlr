@@ -97,7 +97,7 @@ class Game(object):
     def show_debug(self):
         """Print debugging info to console."""
 
-        # Print framerate.
+        # Show framerate.
         if SHOW_FRAME_RATE:
             print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
 
@@ -109,12 +109,12 @@ class Game(object):
                 self.scene.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
 
-        # Print current terrain type.
+        # Show current terrain type.
         if SHOW_TERRAIN:
             print "Current terrain: " + (
                 self.scene.player.current_terrain)
 
-        # Print current region.
+        # Show current region.
         if SHOW_REGION:
             print "Current region: " + (
                 self.scene.player.current_region)

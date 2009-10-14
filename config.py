@@ -13,3 +13,4 @@ SHOW_FRAME_RATE =   False
 SHOW_RECTS =        False
 SHOW_TERRAIN =      False
 SHOW_REGION =       False
+SHOW_MONSTERS =     True

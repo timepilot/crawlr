@@ -1,24 +1,53 @@
 from characters import Monster
 
-class Slime(Monster):
+class Slug(Monster):
+    """A giant slug."""
 
     def __init__(self, scene):
         Monster.__init__(self, scene)
-        self.hp = 10
+        self.name = "Slug"
+        self.hp = 2
+        self.hp_max = 2
+        self.gold = 2
+        self.max_amount = 3
 
 
-class Slime2(Monster):
-
-    def __init__(self, scene):
-        Monster.__init__(self, scene)
-        self.hp = 20
-
-
-class Slime3(Monster):
+class PoisonSlug(Monster):
+    """A giant slug that has a poisonous attack."""
 
     def __init__(self, scene):
         Monster.__init__(self, scene)
-        self.hp = 30
+        self.name = "PoisonSlug"
+        self.hp = 2
+        self.hp_max = 2
+        self.exp = 10
+        self.gold = 2
+        self.max_amount = 1
 
+class MagiSlug(Monster):
+    """A giant slug that can cast spells."""
 
-MONSTER_LIST = [ Slime, Slime2, Slime3 ]
+    def __init__(self, scene):
+        Monster.__init__(self, scene)
+        self.name = "MagiSlug"
+        self.hp = 2
+        self.hp_max = 2
+        self.exp = 20
+        self.gold = 2
+        self.max_amount = 1
+
+class Hawk(Monster):
+    """A flying creature."""
+
+    def __init__(self, scene):
+        Monster.__init__(self, scene)
+        self.name = "Hawk"
+        self.hp = 2
+        self.hp_max = 2
+        self.exp = 20
+        self.gold = 2
+        self.max_amount = 2
+
+MONSTER_DICT = {
+    1: [ Slug, PoisonSlug, MagiSlug, Hawk ]
+    }

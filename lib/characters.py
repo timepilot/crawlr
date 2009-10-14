@@ -40,10 +40,11 @@ class Monster(MonsterSprite, BaseCharacter):
     """The base class for all other monsters."""
 
     def __init__(self, scene, name="Monster", hp=1, hp_max=1, mp=0, mp_max=0,
-            attack=1, defense=1, spells=[], items=[], exp=0, gold=0):
+            attack=1, defense=1, spells=[], items=[], exp=5, gold=0):
         MonsterSprite.__init__(self, scene)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
             defense, spells, items, exp, gold)
+        self.num_appearing = 1
         self.frequency = 0
         self.size = 2
         self.movement = 1

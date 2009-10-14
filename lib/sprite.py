@@ -167,27 +167,23 @@ class PlayerSprite(BasicSprite):
                 if self.rect.centery < SCROLL_TOP and self.scroll_pos[1] < 0:
                     self.scroll_pos[1] += self.movement
                     self.scene.map.move_map([0, self.movement])
-                    self.scene.monster.rect.move_ip([0, self.movement])
                 else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > SCROLL_BOTTOM and (map_rect.height +
                         self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
                     self.scene.map.move_map([0, -self.movement])
-                    self.scene.monster.rect.move_ip([0, -self.movement])
                 else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < SCROLL_LEFT and self.scroll_pos[0] < 0:
                     self.scroll_pos[0] += self.movement
                     self.scene.map.move_map([self.movement, 0])
-                    self.scene.monster.rect.move_ip([self.movement, 0])
                 else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > SCROLL_RIGHT and (map_rect.width +
                         self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
                     self.scene.map.move_map([-self.movement, 0])
-                    self.scene.monster.rect.move_ip([-self.movement, 0])
                 else: self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
@@ -198,8 +194,8 @@ class PlayerSprite(BasicSprite):
             spaces = CHECK_SPACES_DANGER
         self.current_space += 1
         if self.current_space == spaces * self.width:
-            if Die(6).roll() == 6:
-                print "TODO: random encounter"
+            if Die(ENCOUNTER_SPACES).roll() == 1:
+                self.scene.start_battle()
             self.current_space = 0
 
 
