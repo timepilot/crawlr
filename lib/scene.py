@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from map import Map
-from characters import Player, Monster
+from characters import Player
 from battle import Battle
 
 class Scene(object):
