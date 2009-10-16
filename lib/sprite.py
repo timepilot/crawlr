@@ -194,7 +194,7 @@ class PlayerSprite(BasicSprite):
             spaces = CHECK_SPACES_DANGER
         self.current_space += 1
         if self.current_space == spaces * self.width:
-            if Die(ENCOUNTER_SPACES).roll() == 1:
+            if Die(3).roll() == 1:
                 self.scene.start_battle()
             self.current_space = 0
 
