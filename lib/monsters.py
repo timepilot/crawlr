@@ -24,6 +24,7 @@ class PoisonSlug(Monster):
         self.gold = 2
         self.max_amount = 1
 
+
 class MagiSlug(Monster):
     """A giant slug that can cast spells."""
 
@@ -36,6 +37,7 @@ class MagiSlug(Monster):
         self.gold = 2
         self.max_amount = 1
 
+
 class Hawk(Monster):
     """A flying creature."""
 
@@ -47,6 +49,7 @@ class Hawk(Monster):
         self.exp = 20
         self.gold = 2
         self.max_amount = 2
+
 
 MONSTER_DICT = {
     1: [ Slug, PoisonSlug, MagiSlug, Hawk ]

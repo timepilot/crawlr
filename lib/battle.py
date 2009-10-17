@@ -12,29 +12,27 @@ class Battle(object):
         self.map = scene.map
         self.window = scene.window
         self.region = int(scene.player.current_region)
-        self.monster_quantity = {}
-        self.monsters = MONSTER_DICT[self.region]
-        self.monster_list = []
+        self.region_monsters = MONSTER_DICT[self.region]
+        self.temp_monsters = []
+        self.battle_monsters = []
 
     def create_monsters(self):
-        """Create a random list of monsters from the current region number."""
+        """Randomly create the monsters for the battle."""
 
-        # Create a dictionary for the amount of each type of monster.
-        for monster in self.monsters:
-            self.monster_quantity[monster] = 0
+        # Create a list of monster instances for the current region.
+        for monster in self.region_monsters:
+            self.temp_monsters.append(monster(self))
 
-        # Pick monsters randomly while staying within the maximum allowed.
-        times = 0
-        while times < Die(MAX_MONSTERS).roll():
-            monster = choice(self.monsters)
-            if self.monster_quantity[monster] < monster(self).max_amount:
-                self.monster_list.append(monster)
-                self.monster_quantity[monster] += 1
-            times += 1
+        # Randomly select 1-4 regional monsters.
+        num = Die(4).roll()
+        while len(self.battle_monsters) < num:
+            monster = choice(self.temp_monsters)
+            if self.battle_monsters.count(monster) < monster.max_amount:
+                self.battle_monsters.append(monster)
 
         # Show monsters for battle.
         if SHOW_MONSTERS:
             print "A battle has started on region #" + str(self.region) + (
                 " with:")
-            for monster in self.monster_list:
-                print monster(self).name
+            for monster in self.battle_monsters:
+                print monster.name

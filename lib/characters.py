@@ -44,7 +44,7 @@ class Monster(MonsterSprite, BaseCharacter):
         MonsterSprite.__init__(self, scene)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
             defense, spells, items, exp, gold)
-        self.num_appearing = 1
+        self.max_amount = 1
         self.frequency = 0
         self.size = 2
         self.movement = 1
