@@ -8,6 +8,18 @@ from scene import Scene
 class Game(object):
     """Creates the game and manages the main loop."""
 
+    def __init__(self):
+        """Create a new game window."""
+
+        environ['SDL_VIDEO_CENTERED'] = '1'
+        pygame.init()
+        self.running = True
+        self.fullscreen = False
+        self.window = pygame.display.set_mode(WINDOW_SIZE, self.fullscreen,
+            COLOR_DEPTH)
+        pygame.display.set_caption(GAME_NAME)
+        pygame.mouse.set_visible(False)
+
     def run(self):
         """Runs the main game loop."""
 
@@ -21,18 +33,6 @@ class Game(object):
             self.check_events()
             self.scene.draw()
             self.show_debug()
-
-    def create(self):
-        """Create a new game window."""
-
-        environ['SDL_VIDEO_CENTERED'] = '1'
-        pygame.init()
-        self.running = True
-        self.fullscreen = False
-        self.window = pygame.display.set_mode(WINDOW_SIZE, self.fullscreen,
-            COLOR_DEPTH)
-        pygame.display.set_caption(GAME_NAME)
-        pygame.mouse.set_visible(False)
 
     def check_events(self):
         """Check for user input in the game."""
