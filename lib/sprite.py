@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from data import *
 from constants import *
+from data import *
 from dice import Die
 from terrain import TERRAIN_ALL
 

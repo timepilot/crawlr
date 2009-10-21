@@ -70,11 +70,21 @@ class Scene(object):
         self.player.scroll_pos = [ self.camera[0], self.camera[1] ]
 
     def start_battle(self):
+        """Starts a battle scene."""
+
         self.battle = Battle(self)
         self.battle.create_monsters()
+
+    def reload(self, game):
+        """Reloads the current scene."""
+
+        self.destroy()
+        game.run()
 
     def destroy(self):
         """Destroy the current scene."""
 
         for sprite in self.all_sprites:
             sprite.kill()
+        self.map = None
+        self.player = None

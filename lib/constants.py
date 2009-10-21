@@ -1,4 +1,5 @@
 from config import *
+from pygame.locals import *
 
 # Display
 CAMERA_SIZE = [ WINDOW_SIZE[0], WINDOW_SIZE[1] ]

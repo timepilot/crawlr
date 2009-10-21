@@ -2,15 +2,25 @@ from os import environ
 from sys import exit
 import pygame
 from pygame.locals import *
-from config import *
+from constants import *
 from scene import Scene
 
 class Game(object):
     """Creates the game and manages the main loop."""
 
-    def __init__(self):
-        self.create()
-        self.run()
+    def run(self):
+        """Runs the main game loop."""
+
+        # Create the main game objects.
+        self.clock = pygame.time.Clock()
+        self.scene = Scene(self.window, 1)
+
+        # For each frame, check for input and redraw accordingly.
+        while self.running:
+            self.clock.tick(FRAME_RATE)
+            self.check_events()
+            self.scene.draw()
+            self.show_debug()
 
     def create(self):
         """Create a new game window."""
@@ -24,97 +34,66 @@ class Game(object):
         pygame.display.set_caption(GAME_NAME)
         pygame.mouse.set_visible(False)
 
-    def run(self):
-        """Runs the main game loop."""
-
-        self.clock = pygame.time.Clock()
-        self.scene = Scene(self.window, 1)
-
-        while self.running:
-            self.clock.tick(FRAME_RATE)
-            self.check_events()
-            self.draw()
-
     def check_events(self):
         """Check for user input in the game."""
 
-        move_keys = self.scene.player.move_keys
-
+        self.move_keys = self.scene.player.move_keys
         for event in pygame.event.get():
-
-            if event.type == QUIT:
-                self.running = False
-
+            if event.type == QUIT: self.exit
             elif event.type == KEYDOWN:
                 key_name = pygame.key.name
                 key = event.key
-
-                if event.key == K_ESCAPE:
-                    self.running = False
-
-                # Switch to fullscreen mode when 'F' key is pressed.
-                elif event.key == K_f:
-                    pygame.display.toggle_fullscreen()
-
-                # Reload the scene when 'N' key is pressed.
-                elif event.key == K_n:
-                    self.scene.destroy()
-                    self.run()
-
-                # Toggle dialog window when 'D' key is pressed.
-                elif event.key == K_d:
-                    if self.scene.dialog.toggle:
-                        self.scene.dialog.toggle = False
-                    else:
-                        self.scene.dialog.toggle = True
-
-                # Move the player when arrow keys are pressed.
+                if event.key == K_ESCAPE: self.exit()
+                elif event.key == K_f: pygame.display.toggle_fullscreen()
+                elif event.key == K_n: self.scene.reload(self)
+                elif event.key == K_d: self.show_dialog()
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    move_keys.append(key_name(key))
-                    self.scene.player.direction = move_keys[-1]
-                    self.scene.player.stop = False
-
+                    self.player_input(True, key_name, key)
             elif event.type == KEYUP:
                 key_name = pygame.key.name
                 key = event.key
-
-                # Stop moving the player when arrow keys are released.
                 if event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    if len(move_keys) > 0:
-                        keyid = move_keys.index(key_name(key))
-                        del move_keys[keyid]
-                        if len(move_keys) != 0:
-                            self.scene.player.direction = (move_keys[-1])
-                        else:
-                            self.scene.player.stop = True
+                    self.player_input(False, key_name, key)
 
-    def draw(self):
-        """Render graphics to the screen."""
+    def player_input(self, moving, name, key):
+        """Controls key input to the player character."""
 
-        self.scene.draw()
-        self.show_debug()
+        if moving:
+            self.move_keys.append(name(key))
+            self.scene.player.direction = self.move_keys[-1]
+            self.scene.player.stop = False
+        else:
+            if len(self.move_keys) > 0:
+                keyid = self.move_keys.index(name(key))
+                del self.move_keys[keyid]
+                if len(self.move_keys) != 0:
+                    self.scene.player.direction = (self.move_keys[-1])
+                else: self.scene.player.stop = True
+
+    def toggle_dialog(self):
+        """Toggles the status menu dialog."""
+
+        # TODO: Create dialog object
+        #if self.scene.dialog.toggle:
+        #    self.scene.dialog.toggle = False
+        #else:
+        #    self.scene.dialog.toggle = True
+        pass
 
     def show_debug(self):
         """Print debugging info to console."""
 
-        # Show framerate.
         if SHOW_FRAME_RATE:
             print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
-
-        # Show collisions.
         if SHOW_RECTS:
             self.scene.map.layers['terrain'].image.fill(
                 (0,0,0), self.scene.player.collide_rect)
             for rect in (self.scene.map.nowalk):
                 self.scene.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
-
-        # Show current terrain type.
         if SHOW_TERRAIN:
             print "Current terrain: " + (
                 self.scene.player.current_terrain)
-
-        # Show current region.
         if SHOW_REGION:
             print "Current region: " + (
                 self.scene.player.current_region)
@@ -122,4 +101,4 @@ class Game(object):
     def exit(self):
         """Exits the game."""
 
-        pygame.quit()
+        self.running = False

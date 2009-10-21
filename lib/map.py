@@ -1,7 +1,6 @@
 from random import choice
 import pygame
 from pygame.locals import *
-from config import *
 from constants import *
 from data import load_map
 from terrain import *

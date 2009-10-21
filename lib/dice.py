@@ -9,6 +9,9 @@ class Die(object):
         except TypeError: self.sides = list(sides)
 
     def roll(self, times=1):
+        """Seed randomization with current time and rolls a die the specified
+            number of times."""
+
         t = time()
         seed(t)
         total = 0
