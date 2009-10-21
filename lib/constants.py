@@ -18,7 +18,6 @@ LAYER_OBJECTS = 2
 # Terrain
 WATER = 'w'
 PLAINS = 'p'
-DIRT = 'd'
 FOREST = 'f'
 BEACH = 'b'
 ROCK = 'r'
@@ -27,14 +26,14 @@ HILL = 'h'
 MOUNTAIN = 'm'
 SWAMP = 's'
 JUNGLE = 'j'
-DESERT = 'd'
+SAND = 'd'
 LAVA = 'l'
 AIR = 'a'
 UNDERGROUND = 'u'
 SPACE = 'e'
 CAVE = 'c'
 TERRAIN_UNWALKABLE = [WATER, ROCK]
-TERRAIN_ALL = [WATER, PLAINS, DIRT, FOREST]
+TERRAIN_ALL = [WATER, PLAINS, SAND, FOREST]
 
 # Player
 PLAYER_SCROLL_TOP = CAMERA_SIZE[1]/3

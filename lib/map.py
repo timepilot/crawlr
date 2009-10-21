@@ -17,7 +17,7 @@ class Map(object):
         self.position = {}
         self.terrain = {
             PLAINS: TerrainPlains(),
-            DIRT: TerrainDirt(),
+            SAND: TerrainSand(),
             FOREST: TerrainForest(),
             WATER: TerrainWater() }
         self.layer_list = []
@@ -152,7 +152,7 @@ class Map(object):
         if offset in self.position:
             for depth in range(4):
                 if depth > order:
-                    for type in (FOREST, DIRT):
+                    for type in (FOREST, SAND):
 
                         # Draw side transitions
                         for key in sides:
@@ -189,7 +189,7 @@ class Map(object):
             curX, curY = current
             maxX, maxY = self.get_size()
             if (0 <= curX <= maxX and 0 <= curY <= maxY and
-                current in self.position and offset in self.position):
+                    current in self.position and offset in self.position):
                 self.position[offset][1][edge] = self.position[current][0].type
 
     def align_objects(self, w, h, offset):
@@ -230,7 +230,7 @@ class Map(object):
         # Make each terrain more natural by mixing in another similar type.
         if Die(10).roll() == 1:
             if tile == PLAINS:
-                tile = DIRT
+                tile = SAND
             elif tile == FOREST:
                 tile = PLAINS
 
