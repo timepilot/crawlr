@@ -46,7 +46,7 @@ class Game(object):
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_n: self.scene.reload(self)
-                elif event.key == K_d: self.show_dialog()
+                elif event.key == K_d: self.scene.toggle_dialog()
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, key_name, key)
             elif event.type == KEYUP:
@@ -69,16 +69,6 @@ class Game(object):
                 if len(self.move_keys) != 0:
                     self.scene.player.direction = (self.move_keys[-1])
                 else: self.scene.player.stop = True
-
-    def toggle_dialog(self):
-        """Toggles the status menu dialog."""
-
-        # TODO: Create dialog object
-        #if self.scene.dialog.toggle:
-        #    self.scene.dialog.toggle = False
-        #else:
-        #    self.scene.dialog.toggle = True
-        pass
 
     def show_debug(self):
         """Print debugging info to console."""

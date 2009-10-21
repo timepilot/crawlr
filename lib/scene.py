@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from constants import *
+from interface import Dialog
 from map import Map
 from characters import Player
 from battle import Battle
@@ -11,6 +12,7 @@ class Scene(object):
     def __init__(self, window, level):
         self.window = window
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
+        self.dialog = Dialog()
         self.map = Map(level)
         self.player = Player(self)
         self.layers = pygame.sprite.LayeredDirty()
@@ -40,6 +42,12 @@ class Scene(object):
     def draw(self):
         """Draws the sprites to the scene and updates the window."""
 
+        if self.dialog.toggle:
+            self.layers.add(self.dialog)
+        else:
+            self.dialog.kill()
+            self.dialog.toggle = False
+
         self.layers.update()
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
@@ -68,6 +76,14 @@ class Scene(object):
         self.map.move_map([ self.camera[0], self.camera[1] ])
         self.player.rect.move_ip([ self.camera[0], self.camera[1] ])
         self.player.scroll_pos = [ self.camera[0], self.camera[1] ]
+
+    def toggle_dialog(self):
+        """Toggles the status menu dialog."""
+
+        if self.dialog.toggle:
+            self.dialog.toggle = False
+        else:
+            self.dialog.toggle = True
 
     def start_battle(self):
         """Starts a battle scene."""

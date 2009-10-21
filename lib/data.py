@@ -32,6 +32,12 @@ class LoadSprite(object):
             imgs.append(self.image(rect, colorkey))
         return imgs
 
+def load_image(type, filename):
+    """Load a static image."""
+
+    file = path.join(DATA_DIR, 'images', type, filename + '.png')
+    image = pygame.image.load(file).convert_alpha()
+    return image
 
 def load_map(map, mode='rb'):
     """Load a map file from disk."""
