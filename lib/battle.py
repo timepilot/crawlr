@@ -24,7 +24,7 @@ class Battle(object):
             self.temp_monsters.append(monster(self))
 
         # Randomly select 1-4 regional monsters.
-        num = Die(4).roll()
+        num = Die(MONSTERS_MAX_AMOUNT).roll()
         while len(self.battle_monsters) < num:
             monster = choice(self.temp_monsters)
             if self.battle_monsters.count(monster) < monster.max_amount:

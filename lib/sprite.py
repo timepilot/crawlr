@@ -164,24 +164,26 @@ class PlayerSprite(BasicSprite):
         map_rect = self.map.layers['terrain'].rect
         if not self.collide[direction]:
             if direction == "up":
-                if self.rect.centery < SCROLL_TOP and self.scroll_pos[1] < 0:
+                if self.rect.centery < PLAYER_SCROLL_TOP and (
+                        self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
                     self.scene.map.move_map([0, self.movement])
                 else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
-                if self.rect.centery > SCROLL_BOTTOM and (map_rect.height +
-                        self.scroll_pos[1] > CAMERA_SIZE[1]):
+                if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
+                        map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
                     self.scene.map.move_map([0, -self.movement])
                 else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
-                if self.rect.centerx < SCROLL_LEFT and self.scroll_pos[0] < 0:
+                if self.rect.centerx < PLAYER_SCROLL_LEFT and (
+                        self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
                     self.scene.map.move_map([self.movement, 0])
                 else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
-                if self.rect.centerx > SCROLL_RIGHT and (map_rect.width +
-                        self.scroll_pos[0] > CAMERA_SIZE[0]):
+                if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
+                        map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
                     self.scene.map.move_map([-self.movement, 0])
                 else: self.rect.move_ip(self.movement, 0)
@@ -189,12 +191,12 @@ class PlayerSprite(BasicSprite):
     def check_encounter(self):
         """Check for a random encounter."""
 
-        spaces = CHECK_SPACES_NORMAL
+        spaces = PLAYER_MOVEMENT_NORMAL
         if self.rect.collidelistall(self.map.danger) != []:
-            spaces = CHECK_SPACES_DANGER
+            spaces = PLAYER_MOVEMENT_DANGER
         self.current_space += 1
         if self.current_space == spaces * self.width:
-            if Die(ENCOUNTER_DIE).roll() == 1:
+            if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
                 self.scene.start_battle()
             self.current_space = 0
 
