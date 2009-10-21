@@ -24,15 +24,15 @@ class Terrain(object):
                   'w':  load_tile('edges', 'forest_edge_w'),
                   'nw': load_tile('edges', 'forest_edge_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ],
-            SAND: [
-                { 'n':  load_tile('edges', 'dirt_edge_n'),
-                  'ne': load_tile('edges', 'dirt_edge_ne'),
-                  'e':  load_tile('edges', 'dirt_edge_e'),
-                  'se': load_tile('edges', 'dirt_edge_se'),
-                  's':  load_tile('edges', 'dirt_edge_s'),
-                  'sw': load_tile('edges', 'dirt_edge_sw'),
-                  'w':  load_tile('edges', 'dirt_edge_w'),
-                  'nw': load_tile('edges', 'dirt_edge_nw')
+            GRASS_SOME: [
+                { 'n':  load_tile('edges', 'grass2_edge_n'),
+                  'ne': load_tile('edges', 'grass2_edge_ne'),
+                  'e':  load_tile('edges', 'grass2_edge_e'),
+                  'se': load_tile('edges', 'grass2_edge_se'),
+                  's':  load_tile('edges', 'grass2_edge_s'),
+                  'sw': load_tile('edges', 'grass2_edge_sw'),
+                  'w':  load_tile('edges', 'grass2_edge_w'),
+                  'nw': load_tile('edges', 'grass2_edge_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ] }
         self.corners = {
             FOREST: [
@@ -41,23 +41,23 @@ class Terrain(object):
                   'sw': load_tile('edges', 'forest_corner_sw'),
                   'nw': load_tile('edges', 'forest_corner_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ],
-            SAND: [
-                { 'ne': load_tile('edges', 'dirt_corner_ne'),
-                  'se': load_tile('edges', 'dirt_corner_se'),
-                  'sw': load_tile('edges', 'dirt_corner_sw'),
-                  'nw': load_tile('edges', 'dirt_corner_nw')
+            GRASS_SOME: [
+                { 'ne': load_tile('edges', 'grass2_corner_ne'),
+                  'se': load_tile('edges', 'grass2_corner_se'),
+                  'sw': load_tile('edges', 'grass2_corner_sw'),
+                  'nw': load_tile('edges', 'grass2_corner_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ] }
 
 
-class TerrainPlains(Terrain):
+class TerrainGrass(Terrain):
 
-    def __init__(self, image='plains', walkable=True, danger=False):
-        Terrain.__init__(self, PLAINS, 1, image, walkable, danger)
+    def __init__(self, image='grass1', walkable=True, danger=False):
+        Terrain.__init__(self, GRASS, 1, image, walkable, danger)
         self.details = [
-            load_tile('details', 'plains_01'),
-            load_tile('details', 'plains_02'),
-            load_tile('details', 'plains_03'),
-            load_tile('details', 'plains_04') ]
+            load_tile('details', 'grass_01'),
+            load_tile('details', 'grass_02'),
+            load_tile('details', 'grass_03'),
+            load_tile('details', 'grass_04') ]
         self.objects = {
             "R1": [ load_tile('objects', 'rock_01'),
                 False, (0,0,0,0), [32,32], [0,0] ],
@@ -109,14 +109,14 @@ class TerrainPlains(Terrain):
 
 
 
-class TerrainSand(Terrain):
+class TerrainGrassSome(Terrain):
 
-    def __init__(self, image='dirt', walkable=True, danger=False):
-        Terrain.__init__(self, SAND, 3, image, walkable, danger)
+    def __init__(self, image='grass2', walkable=True, danger=False):
+        Terrain.__init__(self, GRASS_SOME, 3, image, walkable, danger)
         self.details = [
-            load_tile('details', 'plains_02'),
-            load_tile('details', 'plains_03'),
-            load_tile('details', 'plains_04') ]
+            load_tile('details', 'grass_02'),
+            load_tile('details', 'grass_03'),
+            load_tile('details', 'grass_04') ]
         self.objects = {
             "R1": [ load_tile('objects', 'rock_01'),
                 False, (0,0,0,0), [32,32], [0,0] ],
