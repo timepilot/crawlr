@@ -106,7 +106,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
                 if subtype in self.map.types:
                     if pygame.Rect(rect).collidelistall(
                         self.map.types[subtype]) != []:
-                        self.current_terrain = subtype
+                        self.current_terrain = type[0]
 
     def check_region(self, rect):
         """Check the region the sprite moved to."""

@@ -14,6 +14,7 @@ class Map(object):
         self.types = {}
         self.regions = {}
         self.position = {}
+        self.tile_dict = {}
         self.terrain = {
             TERRAIN_GRASS[0]: TerrainGrass(),
             TERRAIN_GRASS[1]: TerrainGrassSome(),
@@ -76,16 +77,33 @@ class Map(object):
 
         row_num = 0
         tile_num = 0
-        self.dict = {}
         for row in self.layer_list[LAYER_TERRAIN]:
             for tile in row:
                 offset = (tile_num * self.tile_size[0],
                     row_num * self.tile_size[1])
-                self.dict[offset] = tile
+                self.tile_dict[offset] = tile
                 self.set_terrain(offset)
                 tile_num+=1
             row_num+=1
             tile_num = 0
+
+    def set_terrain(self, offset):
+        """Sets the terrain type of the tile."""
+
+        tile = self.tile_dict[offset]
+        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
+
+        # Make each terrain more natural by mixing in another similar type.
+        check = Die(10).roll()
+        if check == 1:
+            for terrain in TERRAIN_ALL:
+                if tile == terrain[0]:
+                    choice = Die(len(terrain)).roll()-1
+                    tile = terrain[choice]
+
+        self.terrain[tile].collide.append(rect)
+        self.types[tile] = self.terrain[tile].collide
+        self.position[offset] = [ self.terrain[tile], {} ]
 
     def draw_map(self):
         """Draws the layers to the map."""
@@ -223,24 +241,6 @@ class Map(object):
 
         if (width > self.tile_size[0]) or (height > self.tile_size[1]):
             self.layers['foreground'].image.blit(tile, offset, section)
-
-    def set_terrain(self, offset):
-        """Sets the terrain type of the tile."""
-
-        tile = self.dict[offset]
-        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
-
-        # Make each terrain more natural by mixing in another similar type.
-        check = Die(10).roll()
-        if check == 1:
-            for type in TERRAIN_ALL:
-                if tile == type[0]:
-                    choice = Die(len(type)).roll()-1
-                    tile = type[choice]
-
-        self.terrain[tile].collide.append(rect)
-        self.types[tile] = self.terrain[tile].collide
-        self.position[offset] = [ self.terrain[tile], {} ]
 
     def set_region(self, tile, offset):
         """Sets the region number for the tile."""
