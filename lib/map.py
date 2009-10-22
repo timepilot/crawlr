@@ -76,11 +76,13 @@ class Map(object):
 
         row_num = 0
         tile_num = 0
+        self.dict = {}
         for row in self.layer_list[LAYER_TERRAIN]:
             for tile in row:
                 offset = (tile_num * self.tile_size[0],
                     row_num * self.tile_size[1])
-                self.set_terrain(tile, offset)
+                self.dict[offset] = tile
+                self.set_terrain(offset)
                 tile_num+=1
             row_num+=1
             tile_num = 0
@@ -174,14 +176,14 @@ class Map(object):
         rect = Rect((offset[0], offset[1],
             self.tile_size[0], self.tile_size[1]))
         edges = {
-            'n':  rect.move(0,-32),
-            'ne': rect.move(32,-32),
-            'e':  rect.move(32,0),
-            'se': rect.move(32,32),
-            's':  rect.move(0,32),
-            'sw': rect.move(-32,32),
-            'w':  rect.move(-32,0),
-            'nw': rect.move(-32,-32) }
+            'n':  rect.move(0,-TILE_HEIGHT),
+            'ne': rect.move(TILE_WIDTH,-TILE_HEIGHT),
+            'e':  rect.move(TILE_WIDTH,0),
+            'se': rect.move(TILE_WIDTH,TILE_HEIGHT),
+            's':  rect.move(0,TILE_HEIGHT),
+            'sw': rect.move(-TILE_WIDTH,TILE_HEIGHT),
+            'w':  rect.move(-TILE_WIDTH,0),
+            'nw': rect.move(-TILE_WIDTH,-TILE_HEIGHT) }
         for edge in edges:
             current = (edges[edge][0], edges[edge][1])
             curX, curY = current
@@ -222,8 +224,11 @@ class Map(object):
         if (width > self.tile_size[0]) or (height > self.tile_size[1]):
             self.layers['foreground'].image.blit(tile, offset, section)
 
-    def set_terrain(self, tile, offset, size=[32,32], pos=[0,0]):
+    def set_terrain(self, offset):
         """Sets the terrain type of the tile."""
+
+        tile = self.dict[offset]
+        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
 
         # Make each terrain more natural by mixing in another similar type.
         check = Die(10).roll()
@@ -233,18 +238,14 @@ class Map(object):
                     choice = Die(len(type)).roll()-1
                     tile = type[choice]
 
-        # Store the final terrain type of the tile.
-        if tile in self.terrain:
-            tile_rect = Rect(offset[0] + pos[0], offset[1] + pos[1], size[0],
-                size[1])
-            self.terrain[tile].collide.append(tile_rect)
-            self.types[tile] = self.terrain[tile].collide
-            self.position[offset] = [ self.terrain[tile], {} ]
+        self.terrain[tile].collide.append(rect)
+        self.types[tile] = self.terrain[tile].collide
+        self.position[offset] = [ self.terrain[tile], {} ]
 
-    def set_region(self, tile, offset, size=[32,32], pos=[0,0]):
+    def set_region(self, tile, offset):
         """Sets the region number for the tile."""
 
-        rect = Rect(offset[0] + pos[0], offset[1] + pos[1], size[0], size[1])
+        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
         if tile in self.regions:
             self.regions[tile].append(rect)
         else:

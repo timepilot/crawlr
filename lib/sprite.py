@@ -205,8 +205,6 @@ class PlayerSprite(BasicSprite):
 class MonsterSprite(BasicSprite):
 
     def __init__(self, scene):
-        width = 32
-        height = 48
         start_location = [
             scene.map.start_tile[0]-1 * scene.map.tile_size[0],
             scene.map.start_tile[1]+12 * scene.map.tile_size[1] ]
@@ -214,26 +212,26 @@ class MonsterSprite(BasicSprite):
         image_file = 'party'
         images = {
             'north': [
-                (32, 144, width, height),
-                (0, 144, width, height),
-                (32, 144, width, height),
-                (64, 144, width, height) ],
+                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (0, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (64, 144, PLAYER_WIDTH, PLAYER_HEIGHT) ],
             'south': [
-                (32, 0, width, height),
-                (0, 0, width, height),
-                (32, 0, width, height),
-                (64, 0, width, height) ],
+                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (0, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (64, 0, PLAYER_WIDTH, PLAYER_HEIGHT) ],
             'east': [
-                (32, 96, width, height),
-                (0, 96, width, height),
-                (32, 96, width, height),
-                (64, 96, width, height) ],
+                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (0, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (64, 96, PLAYER_WIDTH, PLAYER_HEIGHT) ],
             'west': [
-                (32, 48, width, height),
-                (0, 48, width, height),
-                (32, 48, width, height),
-                (64, 48, width, height) ] }
-        BasicSprite.__init__(self, scene, width, height,
+                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
+                (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
+        BasicSprite.__init__(self, scene, PLAYER_WIDTH, PLAYER_HEIGHT,
                 start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
