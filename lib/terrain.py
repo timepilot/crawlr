@@ -14,7 +14,7 @@ class Terrain(object):
         self.danger = danger
         self.collide = []
         self.edges = {
-            FOREST: [
+            TERRAIN_FOREST[0]: [
                 { 'n':  load_tile('edges', 'forest_edge_n'),
                   'ne': load_tile('edges', 'forest_edge_ne'),
                   'e':  load_tile('edges', 'forest_edge_e'),
@@ -24,7 +24,7 @@ class Terrain(object):
                   'w':  load_tile('edges', 'forest_edge_w'),
                   'nw': load_tile('edges', 'forest_edge_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ],
-            GRASS_SOME: [
+            TERRAIN_GRASS[1]: [
                 { 'n':  load_tile('edges', 'grass2_edge_n'),
                   'ne': load_tile('edges', 'grass2_edge_ne'),
                   'e':  load_tile('edges', 'grass2_edge_e'),
@@ -35,29 +35,18 @@ class Terrain(object):
                   'nw': load_tile('edges', 'grass2_edge_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ] }
         self.corners = {
-            FOREST: [
+            TERRAIN_FOREST[0]: [
                 { 'ne': load_tile('edges', 'forest_corner_ne'),
                   'se': load_tile('edges', 'forest_corner_se'),
                   'sw': load_tile('edges', 'forest_corner_sw'),
                   'nw': load_tile('edges', 'forest_corner_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ],
-            GRASS_SOME: [
+            TERRAIN_GRASS[1]: [
                 { 'ne': load_tile('edges', 'grass2_corner_ne'),
                   'se': load_tile('edges', 'grass2_corner_se'),
                   'sw': load_tile('edges', 'grass2_corner_sw'),
                   'nw': load_tile('edges', 'grass2_corner_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ] }
-
-
-class TerrainGrass(Terrain):
-
-    def __init__(self, image='grass1', walkable=True, danger=False):
-        Terrain.__init__(self, GRASS, 1, image, walkable, danger)
-        self.details = [
-            load_tile('details', 'grass_01'),
-            load_tile('details', 'grass_02'),
-            load_tile('details', 'grass_03'),
-            load_tile('details', 'grass_04') ]
         self.objects = {
             "R1": [ load_tile('objects', 'rock_01'),
                 False, (0,0,0,0), [32,32], [0,0] ],
@@ -100,6 +89,16 @@ class TerrainGrass(Terrain):
             "M1": [ load_tile('objects', 'mushroom'),
                 False, (0,0,0,0), [32,32], [0,0] ] }
 
+class TerrainGrass(Terrain):
+
+    def __init__(self, image='grass1', walkable=True, danger=False):
+        Terrain.__init__(self, TERRAIN_GRASS[0], 1, image, walkable, danger)
+        self.details = [
+            load_tile('details', 'grass_01'),
+            load_tile('details', 'grass_02'),
+            load_tile('details', 'grass_03'),
+            load_tile('details', 'grass_04') ]
+
     def draw_details(self, layer, offset):
         """Draws details on the terrain."""
 
@@ -108,20 +107,14 @@ class TerrainGrass(Terrain):
             layer.image.blit(self.details[detail], offset)
 
 
-
 class TerrainGrassSome(Terrain):
 
     def __init__(self, image='grass2', walkable=True, danger=False):
-        Terrain.__init__(self, GRASS_SOME, 3, image, walkable, danger)
+        Terrain.__init__(self, TERRAIN_GRASS[1], 3, image, walkable, danger)
         self.details = [
             load_tile('details', 'grass_02'),
             load_tile('details', 'grass_03'),
             load_tile('details', 'grass_04') ]
-        self.objects = {
-            "R1": [ load_tile('objects', 'rock_01'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "R2": [ load_tile('objects', 'rock_02'),
-                False, (0,0,0,0), [32,32], [0,0] ] }
 
     def draw_details(self, layer, offset):
         """Draws details on the terrain."""
@@ -134,52 +127,11 @@ class TerrainGrassSome(Terrain):
 class TerrainForest(Terrain):
 
     def __init__(self, image='forest', walkable=True, danger=False):
-        Terrain.__init__(self, FOREST, 2, image, walkable, danger)
+        Terrain.__init__(self, TERRAIN_FOREST[0], 2, image, walkable, danger)
         self.details = [
             load_tile('details', 'forest_01'),
             load_tile('details', 'forest_02'),
             load_tile('details', 'forest_03') ]
-        self.objects = {
-            "R1": [ load_tile('objects', 'rock_01'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "R2": [ load_tile('objects', 'rock_02'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "T1": [ load_tile('objects', 'tree_01'),
-                False, (0,0,96,96), [64,32], [0,96] ],
-            "T2": [ load_tile('objects', 'tree_02'),
-                False, (0,0,96,96), [32,32], [32,96] ],
-            "T3": [ load_tile('objects', 'tree_03'),
-                False, (0,0,160,128), [64,32], [32,128] ],
-            "T4": [ load_tile('objects', 'tree_04'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "T5": [ load_tile('objects', 'tree_05'),
-                False, (0,0,64,32), [64,32], [0,32] ],
-            "T6": [ load_tile('objects', 'tree_06'),
-                False, (0,0,64,32), [64,32], [0,32] ],
-            "T7": [ load_tile('objects', 'tree_07'),
-                True, [0,0,256,128], [32,32], [0,0] ],
-            "T8": [ load_tile('objects', 'tree_08'),
-                False, (0,0,0,0), [256,160], [0,0] ],
-            "T9": [ load_tile('objects', 'tree_09'),
-                False, (0,0,0,0), [192,32], [32,0] ],
-            "B1": [ load_tile('objects', 'bush_01'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "B2": [ load_tile('objects', 'bush_02'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "B3": [ load_tile('objects', 'bush_03'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "B4": [ load_tile('objects', 'bush_04'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "B5": [ load_tile('objects', 'bush_05'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "B6": [ load_tile('objects', 'bush_06'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "B7": [ load_tile('objects', 'bush_07'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "B8": [ load_tile('objects', 'bush_08'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "M1": [ load_tile('objects', 'mushroom'),
-                False, (0,0,0,0), [32,32], [0,0] ] }
 
     def draw_details(self, layer, offset):
         """Draws details on the terrain."""

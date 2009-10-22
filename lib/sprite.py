@@ -102,10 +102,11 @@ class BasicSprite(pygame.sprite.DirtySprite):
         """Check the type of terrain the sprite moved to."""
 
         for type in TERRAIN_ALL:
-            if type in self.map.types:
-                if pygame.Rect(rect).collidelistall(
-                    self.map.types[type]) != []:
-                    self.current_terrain = type
+            for subtype in type:
+                if subtype in self.map.types:
+                    if pygame.Rect(rect).collidelistall(
+                        self.map.types[subtype]) != []:
+                        self.current_terrain = subtype
 
     def check_region(self, rect):
         """Check the region the sprite moved to."""

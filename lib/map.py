@@ -16,10 +16,9 @@ class Map(object):
         self.regions = {}
         self.position = {}
         self.terrain = {
-            GRASS: TerrainGrass(),
-            GRASS_SOME: TerrainGrassSome(),
-            FOREST: TerrainForest(),
-            WATER: TerrainWater() }
+            TERRAIN_GRASS[0]: TerrainGrass(),
+            TERRAIN_GRASS[1]: TerrainGrassSome(),
+            TERRAIN_FOREST[0]: TerrainForest() }
         self.layer_list = []
         self.layers = {}
         self.config = load_map(level)
@@ -152,7 +151,7 @@ class Map(object):
         if offset in self.position:
             for depth in range(4):
                 if depth > order:
-                    for type in (FOREST, GRASS_SOME):
+                    for type in (TERRAIN_FOREST[0], TERRAIN_GRASS[1]):
 
                         # Draw side transitions
                         for key in sides:
@@ -228,11 +227,12 @@ class Map(object):
         """Sets the terrain type of the tile."""
 
         # Make each terrain more natural by mixing in another similar type.
-        if Die(10).roll() == 1:
-            if tile == GRASS:
-                tile = GRASS_SOME
-            elif tile == FOREST:
-                tile = GRASS
+        check = Die(10).roll()
+        if check == 1:
+            for type in TERRAIN_ALL:
+                if tile == type[0]:
+                    choice = Die(len(type)).roll()-1
+                    tile = type[choice]
 
         # Store the final terrain type of the tile.
         if tile in self.terrain:
