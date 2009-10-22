@@ -91,8 +91,10 @@ class Terrain(object):
 
 class TerrainGrass(Terrain):
 
-    def __init__(self, image='grass1', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_GRASS[0], 1, image, walkable, danger)
+    def __init__(self, image, walkable=True, danger=False):
+        terrain = TERRAIN_GRASS[image]
+        image = 'grass' + str(image)
+        Terrain.__init__(self, terrain, 1, image, walkable, danger)
         self.details = [
             load_tile('details', 'grass_01'),
             load_tile('details', 'grass_02'),
@@ -103,23 +105,6 @@ class TerrainGrass(Terrain):
         """Draws details on the terrain."""
 
         detail = choice(range(0,4))
-        if Die(20).roll() >= 18:
-            layer.image.blit(self.details[detail], offset)
-
-
-class TerrainGrassSome(Terrain):
-
-    def __init__(self, image='grass2', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_GRASS[1], 3, image, walkable, danger)
-        self.details = [
-            load_tile('details', 'grass_02'),
-            load_tile('details', 'grass_03'),
-            load_tile('details', 'grass_04') ]
-
-    def draw_details(self, layer, offset):
-        """Draws details on the terrain."""
-
-        detail = choice(range(0,3))
         if Die(20).roll() >= 18:
             layer.image.blit(self.details[detail], offset)
 

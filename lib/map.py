@@ -16,8 +16,8 @@ class Map(object):
         self.position = {}
         self.tile_dict = {}
         self.terrain = {
-            TERRAIN_GRASS[0]: TerrainGrass(),
-            TERRAIN_GRASS[1]: TerrainGrassSome(),
+            TERRAIN_GRASS[0]: TerrainGrass(0),
+            TERRAIN_GRASS[1]: TerrainGrass(1),
             TERRAIN_FOREST[0]: TerrainForest() }
         self.layer_list = []
         self.layers = {}
@@ -168,25 +168,32 @@ class Map(object):
         dict = terrain[1]
 
         if offset in self.position:
-            for depth in range(4):
+            for depth in range(3):
                 if depth > order:
-                    for type in (TERRAIN_FOREST[0], TERRAIN_GRASS[1]):
+                    for type in TERRAIN_ALL:
+                        for subtype in type:
 
-                        # Draw side transitions
-                        for key in sides:
-                            if type in edges and dict.get(key) == type:
-                                blit(edges[type][0][key], offset)
+                            # Base terrain doesn't have edges
+                            if subtype != 'g':
 
-                        # Draw curve transitions
-                        for key in diags:
-                            if dict.get(key[0]) == type and (
-                                dict.get(key[1]) == type):
-                                blit(edges[type][0][key[0]+key[1]], offset)
-                            if type in corners and dict.get(key) == type:
-                                blit(corners[type][0][key], offset)
+                                # Draw side transitions
+                                for key in sides:
+                                    if subtype in edges and (
+                                            dict.get(key) == subtype):
+                                        blit(edges[subtype][0][key], offset)
 
-                    if type in TERRAIN_UNWALKABLE:
-                        self.set_nowalk(offset)
+                                # Draw curve transitions
+                                for key in diags:
+                                    if dict.get(key[0]) == subtype and (
+                                        dict.get(key[1]) == subtype):
+                                        blit(edges[subtype][0][key[0]+key[1]],
+                                            offset)
+                                    if subtype in corners and (
+                                            dict.get(key) == subtype):
+                                        blit(corners[subtype][0][key], offset)
+
+                        if type in TERRAIN_UNWALKABLE:
+                            self.set_nowalk(offset)
 
     def set_edges(self, offset):
         """Loops through all adjacent tiles and stores their terrain types."""
