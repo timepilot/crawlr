@@ -18,6 +18,7 @@ class Map(object):
         self.terrain = {
             TERRAIN_GRASS[0]: TerrainGrass(0),
             TERRAIN_GRASS[1]: TerrainGrass(1),
+            TERRAIN_GRASS[2]: TerrainGrass(2),
             TERRAIN_FOREST[0]: TerrainForest() }
         self.layer_list = []
         self.layers = {}
@@ -94,7 +95,7 @@ class Map(object):
         rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
 
         # Make each terrain more natural by mixing in another similar type.
-        check = Die(10).roll()
+        check = Die(5).roll()
         if check == 1:
             for terrain in TERRAIN_ALL:
                 if tile == terrain[0]:
