@@ -92,10 +92,11 @@ class Map(object):
         """Sets the terrain type of the tile."""
 
         tile = self.tile_dict[offset]
-        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
+        rect = Rect(offset[0], offset[1],
+            self.tile_size[0], self.tile_size[1])
 
         # Make each terrain more natural by mixing in another similar type.
-        check = Die(5).roll()
+        check = Die(TERRAIN_RANDOMNESS).roll()
         if check == 1:
             for terrain in TERRAIN_ALL:
                 if tile == terrain[0]:
@@ -201,15 +202,16 @@ class Map(object):
 
         rect = Rect((offset[0], offset[1],
             self.tile_size[0], self.tile_size[1]))
+        w, h = self.tile_size[0], self.tile_size[1]
         edges = {
-            'n':  rect.move(0,-TILE_HEIGHT),
-            'ne': rect.move(TILE_WIDTH,-TILE_HEIGHT),
-            'e':  rect.move(TILE_WIDTH,0),
-            'se': rect.move(TILE_WIDTH,TILE_HEIGHT),
-            's':  rect.move(0,TILE_HEIGHT),
-            'sw': rect.move(-TILE_WIDTH,TILE_HEIGHT),
-            'w':  rect.move(-TILE_WIDTH,0),
-            'nw': rect.move(-TILE_WIDTH,-TILE_HEIGHT) }
+            'n':  rect.move(0,-h),
+            'ne': rect.move(w,-h),
+            'e':  rect.move(w,0),
+            'se': rect.move(w,h),
+            's':  rect.move(0,h),
+            'sw': rect.move(-w,h),
+            'w':  rect.move(-w,0),
+            'nw': rect.move(-w,-h) }
         for edge in edges:
             current = (edges[edge][0], edges[edge][1])
             curX, curY = current
@@ -253,7 +255,7 @@ class Map(object):
     def set_region(self, tile, offset):
         """Sets the region number for the tile."""
 
-        rect = Rect(offset[0], offset[1], TILE_WIDTH, TILE_HEIGHT)
+        rect = Rect(offset[0], offset[1], self.tile_size[0],self.tile_size[1])
         if tile in self.regions:
             self.regions[tile].append(rect)
         else:

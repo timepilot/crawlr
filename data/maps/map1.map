@@ -7,8 +7,8 @@ regions = 1
 
 [Layers]
     [[Data]]
-    # X =   unwalkable
-    # 1-100 = region number
+    # X         unwalkable
+    # other     region
     0  = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     1  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
     2  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
@@ -62,8 +62,8 @@ regions = 1
     50 = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     [[Terrain]]
-    # g = grass
-    # f = forest
+    # g     grass
+    # f     forest
     0  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
     1  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
     2  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
@@ -97,10 +97,10 @@ regions = 1
     30 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
     31 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggg
     32 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgfffgg
-    33 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffffffgg
-    34 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffffffg
-    35 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggffg
-    36 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffggfffg
+    33 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffgffgg
+    34 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggggfg
+    35 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggfff
+    36 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffggggfg
     37 = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffffg
     38 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
     39 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
