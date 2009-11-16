@@ -1,3 +1,4 @@
+import sys
 import pygame
 from pygame.locals import *
 from constants import *
@@ -17,7 +18,8 @@ class BaseState(object):
             print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
 
     def exit(self):
-        self.running = False
+        pygame.quit()
+        sys.exit(0)
 
 
 class GameState(BaseState):

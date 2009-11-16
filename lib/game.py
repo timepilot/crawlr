@@ -1,5 +1,4 @@
 from os import environ
-from sys import exit
 import pygame
 from pygame.locals import *
 from constants import *
