@@ -3,8 +3,8 @@ from characters import Monster
 class Slug(Monster):
     """A giant slug."""
 
-    def __init__(self, scene):
-        Monster.__init__(self, scene)
+    def __init__(self, screen):
+        Monster.__init__(self, screen)
         self.name = "Slug"
         self.hp = 2
         self.hp_max = 2

@@ -91,12 +91,6 @@ class GameScreen(object):
         self.battle = Battle(self)
         self.battle.create_monsters()
 
-    def reload(self, game):
-        """Reloads the current screen."""
-
-        self.destroy()
-        game.run()
-
     def destroy(self):
         """Destroy the current screen."""
 

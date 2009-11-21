@@ -2,13 +2,13 @@ import sys
 import pygame
 from pygame.locals import *
 from constants import *
-from scene import GameScreen
+from screens import GameScreen
 
 class BaseState(object):
 
     def __init__(self, window):
-        self.running = True
         self.window = window
+        self.state = self
         self.clock = pygame.time.Clock()
 
     def show_debug(self):
@@ -23,6 +23,11 @@ class BaseState(object):
             self.state.check_events()
             self.state.draw()
 
+    def switch(self, state):
+        self.state = None
+        self.state = state
+        self.run()
+
     def exit(self):
         pygame.quit()
         sys.exit(0)
@@ -32,8 +37,6 @@ class TitleScreenState(BaseState):
 
     def __init__(self, window):
         BaseState.__init__(self, window)
-        self.state = self
-        print self
 
     def draw(self):
         self.window.fill((0,0,0))
@@ -43,24 +46,24 @@ class TitleScreenState(BaseState):
         """
         Title screen events:
         Esc:    exit game
-        n:      new game
+        F:      toggle fullscreen
+        N:      new game
         """
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
+                elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_n:
-                    self.state = GameState(self.window)
+                    self.switch(GameScreenState(self.window))
 
 
-class GameState(BaseState):
+class GameScreenState(BaseState):
 
     def __init__(self, window):
         BaseState.__init__(self, window)
         self.screen = GameScreen(self.window, 1)
-        self.state = self
-        print self
 
     def draw(self):
         self.screen.draw()
@@ -121,4 +124,5 @@ class GameState(BaseState):
     def exit(self):
         """Quit the main game screen returning to the title screen."""
 
-        self.state = TitleScreenState(self.window)
+        self.screen.destroy();
+        self.switch(TitleScreenState(self.window))
