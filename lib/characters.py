@@ -22,9 +22,9 @@ class BaseCharacter(object):
 class Player(PlayerSprite, BaseCharacter):
     """The main player character."""
 
-    def __init__(self, scene, name="Hero", hp=10, hp_max=10, mp=0, mp_max=0,
+    def __init__(self, screen, name="Hero", hp=10, hp_max=10, mp=0, mp_max=0,
             attack=1, defense=1, spells=[], items=[], exp=0, gold=0):
-        PlayerSprite.__init__(self, scene)
+        PlayerSprite.__init__(self, screen)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
             defense, spells, items, exp, gold)
         self.exp_max = 1000
@@ -39,9 +39,9 @@ class Player(PlayerSprite, BaseCharacter):
 class Monster(MonsterSprite, BaseCharacter):
     """The base class for all other monsters."""
 
-    def __init__(self, scene, name="Monster", hp=1, hp_max=1, mp=0, mp_max=0,
+    def __init__(self, screen, name="Monster", hp=1, hp_max=1, mp=0, mp_max=0,
             attack=1, defense=1, spells=[], items=[], exp=5, gold=0):
-        MonsterSprite.__init__(self, scene)
+        MonsterSprite.__init__(self, screen)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
             defense, spells, items, exp, gold)
         self.max_amount = 1

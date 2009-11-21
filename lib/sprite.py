@@ -8,13 +8,13 @@ from terrain import TERRAIN_ALL
 class BasicSprite(pygame.sprite.DirtySprite):
     """The base sprite from which all other sprites derive."""
 
-    def __init__(self, scene, width, height, start_direction, direction,
+    def __init__(self, screen, width, height, start_direction, direction,
                 stopped, start_location, spritesheet, image_dict, collide_size,
                 collide_offset, speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
-        self.scene = scene
-        self.window = scene.window
-        self.map = scene.map
+        self.screen = screen
+        self.window = screen.window
+        self.map = screen.map
         self.width = width
         self.height = height
         self.start_direction = start_direction
@@ -120,13 +120,13 @@ class BasicSprite(pygame.sprite.DirtySprite):
 class PlayerSprite(BasicSprite):
     """The sprite for the character the player controls."""
 
-    def __init__(self, scene):
+    def __init__(self, screen):
         width = PLAYER_WIDTH
         height = PLAYER_HEIGHT
         start_location = [
-            scene.map.start_tile[0] * scene.map.tile_size[0],
-            scene.map.start_tile[1] * scene.map.tile_size[1] ]
-        start_direction = scene.map.start_direction
+            screen.map.start_tile[0] * screen.map.tile_size[0],
+            screen.map.start_tile[1] * screen.map.tile_size[1] ]
+        start_direction = screen.map.start_direction
         image_file = 'party'
         images = {
             'north': [
@@ -151,7 +151,7 @@ class PlayerSprite(BasicSprite):
                 (64, 48, width, height) ] }
         self.move_keys = []
         self.scroll_pos = [0,0]
-        BasicSprite.__init__(self, scene, width, height,
+        BasicSprite.__init__(self, screen, width, height,
                 start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
@@ -168,25 +168,25 @@ class PlayerSprite(BasicSprite):
                 if self.rect.centery < PLAYER_SCROLL_TOP and (
                         self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
-                    self.scene.map.move_map([0, self.movement])
+                    self.screen.map.move_map([0, self.movement])
                 else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
                         map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
-                    self.scene.map.move_map([0, -self.movement])
+                    self.screen.map.move_map([0, -self.movement])
                 else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < PLAYER_SCROLL_LEFT and (
                         self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
-                    self.scene.map.move_map([self.movement, 0])
+                    self.screen.map.move_map([self.movement, 0])
                 else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
                         map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
-                    self.scene.map.move_map([-self.movement, 0])
+                    self.screen.map.move_map([-self.movement, 0])
                 else: self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
@@ -198,17 +198,17 @@ class PlayerSprite(BasicSprite):
         self.current_space += 1
         if self.current_space == spaces * self.width:
             if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
-                self.scene.start_battle()
+                self.screen.start_battle()
             self.current_space = 0
 
 
 class MonsterSprite(BasicSprite):
 
-    def __init__(self, scene):
+    def __init__(self, screen):
         start_location = [
-            scene.map.start_tile[0]-1 * scene.map.tile_size[0],
-            scene.map.start_tile[1]+12 * scene.map.tile_size[1] ]
-        start_direction = scene.map.start_direction
+            screen.map.start_tile[0]-1 * screen.map.tile_size[0],
+            screen.map.start_tile[1]+12 * screen.map.tile_size[1] ]
+        start_direction = screen.map.start_direction
         image_file = 'party'
         images = {
             'north': [
@@ -231,7 +231,7 @@ class MonsterSprite(BasicSprite):
                 (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
-        BasicSprite.__init__(self, scene, PLAYER_WIDTH, PLAYER_HEIGHT,
+        BasicSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
                 start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)

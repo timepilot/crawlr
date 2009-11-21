@@ -19,5 +19,7 @@ class Game(object):
         pygame.mouse.set_visible(False)
 
     def run(self):
-        state = GameState(self.window)
+        """Run the title screen as the first state."""
+
+        state = TitleScreenState(self.window)
         state.run()

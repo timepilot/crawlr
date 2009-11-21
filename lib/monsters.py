@@ -15,8 +15,8 @@ class Slug(Monster):
 class PoisonSlug(Monster):
     """A giant slug that has a poisonous attack."""
 
-    def __init__(self, scene):
-        Monster.__init__(self, scene)
+    def __init__(self, screen):
+        Monster.__init__(self, screen)
         self.name = "PoisonSlug"
         self.hp = 2
         self.hp_max = 2
@@ -28,8 +28,8 @@ class PoisonSlug(Monster):
 class MagiSlug(Monster):
     """A giant slug that can cast spells."""
 
-    def __init__(self, scene):
-        Monster.__init__(self, scene)
+    def __init__(self, screen):
+        Monster.__init__(self, screen)
         self.name = "MagiSlug"
         self.hp = 2
         self.hp_max = 2
@@ -41,8 +41,8 @@ class MagiSlug(Monster):
 class Hawk(Monster):
     """A flying creature."""
 
-    def __init__(self, scene):
-        Monster.__init__(self, scene)
+    def __init__(self, screen):
+        Monster.__init__(self, screen)
         self.name = "Hawk"
         self.hp = 2
         self.hp_max = 2

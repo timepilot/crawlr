@@ -6,8 +6,8 @@ from map import Map
 from characters import Player
 from battle import Battle
 
-class Scene(object):
-    """A scene in the game that loads and manages a level."""
+class GameScreen(object):
+    """The main game screen."""
 
     def __init__(self, window, level):
         self.window = window
@@ -17,14 +17,14 @@ class Scene(object):
         self.player = Player(self)
         self.layers = pygame.sprite.LayeredDirty()
 
-        # Add items to the scene.
+        # Add items to the screen.
         self.add()
 
         # Scroll the map to the player's starting location.
         self.scroll()
 
     def add(self):
-        """Add sprites to the scene in the correct order."""
+        """Add sprites to the screen in the correct order."""
 
         # Characters to be drawn.
         characters = pygame.sprite.Group([self.player])
@@ -35,12 +35,12 @@ class Scene(object):
             characters,
             self.map.layers['foreground']])
 
-        # Add all of the sprites to the scene.
+        # Add all of the sprites to the screen.
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
     def draw(self):
-        """Draws the sprites to the scene and updates the window."""
+        """Draws the sprites to the screen and updates the window."""
 
         if self.dialog.toggle:
             self.layers.add(self.dialog)
@@ -86,19 +86,19 @@ class Scene(object):
             self.dialog.toggle = True
 
     def start_battle(self):
-        """Starts a battle scene."""
+        """Starts a battle screen."""
 
         self.battle = Battle(self)
         self.battle.create_monsters()
 
     def reload(self, game):
-        """Reloads the current scene."""
+        """Reloads the current screen."""
 
         self.destroy()
         game.run()
 
     def destroy(self):
-        """Destroy the current scene."""
+        """Destroy the current screen."""
 
         for sprite in self.all_sprites:
             sprite.kill()

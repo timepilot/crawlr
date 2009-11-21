@@ -6,11 +6,11 @@ from monsters import *
 class Battle(object):
     """A battle has started."""
 
-    def __init__(self, scene):
-        self.scene = scene
-        self.map = scene.map
-        self.window = scene.window
-        self.region = int(scene.player.current_region)
+    def __init__(self, game_screen):
+        self.game_screen = game_screen
+        self.map = game_screen.map
+        self.window = game_screen.window
+        self.region = int(game_screen.player.current_region)
         self.region_monsters = MONSTER_DICT[self.region]
         self.temp_monsters = []
         self.battle_monsters = []
