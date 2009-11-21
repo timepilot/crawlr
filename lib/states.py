@@ -10,6 +10,7 @@ class BaseState(object):
         self.running = True
         self.window = window
         self.clock = pygame.time.Clock()
+        self.state = None
 
     def show_debug(self):
         """Print debugging info to console."""
@@ -17,23 +18,45 @@ class BaseState(object):
         if SHOW_FRAME_RATE:
             print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
 
+    def run(self):
+        while self.running:
+            self.clock.tick(FRAME_RATE)
+            self.state.check_events()
+            self.state.draw()
+
     def exit(self):
         pygame.quit()
         sys.exit(0)
+
+
+class TitleScreenState(BaseState):
+
+    def __init__(self, window):
+        BaseState.__init__(self, window)
+        self.state = self
+
+    def draw(self):
+        #self.title_screen.draw()
+        self.window.fill((0,0,0))
+        pygame.display.update()
+
+    def check_events(self):
+        for event in pygame.event.get():
+            if event.type == QUIT: self.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE: self.exit()
 
 
 class GameState(BaseState):
 
     def __init__(self, window):
         BaseState.__init__(self, window)
-
-    def run(self):
         self.scene = Scene(self.window, 1)
-        while self.running:
-            self.clock.tick(FRAME_RATE)
-            self.check_events()
-            self.scene.draw()
-            self.show_debug()
+        self.state = self
+
+    def draw(self):
+        self.scene.draw()
+        self.show_debug()
 
     def check_events(self):
         """Check for user input in the game."""
@@ -81,3 +104,7 @@ class GameState(BaseState):
         if SHOW_REGION:
             print "Current region: " + (
                 self.scene.player.current_region)
+
+    def exit(self):
+        # Quitting the main game screen returns to the title screen.
+        self.state = TitleScreenState(self.window)

@@ -21,4 +21,3 @@ class Game(object):
     def run(self):
         state = GameState(self.window)
         state.run()
-
