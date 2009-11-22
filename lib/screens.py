@@ -33,7 +33,7 @@ class TitleScreen(Screen):
         pygame.display.update()
 
 
-class GameScreen(Screen):
+class WorldScreen(Screen):
     """The main game screen."""
 
     def __init__(self, level):

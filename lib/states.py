@@ -32,7 +32,7 @@ class BaseState(object):
         sys.exit(0)
 
 
-class TitleScreenState(BaseState):
+class TitleState(BaseState):
 
     def __init__(self):
         BaseState.__init__(self)
@@ -55,14 +55,14 @@ class TitleScreenState(BaseState):
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_n:
-                    self.switch(GameScreenState())
+                    self.switch(WorldState())
 
 
-class GameScreenState(BaseState):
+class WorldState(BaseState):
 
     def __init__(self):
         BaseState.__init__(self)
-        self.screen = GameScreen(1)
+        self.screen = WorldScreen(1)
 
     def draw(self):
         self.screen.draw()
@@ -124,4 +124,4 @@ class GameScreenState(BaseState):
         """Quit the main game screen returning to the title screen."""
 
         self.screen.destroy();
-        self.switch(TitleScreenState())
+        self.switch(TitleState())
