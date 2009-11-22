@@ -6,7 +6,8 @@ from screens import *
 
 class BaseState(object):
 
-    def __init__(self):
+    def __init__(self, window=None):
+        self.window = window
         self.state = self
         self.clock = pygame.time.Clock()
 
@@ -30,6 +31,16 @@ class BaseState(object):
     def exit(self):
         pygame.quit()
         sys.exit(0)
+
+
+class InitState(Screen, BaseState):
+    """This is the first state used to create a new screen and switch to the
+    title screen state."""
+
+    def __init__(self):
+        Screen.__init__(self)
+        BaseState.__init__(self, self.window)
+        self.switch(TitleState())
 
 
 class TitleState(BaseState):

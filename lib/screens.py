@@ -13,10 +13,10 @@ class Screen(object):
     def __init__(self):
         environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
-        self.fullscreen = False
+        fullscreen = False
         pygame.display.set_caption(GAME_NAME)
         pygame.mouse.set_visible(False)
-        self.window = pygame.display.set_mode(WINDOW_SIZE, self.fullscreen,
+        self.window = pygame.display.set_mode(WINDOW_SIZE, fullscreen,
             COLOR_DEPTH)
 
 
@@ -29,7 +29,7 @@ class TitleScreen(Screen):
     def draw(self):
         """Draws the title screen and updates the window."""
 
-        self.window.fill((255,255,0))
+        self.window.fill((0,0,0))
         pygame.display.update()
 
 
@@ -67,7 +67,6 @@ class WorldScreen(Screen):
             self.dialog.toggle = False
 
         self.layers.update()
-        rects = self.layers.draw(self.window)
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
 

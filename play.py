@@ -2,8 +2,7 @@
 
 import sys
 sys.path.insert(0, "lib")
-from states import *
+from states import InitState
 
 if __name__ == "__main__":
-    game = TitleState()
-    game.run()
+    game = InitState()
