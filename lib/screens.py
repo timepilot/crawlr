@@ -1,3 +1,4 @@
+from os import environ
 import pygame
 from pygame.locals import *
 from constants import *
@@ -6,36 +7,53 @@ from map import Map
 from characters import Player
 from battle import Battle
 
-class GameScreen(object):
+class Screen(object):
+    """The base screen class that other screens inherit from."""
+
+    def __init__(self):
+        environ['SDL_VIDEO_CENTERED'] = '1'
+        pygame.init()
+        self.fullscreen = False
+        pygame.display.set_caption(GAME_NAME)
+        pygame.mouse.set_visible(False)
+        self.window = pygame.display.set_mode(WINDOW_SIZE, self.fullscreen,
+            COLOR_DEPTH)
+
+
+class TitleScreen(Screen):
+    """The title screen displayed when the game is first run."""
+
+    def __init__(self):
+        Screen.__init__(self)
+
+    def draw(self):
+        """Draws the title screen and updates the window."""
+
+        self.window.fill((255,255,0))
+        pygame.display.update()
+
+
+class GameScreen(Screen):
     """The main game screen."""
 
-    def __init__(self, window, level):
-        self.window = window
+    def __init__(self, level):
+        Screen.__init__(self)
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.dialog = Dialog()
         self.map = Map(level)
         self.player = Player(self)
         self.layers = pygame.sprite.LayeredDirty()
-
-        # Add items to the screen.
         self.add()
-
-        # Scroll the map to the player's starting location.
         self.scroll()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        # Characters to be drawn.
         characters = pygame.sprite.Group([self.player])
-
-        # All sprites to be drawn in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
             self.map.layers['foreground']])
-
-        # Add all of the sprites to the screen.
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
@@ -49,6 +67,7 @@ class GameScreen(object):
             self.dialog.toggle = False
 
         self.layers.update()
+        rects = self.layers.draw(self.window)
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
 

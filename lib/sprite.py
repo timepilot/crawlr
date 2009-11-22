@@ -13,7 +13,6 @@ class BasicSprite(pygame.sprite.DirtySprite):
                 collide_offset, speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
         self.screen = screen
-        self.window = screen.window
         self.map = screen.map
         self.width = width
         self.height = height

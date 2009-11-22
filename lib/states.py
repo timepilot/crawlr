@@ -2,12 +2,11 @@ import sys
 import pygame
 from pygame.locals import *
 from constants import *
-from screens import GameScreen
+from screens import *
 
 class BaseState(object):
 
-    def __init__(self, window):
-        self.window = window
+    def __init__(self):
         self.state = self
         self.clock = pygame.time.Clock()
 
@@ -35,12 +34,12 @@ class BaseState(object):
 
 class TitleScreenState(BaseState):
 
-    def __init__(self, window):
-        BaseState.__init__(self, window)
+    def __init__(self):
+        BaseState.__init__(self)
+        self.screen = TitleScreen()
 
     def draw(self):
-        self.window.fill((0,0,0))
-        pygame.display.update()
+        self.screen.draw()
 
     def check_events(self):
         """
@@ -56,14 +55,14 @@ class TitleScreenState(BaseState):
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_n:
-                    self.switch(GameScreenState(self.window))
+                    self.switch(GameScreenState())
 
 
 class GameScreenState(BaseState):
 
-    def __init__(self, window):
-        BaseState.__init__(self, window)
-        self.screen = GameScreen(self.window, 1)
+    def __init__(self):
+        BaseState.__init__(self)
+        self.screen = GameScreen(1)
 
     def draw(self):
         self.screen.draw()
@@ -125,4 +124,4 @@ class GameScreenState(BaseState):
         """Quit the main game screen returning to the title screen."""
 
         self.screen.destroy();
-        self.switch(TitleScreenState(self.window))
+        self.switch(TitleScreenState())

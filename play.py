@@ -2,8 +2,9 @@
 
 import sys
 sys.path.insert(0, "lib")
-from game import Game
+from screens import Screen
+from states import *
 
 if __name__ == "__main__":
-    crawlr = Game()
-    crawlr.run()
+    game = TitleScreenState()
+    game.run()
