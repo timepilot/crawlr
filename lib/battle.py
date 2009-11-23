@@ -6,14 +6,15 @@ from monsters import *
 class Battle(object):
     """A battle has started."""
 
-    def __init__(self, game_screen):
-        self.game_screen = game_screen
-        self.map = game_screen.map
-        self.window = game_screen.window
-        self.region = int(game_screen.player.current_region)
+    def __init__(self, screen):
+        self.screen = screen
+        self.map = screen.map
+        self.region = int(screen.player.current_region)
         self.region_monsters = MONSTER_DICT[self.region]
         self.temp_monsters = []
         self.battle_monsters = []
+        self.create_monsters()
+        self.show_debug()
 
     def create_monsters(self):
         """Randomly create the monsters for the battle."""
@@ -29,7 +30,9 @@ class Battle(object):
             if self.battle_monsters.count(monster) < monster.max_amount:
                 self.battle_monsters.append(monster)
 
-        # Show monsters for battle.
+    def show_debug(self):
+        """Print the battle debug message."""
+
         if SHOW_MONSTERS:
             print "A battle has started on region #" + str(self.region) + (
                 " with:")

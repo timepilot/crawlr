@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
-from dice import Die
 from terrain import TERRAIN_ALL
 
 class BasicSprite(pygame.sprite.DirtySprite):
@@ -197,9 +196,8 @@ class PlayerSprite(BasicSprite):
             spaces = PLAYER_MOVEMENT_DANGER
         self.current_space += 1
         if self.current_space == spaces * self.width:
-            if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
-                self.screen.start_battle()
             self.current_space = 0
+            self.screen.start_battle()
 
 
 class MonsterSprite(BasicSprite):

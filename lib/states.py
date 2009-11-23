@@ -9,21 +9,20 @@ class BaseState(object):
 
     def __init__(self, window=None):
         self.window = window
-        self.state = self
         self.clock = pygame.time.Clock()
 
     def run(self):
         """The main game loop that listens for events and draws the screen."""
 
         while True:
-            self.limit_fps()
-            self.state.show_debug(self.framerate)
+            self.clock.tick(FRAME_RATE)
+            self.state.show_debug(int(self.clock.get_fps()))
             self.state.check_events()
             self.state.draw()
 
-    def limit_fps(self):
-        self.clock.tick(FRAME_RATE)
-        self.framerate = int(self.clock.get_fps())
+    def switch(self, state):
+        self.state = state
+        self.run()
 
     def show_debug(self, fps):
         """Print debugging info to console."""
@@ -31,18 +30,13 @@ class BaseState(object):
         if SHOW_FRAME_RATE:
             print 'Framerate: %f/%f' % (fps, FRAME_RATE)
 
-    def switch(self, state):
-        self.state = state
-        self.run()
-
     def exit(self):
         pygame.quit()
         sys.exit(0)
 
 
 class InitState(Screen, BaseState):
-    """State used to initialize the game and switch to the
-    title screen state."""
+    """State used to initialize the game and switch to the title screen."""
 
     def __init__(self):
         Screen.__init__(self)
@@ -51,7 +45,7 @@ class InitState(Screen, BaseState):
 
 
 class TitleState(BaseState):
-    """State that controls the title screen."""
+    """A game state for the title screen."""
 
     def __init__(self):
         BaseState.__init__(self)
@@ -76,7 +70,7 @@ class TitleState(BaseState):
 
 
 class WorldState(BaseState):
-    """State to control the world map screen."""
+    """A game state for the main world screen."""
 
     def __init__(self):
         BaseState.__init__(self)
@@ -100,11 +94,19 @@ class WorldState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_d: self.screen.toggle_dialog()
+                elif event.key == K_b:
+                    self.screen.player.move_keys = []
+                    self.screen.player.stop = True
+                    self.switch(BattleState(self))
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)
             elif event.type == KEYUP:
                 if event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(False, pygame.key.name, event.key)
+            elif event.type == BATTLE_EVENT:
+                self.screen.player.move_keys = []
+                self.screen.player.stop = True
+                self.switch(BattleState(self))
 
     def player_input(self, moving, name, key):
         """Controls key input to the player character."""
@@ -141,3 +143,35 @@ class WorldState(BaseState):
 
         self.screen.destroy();
         self.switch(TitleState())
+
+
+class BattleState(BaseState):
+    """A game state for a battle scene."""
+
+    def __init__(self, prevstate):
+        BaseState.__init__(self)
+        self.screen = BattleScreen(prevstate.screen)
+        self.prevstate = prevstate
+        self.prev_screen = self.prevstate.screen.all_sprites
+
+    def draw(self):
+        self.screen.draw()
+
+    def check_events(self):
+        """
+        Title screen events:
+        Esc:    exit back to world screen.
+        """
+
+        for event in pygame.event.get():
+            if event.type == QUIT: self.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE: self.exit()
+
+    def exit(self):
+        """Quits the battle screen returning to the world screen."""
+
+        pygame.time.set_timer(BATTLE_EVENT, 0)
+        for sprite in self.prev_screen:
+            sprite.dirty = 1
+        self.switch(self.prevstate)

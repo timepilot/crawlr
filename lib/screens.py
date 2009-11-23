@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
+from dice import Die
 from interface import Dialog
 from map import Map
 from characters import Player
@@ -81,6 +82,7 @@ class WorldScreen(Screen):
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
 
+
     def scroll(self):
         """Scroll the map to keep the player visible."""
 
@@ -117,8 +119,8 @@ class WorldScreen(Screen):
     def start_battle(self):
         """Starts a battle screen."""
 
-        self.battle = Battle(self)
-        self.battle.create_monsters()
+        if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
+            pygame.time.set_timer(BATTLE_EVENT, 1000)
 
     def destroy(self):
         """Destroy the current screen."""
@@ -127,3 +129,24 @@ class WorldScreen(Screen):
             sprite.kill()
         self.map = None
         self.player = None
+
+
+class BattleScreen(Screen, Battle):
+    """The battle screen is where a battle takes place."""
+
+    def __init__(self, prevstate):
+        Screen.__init__(self)
+        Battle.__init__(self, prevstate)
+
+    def draw(self):
+        """Draws the battle screen and updates the window."""
+
+        self.window.fill((0,0,0))
+        title_font = load_font("menu", 24)
+        help_font = load_font("menu", 16)
+        title = title_font.render("Battle Screen Goes Here", True, (255,0,0))
+        help = help_font.render("Press 'Esc' to go back to the world screen.",
+            True, (255,255,255))
+        self.window.blit(title, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3))
+        self.window.blit(help, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3+48))
+        pygame.display.update()

@@ -1,7 +1,12 @@
+import pygame
+from pygame.locals import *
 from config import *
 
 # Display
 CAMERA_SIZE = [ WINDOW_SIZE[0], WINDOW_SIZE[1] ]
+
+# Events
+BATTLE_EVENT = pygame.USEREVENT + 1
 
 # Map
 TILE_IMAGE = 0
