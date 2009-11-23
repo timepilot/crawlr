@@ -5,6 +5,7 @@ from constants import *
 from screens import *
 
 class BaseState(object):
+    """The base state that all other states subclass."""
 
     def __init__(self, window=None):
         self.window = window
@@ -18,6 +19,8 @@ class BaseState(object):
             print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
 
     def run(self):
+        """The main game loop that listens for events and draws the screen."""
+
         while True:
             self.clock.tick(FRAME_RATE)
             self.state.check_events()
@@ -34,7 +37,7 @@ class BaseState(object):
 
 
 class InitState(Screen, BaseState):
-    """This is the first state used to create a new screen and switch to the
+    """State used to initialize the game and switch to the
     title screen state."""
 
     def __init__(self):
@@ -44,6 +47,7 @@ class InitState(Screen, BaseState):
 
 
 class TitleState(BaseState):
+    """State that controls the title screen."""
 
     def __init__(self):
         BaseState.__init__(self)
@@ -56,7 +60,6 @@ class TitleState(BaseState):
         """
         Title screen events:
         Esc:    exit game
-        F:      toggle fullscreen
         N:      new game
         """
 
@@ -64,12 +67,12 @@ class TitleState(BaseState):
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
-                elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_n:
                     self.switch(WorldState())
 
 
 class WorldState(BaseState):
+    """State to control the world map screen."""
 
     def __init__(self):
         BaseState.__init__(self)
@@ -83,7 +86,6 @@ class WorldState(BaseState):
         """
         Check for user input in the game.
         Esc:    exit to title screen
-        F:      toggle fullscreen
         D:      toggle display
         Arrows: move player
         """
@@ -93,7 +95,6 @@ class WorldState(BaseState):
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
-                elif event.key == K_f: pygame.display.toggle_fullscreen()
                 elif event.key == K_d: self.screen.toggle_dialog()
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)

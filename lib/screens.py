@@ -13,15 +13,18 @@ class Screen(object):
     def __init__(self):
         environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
-        fullscreen = False
         pygame.display.set_caption(GAME_NAME)
         pygame.mouse.set_visible(False)
+        if FULL_SCREEN:
+            fullscreen = FULLSCREEN
+        else:
+            fullscreen = False
         self.window = pygame.display.set_mode(WINDOW_SIZE, fullscreen,
             COLOR_DEPTH)
 
 
 class TitleScreen(Screen):
-    """The title screen displayed when the game is first run."""
+    """The title screen is the first screen displayed."""
 
     def __init__(self):
         Screen.__init__(self)
@@ -34,7 +37,7 @@ class TitleScreen(Screen):
 
 
 class WorldScreen(Screen):
-    """The main game screen."""
+    """The main game screen with a world to wander around."""
 
     def __init__(self, level):
         Screen.__init__(self)
