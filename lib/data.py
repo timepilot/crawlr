@@ -39,6 +39,14 @@ def load_image(type, filename):
     image = pygame.image.load(file).convert_alpha()
     return image
 
+def load_font(name, size):
+    """
+    Create a new font object in the specified size.
+    """
+    font_file = path.join(DATA_DIR, 'fonts', name + '.ttf')
+    font = pygame.font.Font(font_file, size)
+    return font
+
 def load_map(map, mode='rb'):
     """Load a map file from disk."""
 

@@ -27,7 +27,6 @@ class BaseState(object):
             self.state.draw()
 
     def switch(self, state):
-        self.state = None
         self.state = state
         self.run()
 

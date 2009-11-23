@@ -2,6 +2,7 @@ from os import environ
 import pygame
 from pygame.locals import *
 from constants import *
+from data import *
 from interface import Dialog
 from map import Map
 from characters import Player
@@ -33,6 +34,13 @@ class TitleScreen(Screen):
         """Draws the title screen and updates the window."""
 
         self.window.fill((0,0,0))
+        title_font = load_font("menu", 24)
+        help_font = load_font("menu", 16)
+        title = title_font.render("Title Screen Goes Here", True, (255,0,0))
+        help = help_font.render("Press 'n' to start a new game.", True,
+            (255,255,255))
+        self.window.blit(title, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3))
+        self.window.blit(help, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3+48))
         pygame.display.update()
 
 
