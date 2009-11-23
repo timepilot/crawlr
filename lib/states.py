@@ -12,19 +12,24 @@ class BaseState(object):
         self.state = self
         self.clock = pygame.time.Clock()
 
-    def show_debug(self):
-        """Print debugging info to console."""
-
-        if SHOW_FRAME_RATE:
-            print 'Framerate: %f/%f' % (int(self.clock.get_fps()), FRAME_RATE)
-
     def run(self):
         """The main game loop that listens for events and draws the screen."""
 
         while True:
-            self.clock.tick(FRAME_RATE)
+            self.limit_fps()
+            self.state.show_debug(self.framerate)
             self.state.check_events()
             self.state.draw()
+
+    def limit_fps(self):
+        self.clock.tick(FRAME_RATE)
+        self.framerate = int(self.clock.get_fps())
+
+    def show_debug(self, fps):
+        """Print debugging info to console."""
+
+        if SHOW_FRAME_RATE:
+            print 'Framerate: %f/%f' % (fps, FRAME_RATE)
 
     def switch(self, state):
         self.state = state
@@ -78,12 +83,12 @@ class WorldState(BaseState):
         self.screen = WorldScreen(1)
 
     def draw(self):
+        """Draw the world screen graphics."""
         self.screen.draw()
-        self.show_debug()
 
     def check_events(self):
         """
-        Check for user input in the game.
+        Check for user input on the world screen.
         Esc:    exit to title screen
         D:      toggle display
         Arrows: move player
@@ -116,8 +121,8 @@ class WorldState(BaseState):
                     self.screen.player.direction = (self.move_keys[-1])
                 else: self.screen.player.stop = True
 
-    def show_debug(self):
-        BaseState.show_debug(self)
+    def show_debug(self, fps):
+        BaseState.show_debug(self, fps)
         if SHOW_RECTS:
             self.screen.map.layers['terrain'].image.fill(
                 (0,0,0), self.screen.player.collide_rect)
