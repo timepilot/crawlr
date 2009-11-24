@@ -83,12 +83,13 @@ class WorldScreen(Screen):
         self.player = Player(self)
         self.layers = pygame.sprite.LayeredDirty()
         self.add()
-        self.scroll()
+        self.map.scroll(self.camera, self.player)
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        characters = pygame.sprite.Group([self.player])
+        characters = pygame.sprite.Group([
+            self.player])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
@@ -108,32 +109,6 @@ class WorldScreen(Screen):
         self.layers.update()
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
-
-
-    def scroll(self):
-        """Scroll the map to keep the player visible."""
-
-        b_x, b_y = self.player.rect.center
-        self.camera.center = (b_x, b_y)
-        b_x, b_y = self.camera.topleft
-        camera_w, camera_h = (self.camera.width, self.camera.height)
-        map_w, map_h = (self.map.get_size())
-        if b_x < 0:
-            b_x = 0
-        if b_x > map_w - camera_w:
-            b_x = map_w - camera_w
-        if b_y < 0:
-            b_y = 0
-        if b_y > map_h - camera_h:
-            b_y = map_h - camera_h
-        if map_h < camera_h:
-            b_y = (map_h - camera_h) / 2
-        if map_w < camera_w:
-            b_x - (map_w - camera_w) / 2
-        self.camera.topleft = [ -b_x, -b_y ]
-        self.map.move_map([ self.camera[0], self.camera[1] ])
-        self.player.rect.move_ip([ self.camera[0], self.camera[1] ])
-        self.player.scroll_pos = [ self.camera[0], self.camera[1] ]
 
     def toggle_dialog(self):
         """Toggles the status menu dialog."""

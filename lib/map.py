@@ -261,6 +261,30 @@ class Map(object):
         else:
             self.regions[tile] = []
 
+    def scroll(self, camera, player):
+        """Scroll the map to keep the player visible."""
+
+        b_x, b_y = player.rect.center
+        camera.center = (b_x, b_y)
+        b_x, b_y = camera.topleft
+        camera_w, camera_h = (camera.width, camera.height)
+        map_w, map_h = (self.get_size())
+        if b_x < 0:
+            b_x = 0
+        if b_x > map_w - camera_w:
+            b_x = map_w - camera_w
+        if b_y < 0:
+            b_y = 0
+        if b_y > map_h - camera_h:
+            b_y = map_h - camera_h
+        if map_h < camera_h:
+            b_y = (map_h - camera_h) / 2
+        if map_w < camera_w:
+            b_x - (map_w - camera_w) / 2
+        camera.topleft = [ -b_x, -b_y ]
+        self.move_map([ camera[0], camera[1] ])
+        player.rect.move_ip([ camera[0], camera[1] ])
+        player.scroll_pos = [ camera[0], camera[1] ]
 
 class LayerSprite(pygame.sprite.DirtySprite):
     """Creates a map layer."""
