@@ -4,7 +4,7 @@ from pygame.locals import *
 from constants import *
 from data import *
 from dice import Die
-from interface import Dialog
+from interface import *
 from map import Map
 from characters import Player
 from battle import Battle
@@ -30,15 +30,21 @@ class LoadScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
+        self.layers = pygame.sprite.LayeredDirty()
+        self.add()
+
+    def add(self):
+        self.loading = Text("menu", 24, (255,0,0), "Loading...")
+        text = pygame.sprite.Group([self.loading])
+        all_sprites = pygame.sprite.OrderedUpdates([
+            text])
+        for sprite in all_sprites:
+            self.layers.add(sprite)
 
     def draw(self):
-        """Draws the loading screen and updates the window."""
-
-        self.window.fill((0,0,0))
-        title_font = load_font("menu", 24)
-        title = title_font.render("Loading...", True, (255,0,0))
-        self.window.blit(title, (WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2))
-        pygame.display.update()
+        self.loading.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2 ]
+        rects = self.layers.draw(self.window)
+        self.layers.update(rects)
 
 
 class TitleScreen(Screen):
@@ -46,19 +52,24 @@ class TitleScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
+        self.layers = pygame.sprite.LayeredDirty()
+        self.add()
+
+    def add(self):
+        self.title = Text("menu", 24, (255,0,0), "Title Screen Goes Here")
+        self.help = Text("menu", 16, (255,255,255),
+            "Press 'n' to start a new game.")
+        text = pygame.sprite.Group([self.title, self.help])
+        all_sprites = pygame.sprite.OrderedUpdates([
+            text])
+        for sprite in all_sprites:
+            self.layers.add(sprite)
 
     def draw(self):
-        """Draws the title screen and updates the window."""
-
-        self.window.fill((0,0,0))
-        title_font = load_font("menu", 24)
-        help_font = load_font("menu", 16)
-        title = title_font.render("Title Screen Goes Here", True, (255,0,0))
-        help = help_font.render("Press 'n' to start a new game.", True,
-            (255,255,255))
-        self.window.blit(title, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3))
-        self.window.blit(help, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3+48))
-        pygame.display.update()
+        self.title.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
+        self.help.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
+        rects = self.layers.draw(self.window)
+        self.layers.update(rects)
 
 
 class WorldScreen(Screen):
@@ -153,16 +164,21 @@ class BattleScreen(Screen, Battle):
     def __init__(self, prevstate):
         Screen.__init__(self)
         Battle.__init__(self, prevstate)
+        self.layers = pygame.sprite.LayeredDirty()
+        self.add()
+
+    def add(self):
+        self.title = Text("menu", 24, (255,0,0), "Battle Screen Goes Here")
+        self.help = Text("menu", 16, (255,255,255),
+            "Press 'Esc' to go back to the game.")
+        text = pygame.sprite.Group([self.title, self.help])
+        all_sprites = pygame.sprite.OrderedUpdates([
+            text])
+        for sprite in all_sprites:
+            self.layers.add(sprite)
 
     def draw(self):
-        """Draws the battle screen and updates the window."""
-
-        self.window.fill((0,0,0))
-        title_font = load_font("menu", 24)
-        help_font = load_font("menu", 16)
-        title = title_font.render("Battle Screen Goes Here", True, (255,0,0))
-        help = help_font.render("Press 'Esc' to go back to the world screen.",
-            True, (255,255,255))
-        self.window.blit(title, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3))
-        self.window.blit(help, (WINDOW_SIZE[0]/3, WINDOW_SIZE[1]/3+48))
-        pygame.display.update()
+        self.title.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
+        self.help.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
+        rects = self.layers.draw(self.window)
+        self.layers.update(rects)

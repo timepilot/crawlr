@@ -2,6 +2,18 @@ import pygame
 from data import *
 from config import *
 
+class Text(pygame.sprite.DirtySprite):
+
+    def __init__(self, font_name, font_size, font_color, font_text):
+        pygame.sprite.DirtySprite.__init__(self)
+        font_name = load_font(font_name, font_size)
+        self.image = font_name.render(font_text, True, font_color)
+        self.rect = self.image.get_rect()
+
+    def update(self, rects):
+        pygame.display.update(rects)
+
+
 class Dialog(pygame.sprite.DirtySprite):
     """
     The dialog window used for story and character dialog.
