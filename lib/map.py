@@ -141,6 +141,7 @@ class Map(object):
                     self.set_nowalk(offset)
                 elif tile.isdigit():
                     self.set_region(tile, offset)
+
             elif layer == LAYER_TERRAIN:
                 blit(terrain[0].image, offset)
                 self.set_edges(offset)
@@ -181,19 +182,16 @@ class Map(object):
                     for type in TERRAIN_TRANSITIONS:
 
                         # Draw side transitions
-                        for key in edges[type][0]:
-                            if type in edges and (
-                                    dict.get(key) == type):
+                        for key in sides:
+                            if type in edges and (dict.get(key) == type):
                                 blit(edges[type][0][key], offset)
 
                         # Draw curve transitions
                         for key in diags:
                             if dict.get(key[0]) == type and (
                                 dict.get(key[1]) == type):
-                                blit(edges[type][0][key[0]+key[1]],
-                                    offset)
-                            if type in corners and (
-                                    dict.get(key) == type):
+                                blit(edges[type][0][key[0]+key[1]], offset)
+                            if type in corners and (dict.get(key) == type):
                                 blit(corners[type][0][key], offset)
 
                         if type in TERRAIN_UNWALKABLE:
