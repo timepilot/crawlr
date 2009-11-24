@@ -109,14 +109,18 @@ class Terrain(object):
 class TerrainCaveCeiling(Terrain):
 
     def __init__(self, image='cave_ceiling', walkable=True, danger=False):
-        terrain = TERRAIN_CAVE_CEILING[image]
-        image = 'cave_ceiling' + str(image)
-        Terrain.__init__(self, terrain, 1, image, walkable, danger)
+        Terrain.__init__(self, TERRAIN_CAVE_CEILING[0], 1, image, walkable, danger)
+        self.details = [
+            load_tile('details', 'cave_ceiling_01'),
+            load_tile('details', 'cave_ceiling_02'),
+            load_tile('details', 'cave_ceiling_03') ]
 
     def draw_details(self, layer, offset):
         """Draws details on the terrain."""
 
-        pass
+        detail = choice(range(0,3))
+        if Die(20).roll() >= 18:
+            layer.image.blit(self.details[detail], offset)
 
 
 class TerrainCaveFloor(Terrain):

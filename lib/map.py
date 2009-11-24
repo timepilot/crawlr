@@ -20,10 +20,7 @@ class Map(object):
             TERRAIN_GRASS[1]: TerrainGrass(1),
             TERRAIN_GRASS[2]: TerrainGrass(2),
             TERRAIN_FOREST[0]: TerrainForest(),
-            TERRAIN_CAVE_CEILING[0]: TerrainCaveCeiling(0),
-            TERRAIN_CAVE_CEILING[1]: TerrainCaveCeiling(1),
-            TERRAIN_CAVE_CEILING[2]: TerrainCaveCeiling(2),
-            TERRAIN_CAVE_CEILING[3]: TerrainCaveCeiling(3),
+            TERRAIN_CAVE_CEILING[0]: TerrainCaveCeiling(),
             TERRAIN_CAVE_FLOOR[0]: TerrainCaveFloor() }
         self.layer_list = []
         self.layers = {}
