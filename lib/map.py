@@ -141,7 +141,6 @@ class Map(object):
                     self.set_nowalk(offset)
                 elif tile.isdigit():
                     self.set_region(tile, offset)
-
             elif layer == LAYER_TERRAIN:
                 blit(terrain[0].image, offset)
                 self.set_edges(offset)
@@ -179,27 +178,23 @@ class Map(object):
         if offset in self.position:
             for depth in range(3):
                 if depth > order:
-                    for type in self.terrain_list:
-                        for subtype in type:
+                    for type in TERRAIN_TRANSITIONS:
 
-                            # Base terrain doesn't have edges
-                            if not subtype in TERRAIN_TRANSITIONS:
+                        # Draw side transitions
+                        for key in edges[type][0]:
+                            if type in edges and (
+                                    dict.get(key) == type):
+                                blit(edges[type][0][key], offset)
 
-                                # Draw side transitions
-                                for key in sides:
-                                    if subtype in edges and (
-                                            dict.get(key) == subtype):
-                                        blit(edges[subtype][0][key], offset)
-
-                                # Draw curve transitions
-                                for key in diags:
-                                    if dict.get(key[0]) == subtype and (
-                                        dict.get(key[1]) == subtype):
-                                        blit(edges[subtype][0][key[0]+key[1]],
-                                            offset)
-                                    if subtype in corners and (
-                                            dict.get(key) == subtype):
-                                        blit(corners[subtype][0][key], offset)
+                        # Draw curve transitions
+                        for key in diags:
+                            if dict.get(key[0]) == type and (
+                                dict.get(key[1]) == type):
+                                blit(edges[type][0][key[0]+key[1]],
+                                    offset)
+                            if type in corners and (
+                                    dict.get(key) == type):
+                                blit(corners[type][0][key], offset)
 
                         if type in TERRAIN_UNWALKABLE:
                             self.set_nowalk(offset)

@@ -12,8 +12,12 @@ class Terrain(object):
         self.image = load_tile('terrain', image)
         self.walkable = walkable
         self.danger = danger
+        self.size = [32,32]
         self.collide = []
         self.edges = {
+            TERRAIN_CAVE_FLOOR[0]: [
+                { 's':  load_tile('edges', 'cave_floor_edge_s'),
+                }, True, (0,0,0,0), [32,32], [0,0] ],
             TERRAIN_GRASS[1]: [
                 { 'n':  load_tile('edges', 'grass1_edge_n'),
                   'ne': load_tile('edges', 'grass1_edge_ne'),
@@ -109,7 +113,9 @@ class Terrain(object):
 class TerrainCaveCeiling(Terrain):
 
     def __init__(self, image='cave_ceiling', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_CAVE_CEILING[0], 1, image, walkable, danger)
+        Terrain.__init__(self, TERRAIN_CAVE_CEILING[0], 1, image, walkable,
+            danger)
+        self.size = [64,32]
         self.details = [
             load_tile('details', 'cave_ceiling_01'),
             load_tile('details', 'cave_ceiling_02'),
@@ -126,7 +132,7 @@ class TerrainCaveCeiling(Terrain):
 class TerrainCaveFloor(Terrain):
 
     def __init__(self, image='cave_floor', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_CAVE_FLOOR[0], 1, image, walkable,
+        Terrain.__init__(self, TERRAIN_CAVE_FLOOR[0], 2, image, walkable,
             danger)
 
     def draw_details(self, layer, offset):
