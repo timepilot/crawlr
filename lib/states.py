@@ -20,7 +20,7 @@ class BaseState(object):
             self.clock.tick(FRAME_RATE)
             self.state.show_debug(int(self.clock.get_fps()))
             self.state.check_events()
-            self.state.draw()
+            self.state.screen.draw()
 
     def switch(self, state):
         self.state = state
@@ -53,9 +53,6 @@ class TitleState(BaseState):
         BaseState.__init__(self)
         self.screen = TitleScreen()
 
-    def draw(self):
-        self.screen.draw()
-
     def check_events(self):
         """
         Title screen events:
@@ -77,11 +74,6 @@ class WorldState(BaseState):
     def __init__(self):
         BaseState.__init__(self)
         self.screen = WorldScreen(1)
-
-    def draw(self):
-        """Draw the world screen graphics."""
-
-        self.screen.draw()
 
     def check_events(self):
         """
@@ -156,9 +148,6 @@ class BattleState(BaseState):
         self.screen = BattleScreen(prevstate.screen)
         self.prevstate = prevstate
         self.prev_screen = self.prevstate.screen.all_sprites
-
-    def draw(self):
-        self.screen.draw()
 
     def check_events(self):
         """
