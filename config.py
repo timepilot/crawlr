@@ -9,7 +9,7 @@ COLOR_DEPTH =       32
 FRAME_RATE =        30
 
 # Debug
-SHOW_FRAME_RATE =   True
+SHOW_FRAME_RATE =   False
 SHOW_RECTS =        False
 SHOW_TERRAIN =      False
 SHOW_REGION =       False

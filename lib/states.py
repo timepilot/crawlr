@@ -10,6 +10,8 @@ class BaseState(object):
     def __init__(self, window=None):
         self.window = window
         self.clock = pygame.time.Clock()
+        load_screen = LoadScreen()
+        load_screen.draw()
 
     def run(self):
         """The main game loop that listens for events and draws the screen."""
@@ -78,6 +80,7 @@ class WorldState(BaseState):
 
     def draw(self):
         """Draw the world screen graphics."""
+
         self.screen.draw()
 
     def check_events(self):

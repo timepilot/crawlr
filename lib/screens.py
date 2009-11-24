@@ -25,6 +25,22 @@ class Screen(object):
             COLOR_DEPTH)
 
 
+class LoadScreen(Screen):
+    """The loading screen displayed when changing states."""
+
+    def __init__(self):
+        Screen.__init__(self)
+
+    def draw(self):
+        """Draws the loading screen and updates the window."""
+
+        self.window.fill((0,0,0))
+        title_font = load_font("menu", 24)
+        title = title_font.render("Loading...", True, (255,0,0))
+        self.window.blit(title, (WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2))
+        pygame.display.update()
+
+
 class TitleScreen(Screen):
     """The title screen is the first screen displayed."""
 
