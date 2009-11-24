@@ -89,10 +89,6 @@ class WorldState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_d: self.screen.toggle_dialog()
-                elif event.key == K_b:
-                    self.screen.player.move_keys = []
-                    self.screen.player.stop = True
-                    self.switch(BattleState(self))
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)
             elif event.type == KEYUP:
