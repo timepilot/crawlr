@@ -105,6 +105,32 @@ class Terrain(object):
             "t": [ load_tile('objects', 'mushroom'),
                 False, (0,0,0,0), [32,32], [0,0] ] }
 
+
+class TerrainCaveCeiling(Terrain):
+
+    def __init__(self, image='cave_ceiling', walkable=True, danger=False):
+        terrain = TERRAIN_CAVE_CEILING[image]
+        image = 'cave_ceiling' + str(image)
+        Terrain.__init__(self, terrain, 1, image, walkable, danger)
+
+    def draw_details(self, layer, offset):
+        """Draws details on the terrain."""
+
+        pass
+
+
+class TerrainCaveFloor(Terrain):
+
+    def __init__(self, image='cave_floor', walkable=True, danger=False):
+        Terrain.__init__(self, TERRAIN_CAVE_FLOOR[0], 1, image, walkable,
+            danger)
+
+    def draw_details(self, layer, offset):
+        """Draws details on the terrain."""
+
+        pass
+
+
 class TerrainGrass(Terrain):
 
     def __init__(self, image, walkable=True, danger=False):

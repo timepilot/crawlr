@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
-from terrain import TERRAIN_ALL
 
 class BasicSprite(pygame.sprite.DirtySprite):
     """The base sprite from which all other sprites derive."""
@@ -100,7 +99,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
     def check_terrain(self, rect):
         """Check the type of terrain the sprite moved to."""
 
-        for type in TERRAIN_ALL:
+        for type in self.screen.map.terrain_list:
             for subtype in type:
                 if subtype in self.map.types:
                     if pygame.Rect(rect).collidelistall(

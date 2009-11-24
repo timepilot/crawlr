@@ -19,7 +19,12 @@ class Map(object):
             TERRAIN_GRASS[0]: TerrainGrass(0),
             TERRAIN_GRASS[1]: TerrainGrass(1),
             TERRAIN_GRASS[2]: TerrainGrass(2),
-            TERRAIN_FOREST[0]: TerrainForest() }
+            TERRAIN_FOREST[0]: TerrainForest(),
+            TERRAIN_CAVE_CEILING[0]: TerrainCaveCeiling(0),
+            TERRAIN_CAVE_CEILING[1]: TerrainCaveCeiling(1),
+            TERRAIN_CAVE_CEILING[2]: TerrainCaveCeiling(2),
+            TERRAIN_CAVE_CEILING[3]: TerrainCaveCeiling(3),
+            TERRAIN_CAVE_FLOOR[0]: TerrainCaveFloor() }
         self.layer_list = []
         self.layers = {}
         self.config = load_map(level)
@@ -29,6 +34,11 @@ class Map(object):
         """Reads and stores keys from the map config."""
 
         options = self.config['Options']
+        tile_set = options['tile_set']
+        if tile_set == 'cave':
+            self.terrain_list = TERRAIN_ALL_CAVE
+        elif tile_set == 'world':
+            self.terrain_list = TERRAIN_ALL_WORLD
         self.start_tile = [
             int(options['start_tile'][0]),
             int(options['start_tile'][1]) ]
@@ -98,7 +108,7 @@ class Map(object):
         # Make each terrain more natural by mixing in another similar type.
         check = Die(TERRAIN_RANDOMNESS).roll()
         if check == 1:
-            for terrain in TERRAIN_ALL:
+            for terrain in self.terrain_list:
                 if tile == terrain[0]:
                     choice = Die(len(terrain)).roll()-1
                     tile = terrain[choice]
@@ -172,11 +182,11 @@ class Map(object):
         if offset in self.position:
             for depth in range(3):
                 if depth > order:
-                    for type in TERRAIN_ALL:
+                    for type in self.terrain_list:
                         for subtype in type:
 
                             # Base terrain doesn't have edges
-                            if subtype != 'g':
+                            if not subtype in TERRAIN_TRANSITIONS:
 
                                 # Draw side transitions
                                 for key in sides:
