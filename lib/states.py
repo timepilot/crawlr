@@ -73,7 +73,7 @@ class WorldState(BaseState):
 
     def __init__(self):
         BaseState.__init__(self)
-        self.screen = WorldScreen(2)
+        self.screen = WorldScreen(1)
 
     def check_events(self):
         """
