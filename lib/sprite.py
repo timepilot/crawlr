@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
+from dice import Die
 
 class BasicSprite(pygame.sprite.DirtySprite):
     """The base sprite from which all other sprites derive."""
@@ -196,7 +197,8 @@ class PlayerSprite(BasicSprite):
         self.current_space += 1
         if self.current_space == spaces * self.width:
             self.current_space = 0
-            self.screen.start_battle()
+            if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
+                pygame.time.set_timer(BATTLE_EVENT, 1000)
 
 
 class MonsterSprite(BasicSprite):

@@ -3,7 +3,6 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
-from dice import Die
 from interface import *
 from map import Map
 from characters import Player
@@ -117,12 +116,6 @@ class WorldScreen(Screen):
             self.dialog.toggle = False
         else:
             self.dialog.toggle = True
-
-    def start_battle(self):
-        """Starts a battle screen."""
-
-        if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
-            pygame.time.set_timer(BATTLE_EVENT, 1000)
 
     def destroy(self):
         """Destroy the current screen."""
