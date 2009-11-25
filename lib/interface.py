@@ -3,6 +3,7 @@ from data import *
 from config import *
 
 class Text(pygame.sprite.DirtySprite):
+    """A sprite for text loaded from a font."""
 
     def __init__(self, font_name, font_size, font_color, font_text):
         pygame.sprite.DirtySprite.__init__(self)

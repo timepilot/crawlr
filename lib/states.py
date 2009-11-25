@@ -1,3 +1,4 @@
+from os import environ
 import sys
 import pygame
 from pygame.locals import *
@@ -41,7 +42,9 @@ class InitState(Screen, BaseState):
     """State used to initialize the game and switch to the title screen."""
 
     def __init__(self):
+        environ['SDL_VIDEO_CENTERED'] = '1'
         Screen.__init__(self)
+        del environ['SDL_VIDEO_CENTERED']
         BaseState.__init__(self, self.window)
         self.switch(TitleState())
 
@@ -87,7 +90,7 @@ class WorldState(BaseState):
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
-                if event.key == K_ESCAPE: self.exit()
+                if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_d: self.screen.toggle_dialog()
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)
@@ -129,7 +132,7 @@ class WorldState(BaseState):
             print "Current region: " + (
                 self.screen.player.current_region)
 
-    def exit(self):
+    def _exit(self):
         """Quit the main game screen returning to the title screen."""
 
         self.screen.destroy();
@@ -154,9 +157,9 @@ class BattleState(BaseState):
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
-                if event.key == K_ESCAPE: self.exit()
+                if event.key == K_ESCAPE: self._exit()
 
-    def exit(self):
+    def _exit(self):
         """Quits the battle screen returning to the world screen."""
 
         pygame.time.set_timer(BATTLE_EVENT, 0)

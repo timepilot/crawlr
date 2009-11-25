@@ -1,4 +1,3 @@
-from os import environ
 import pygame
 from pygame.locals import *
 from constants import *
@@ -12,7 +11,6 @@ class Screen(object):
     """The base screen class that other screens inherit from."""
 
     def __init__(self):
-        environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
         pygame.display.set_caption(GAME_NAME)
         pygame.mouse.set_visible(False)
@@ -22,6 +20,22 @@ class Screen(object):
             fullscreen = False
         self.window = pygame.display.set_mode(WINDOW_SIZE, fullscreen,
             COLOR_DEPTH)
+        self.layers = pygame.sprite.LayeredDirty()
+
+    def add(self, items):
+        """Add items to the screen."""
+
+        group = pygame.sprite.Group(items)
+        self.all_sprites = pygame.sprite.OrderedUpdates([group])
+        for sprite in self.all_sprites:
+            self.layers.add(sprite)
+        self.align(items)
+
+    def draw(self):
+        """Draw items to the screen."""
+
+        rects = self.layers.draw(self.window)
+        self.layers.update(rects)
 
 
 class LoadScreen(Screen):
@@ -29,21 +43,11 @@ class LoadScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
-        self.layers = pygame.sprite.LayeredDirty()
-        self.add()
+        text1 = Text("menu", 24, (255,0,0), "Loading...")
+        self.add([text1])
 
-    def add(self):
-        self.loading = Text("menu", 24, (255,0,0), "Loading...")
-        text = pygame.sprite.Group([self.loading])
-        all_sprites = pygame.sprite.OrderedUpdates([
-            text])
-        for sprite in all_sprites:
-            self.layers.add(sprite)
-
-    def draw(self):
-        self.loading.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2 ]
-        rects = self.layers.draw(self.window)
-        self.layers.update(rects)
+    def align(self, items):
+        items[0].rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2 ]
 
 
 class TitleScreen(Screen):
@@ -51,24 +55,15 @@ class TitleScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
-        self.layers = pygame.sprite.LayeredDirty()
-        self.add()
-
-    def add(self):
-        self.title = Text("menu", 24, (255,0,0), "Title Screen Goes Here")
-        self.help = Text("menu", 16, (255,255,255),
+        text1 = Text("menu", 24, (255,0,0),
+            "Title Screen Goes Here")
+        text2 = Text("menu", 16, (255,255,255),
             "Press 'n' to start a new game.")
-        text = pygame.sprite.Group([self.title, self.help])
-        all_sprites = pygame.sprite.OrderedUpdates([
-            text])
-        for sprite in all_sprites:
-            self.layers.add(sprite)
+        self.add([text1, text2])
 
-    def draw(self):
-        self.title.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
-        self.help.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
-        rects = self.layers.draw(self.window)
-        self.layers.update(rects)
+    def align(self, items):
+        items[0].rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
+        items[1].rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
 
 
 class WorldScreen(Screen):
@@ -80,15 +75,13 @@ class WorldScreen(Screen):
         self.dialog = Dialog()
         self.map = Map(level)
         self.player = Player(self)
-        self.layers = pygame.sprite.LayeredDirty()
-        self.add()
         self.map.scroll(self.camera, self.player)
+        self.add()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        characters = pygame.sprite.Group([
-            self.player])
+        characters = pygame.sprite.Group([self.player])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
@@ -132,21 +125,11 @@ class BattleScreen(Screen, Battle):
     def __init__(self, prevstate):
         Screen.__init__(self)
         Battle.__init__(self, prevstate)
-        self.layers = pygame.sprite.LayeredDirty()
-        self.add()
-
-    def add(self):
-        self.title = Text("menu", 24, (255,0,0), "Battle Screen Goes Here")
-        self.help = Text("menu", 16, (255,255,255),
+        text1 = Text("menu", 24, (255,0,0), "Battle Screen Goes Here")
+        text2 = Text("menu", 16, (255,255,255),
             "Press 'Esc' to go back to the game.")
-        text = pygame.sprite.Group([self.title, self.help])
-        all_sprites = pygame.sprite.OrderedUpdates([
-            text])
-        for sprite in all_sprites:
-            self.layers.add(sprite)
+        self.add([text1, text2])
 
-    def draw(self):
-        self.title.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
-        self.help.rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
-        rects = self.layers.draw(self.window)
-        self.layers.update(rects)
+    def align(self, items):
+        items[0].rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2-20 ]
+        items[1].rect.center = [ WINDOW_SIZE[0]/2, WINDOW_SIZE[1]/2+20 ]
