@@ -68,21 +68,23 @@ class TitleState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_n:
-                    self.switch(WorldState())
+                    self.switch(WorldState(1))
 
 
 class WorldState(BaseState):
     """A game state for the main world screen."""
 
-    def __init__(self):
+    def __init__(self, map_num):
         BaseState.__init__(self)
-        self.screen = WorldScreen(1)
+        self.map_num = map_num
+        self.screen = WorldScreen(self.map_num)
 
     def check_events(self):
         """
         Check for user input on the world screen.
         Esc:    exit to title screen
         D:      toggle display
+        M:      next map number
         Arrows: move player
         """
 
@@ -92,6 +94,7 @@ class WorldState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_d: self.screen.toggle_dialog()
+                elif event.key == K_m: self.__init__(self.map_num+1)
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)
             elif event.type == KEYUP:

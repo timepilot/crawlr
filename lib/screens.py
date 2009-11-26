@@ -68,11 +68,11 @@ class TitleScreen(Screen):
 class WorldScreen(Screen):
     """The main game screen with a world to wander around."""
 
-    def __init__(self, level):
+    def __init__(self, map_num):
         Screen.__init__(self)
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.dialog = Dialog()
-        self.map = Map(level)
+        self.map = Map(map_num)
         self.player = Player(self)
         self.map.scroll(self.camera, self.player)
         self.add()
