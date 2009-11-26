@@ -55,8 +55,7 @@ class TitleScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
-        text1 = Text("menu", 24, (255,0,0),
-            "Title Screen Goes Here")
+        text1 = Text("menu", 24, (255,0,0), "Title Screen Goes Here")
         text2 = Text("menu", 16, (255,255,255),
             "Press 'n' to start a new game.")
         self.add([text1, text2])

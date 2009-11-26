@@ -100,7 +100,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
     def check_terrain(self, rect):
         """Check the type of terrain the sprite moved to."""
 
-        for type in self.screen.map.terrain_list:
+        for type in self.map.terrain_list:
             for subtype in type:
                 if subtype in self.map.types:
                     if pygame.Rect(rect).collidelistall(
@@ -167,25 +167,25 @@ class PlayerSprite(BasicSprite):
                 if self.rect.centery < PLAYER_SCROLL_TOP and (
                         self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
-                    self.screen.map.move_map([0, self.movement])
+                    self.map.move_map([0, self.movement])
                 else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
                         map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
-                    self.screen.map.move_map([0, -self.movement])
+                    self.map.move_map([0, -self.movement])
                 else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < PLAYER_SCROLL_LEFT and (
                         self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
-                    self.screen.map.move_map([self.movement, 0])
+                    self.map.move_map([self.movement, 0])
                 else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
                         map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
-                    self.screen.map.move_map([-self.movement, 0])
+                    self.map.move_map([-self.movement, 0])
                 else: self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
