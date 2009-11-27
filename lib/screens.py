@@ -37,6 +37,12 @@ class Screen(object):
         rects = self.layers.draw(self.window)
         self.layers.update(rects)
 
+    def destroy(self):
+        """Destroy the current screen."""
+
+        for sprite in self.all_sprites:
+            sprite.kill()
+
 
 class LoadScreen(Screen):
     """The loading screen displayed when changing states."""

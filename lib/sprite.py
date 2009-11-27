@@ -158,7 +158,6 @@ class PlayerSprite(BasicSprite):
     def move(self):
         """Move the player."""
 
-        self.check_encounter()
         self.dirty = 1
         direction = self.direction
         map_rect = self.map.layers['terrain'].rect

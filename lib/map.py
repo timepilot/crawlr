@@ -8,7 +8,7 @@ from dice import Die
 class Map(object):
     """The game world."""
 
-    def __init__(self, map_num):
+    def __init__(self, level):
         self.nowalk = []
         self.danger = []
         self.types = {}
@@ -24,7 +24,7 @@ class Map(object):
             TERRAIN_CAVE_FLOOR[0]: TerrainCaveFloor() }
         self.layer_list = []
         self.layers = {}
-        self.config = load_map(map_num)
+        self.config = load_map(level)
         self.create_map()
 
     def configure(self):

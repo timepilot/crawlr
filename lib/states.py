@@ -13,6 +13,7 @@ class BaseState(object):
         self.clock = pygame.time.Clock()
         load_screen = LoadScreen()
         load_screen.draw()
+        load_screen = None
 
     def run(self):
         """The main game loop that listens for events and draws the screen."""
@@ -68,6 +69,7 @@ class TitleState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_n:
+                    self.screen.destroy()
                     self.switch(WorldState(1))
 
 
@@ -131,11 +133,9 @@ class WorldState(BaseState):
                 self.screen.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
         if SHOW_TERRAIN:
-            print "Current terrain: " + (
-                self.screen.player.current_terrain)
+            print "Current terrain: " + (self.screen.player.current_terrain)
         if SHOW_REGION:
-            print "Current region: " + (
-                self.screen.player.current_region)
+            print "Current region: " + (sself.screen.player.current_region)
 
     def _exit(self):
         """Quit the main game screen returning to the title screen."""
@@ -170,4 +170,5 @@ class BattleState(BaseState):
         pygame.time.set_timer(BATTLE_EVENT, 0)
         for sprite in self.prev_screen:
             sprite.dirty = 1
+        self.screen.destroy()
         self.switch(self.prevstate)
