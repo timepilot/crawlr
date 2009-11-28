@@ -167,6 +167,6 @@ class TerrainForest(Terrain):
     def __init__(self, num, image='forest'):
         terrain = TERRAIN_FOREST[num]
         num_details = 3
-        freq_details = 18
+        freq_details = 10
         Terrain.__init__(self, terrain, 2, image, image + str(num),
             num_details, freq_details)
