@@ -56,6 +56,6 @@ def load_map(map, mode='rb'):
 def load_tile(type, filename):
     """Load a map's tile."""
 
-    file = path.join(DATA_DIR, 'images', type, filename + '.png')
+    file = path.join(DATA_DIR, 'images', type, str(filename) + '.png')
     tile = pygame.image.load(file).convert_alpha()
     return tile

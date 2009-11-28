@@ -16,12 +16,12 @@ class Map(object):
         self.position = {}
         self.tile_dict = {}
         self.terrain = {
-            TERRAIN_GRASS[0]: TerrainGrass(0),
-            TERRAIN_GRASS[1]: TerrainGrass(1),
-            TERRAIN_GRASS[2]: TerrainGrass(2),
-            TERRAIN_FOREST[0]: TerrainForest(),
-            TERRAIN_CAVE_CEILING[0]: TerrainCaveCeiling(),
-            TERRAIN_CAVE_FLOOR[0]: TerrainCaveFloor() }
+            TERRAIN_GRASS[0]:           TerrainGrass(0),
+            TERRAIN_GRASS[1]:           TerrainGrass(1),
+            TERRAIN_GRASS[2]:           TerrainGrass(2),
+            TERRAIN_CAVE_FLOOR[0]:      TerrainCaveFloor(0),
+            TERRAIN_CAVE_CEILING[0]:    TerrainCaveCeiling(0),
+            TERRAIN_FOREST[0]:          TerrainForest(0) }
         self.layer_list = []
         self.layers = {}
         self.config = load_map(level)

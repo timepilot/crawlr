@@ -25,7 +25,3 @@ class Dialog(pygame.sprite.DirtySprite):
         self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
         self.rect.bottom = WINDOW_SIZE[1] - 32
         self.toggle = False
-        self.draw()
-
-    def draw(self):
-        print 1

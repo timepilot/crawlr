@@ -6,14 +6,19 @@ from dice import Die
 class Terrain(object):
     """Terrain on the world map."""
 
-    def __init__(self, type, order, image, walkable, danger):
+    def __init__(self, type, order, image_name, image, num_details,
+            freq_details, walkable=True, danger=False):
         self.type = type
         self.order = order
+        self.image_name = image_name
         self.image = load_tile('terrain', image)
+        self.num_details = num_details
+        self.freq_details = freq_details
         self.walkable = walkable
         self.danger = danger
         self.size = [32,32]
         self.collide = []
+
         self.edges = {
             TERRAIN_CAVE_FLOOR[0]: [
                 { 'n':  load_tile('edges', 'grass1_edge_n'),
@@ -116,70 +121,52 @@ class Terrain(object):
             "t": [ load_tile('objects', 'mushroom'),
                 False, (0,0,0,0), [32,32], [0,0] ] }
 
+    def draw_details(self, layer, offset):
+        """Draw details on the terrain."""
+
+        if self.num_details > 0:
+            detail = choice(range(1, self.num_details+1))
+            if Die(20).roll() >= self.freq_details:
+                tile = load_tile('details', self.image_name + str(detail))
+                layer.image.blit(tile, offset)
+
 
 class TerrainCaveCeiling(Terrain):
 
-    def __init__(self, image='cave_ceiling', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_CAVE_CEILING[0], 1, image, walkable,
-            danger)
+    def __init__(self, num, image='cave_ceiling'):
+        terrain = TERRAIN_CAVE_CEILING[num]
+        num_details = 3
+        freq_details = 18
+        Terrain.__init__(self, terrain, 1, image, image + str(num),
+            num_details, freq_details)
         self.size = [64,32]
-        self.details = [
-            load_tile('details', 'cave_ceiling_01'),
-            load_tile('details', 'cave_ceiling_02'),
-            load_tile('details', 'cave_ceiling_03') ]
-
-    def draw_details(self, layer, offset):
-        """Draws details on the terrain."""
-
-        detail = choice(range(0,3))
-        if Die(20).roll() >= 18:
-            layer.image.blit(self.details[detail], offset)
 
 
 class TerrainCaveFloor(Terrain):
 
-    def __init__(self, image='cave_floor', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_CAVE_FLOOR[0], 2, image, walkable,
-            danger)
-
-    def draw_details(self, layer, offset):
-        """Draws details on the terrain."""
-
-        pass
+    def __init__(self, num, image='cave_floor'):
+        terrain = TERRAIN_CAVE_FLOOR[num]
+        num_details = 0
+        freq_details = 18
+        Terrain.__init__(self, terrain, 2, image, image + str(num),
+            num_details, freq_details)
 
 
 class TerrainGrass(Terrain):
 
-    def __init__(self, image, walkable=True, danger=False):
-        terrain = TERRAIN_GRASS[image]
-        image = 'grass' + str(image)
-        Terrain.__init__(self, terrain, 1, image, walkable, danger)
-        self.details = [
-            load_tile('details', 'grass_01'),
-            load_tile('details', 'grass_02'),
-            load_tile('details', 'grass_03'),
-            load_tile('details', 'grass_04') ]
-
-    def draw_details(self, layer, offset):
-        """Draws details on the terrain."""
-
-        detail = choice(range(0,4))
-        if Die(20).roll() >= 18:
-            layer.image.blit(self.details[detail], offset)
+    def __init__(self, num, image='grass'):
+        terrain = TERRAIN_GRASS[num]
+        num_details = 4
+        freq_details = 18
+        Terrain.__init__(self, terrain, 1, image, image + str(num),
+            num_details, freq_details)
 
 
 class TerrainForest(Terrain):
 
-    def __init__(self, image='forest', walkable=True, danger=False):
-        Terrain.__init__(self, TERRAIN_FOREST[0], 2, image, walkable, danger)
-        self.details = [
-            load_tile('details', 'forest_01'),
-            load_tile('details', 'forest_02'),
-            load_tile('details', 'forest_03') ]
-
-    def draw_details(self, layer, offset):
-        """Draws details on the terrain."""
-
-        detail = choice(range(0,3))
-        if Die(20).roll() >= 18:
-            layer.image.blit(self.details[detail], offset)
+    def __init__(self, num, image='forest'):
+        terrain = TERRAIN_FOREST[num]
+        num_details = 3
+        freq_details = 18
+        Terrain.__init__(self, terrain, 2, image, image + str(num),
+            num_details, freq_details)
