@@ -16,9 +16,7 @@ class Terrain(object):
         self.freq_details = freq_details
         self.walkable = walkable
         self.danger = danger
-        self.size = [32,32]
         self.collide = []
-
         self.edges = {
             TERRAIN_CAVE_FLOOR[0]: [
                 { 'n':  load_tile('edges', 'grass1_edge_n'),
@@ -79,47 +77,6 @@ class Terrain(object):
                   'sw': load_tile('edges', 'forest_corner_sw'),
                   'nw': load_tile('edges', 'forest_corner_nw')
                 }, True, (0,0,0,0), [32,32], [0,0] ] }
-        self.objects = {
-            "a": [ load_tile('objects', 'rock_01'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "b": [ load_tile('objects', 'rock_02'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "c": [ load_tile('objects', 'tree_01'),
-                False, (0,0,96,96), [64,32], [0,96] ],
-            "d": [ load_tile('objects', 'tree_02'),
-                False, (0,0,96,96), [32,32], [32,96] ],
-            "e": [ load_tile('objects', 'tree_03'),
-                False, (0,0,160,128), [64,32], [32,128] ],
-            "f": [ load_tile('objects', 'tree_04'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "g": [ load_tile('objects', 'tree_05'),
-                False, (0,0,64,32), [64,32], [0,32] ],
-            "h": [ load_tile('objects', 'tree_06'),
-                False, (0,0,64,32), [64,32], [0,32] ],
-            "i": [ load_tile('objects', 'tree_07'),
-                True, [0,0,256,128], [32,32], [0,0] ],
-            "j": [ load_tile('objects', 'tree_08'),
-                False, (0,0,0,0), [256,160], [0,0] ],
-            "k": [ load_tile('objects', 'tree_09'),
-                False, (0,0,0,0), [192,32], [32,0] ],
-            "l": [ load_tile('objects', 'bush_01'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "m": [ load_tile('objects', 'bush_02'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "n": [ load_tile('objects', 'bush_03'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "o": [ load_tile('objects', 'bush_04'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "p": [ load_tile('objects', 'bush_05'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "q": [ load_tile('objects', 'bush_06'),
-                False, (0,0,32,32), [32,32], [0,32] ],
-            "r": [ load_tile('objects', 'bush_07'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "s": [ load_tile('objects', 'bush_08'),
-                False, (0,0,0,0), [32,32], [0,0] ],
-            "t": [ load_tile('objects', 'mushroom'),
-                False, (0,0,0,0), [32,32], [0,0] ] }
 
     def draw_details(self, layer, offset):
         """Draw details on the terrain."""
@@ -160,6 +117,17 @@ class TerrainGrass(Terrain):
         freq_details = 18
         Terrain.__init__(self, terrain, 1, image, image + str(num),
             num_details, freq_details)
+        self.objects = {
+            "a": [ load_tile('objects', 'rock_01'),
+                False, (0,0,0,0), [20,20], [6,6] ],
+            "b": [ load_tile('objects', 'rock_02'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "f": [ load_tile('objects', 'tree_04'),
+                False, (0,0,32,32), [32,32], [0,32] ],
+            "g": [ load_tile('objects', 'tree_05'),
+                False, (0,0,64,32), [64,32], [0,32] ],
+            "h": [ load_tile('objects', 'tree_06'),
+                False, (0,0,64,32), [64,32], [0,32] ] }
 
 
 class TerrainForest(Terrain):
@@ -170,3 +138,34 @@ class TerrainForest(Terrain):
         freq_details = 10
         Terrain.__init__(self, terrain, 2, image, image + str(num),
             num_details, freq_details)
+        self.objects = {
+            "a": [ load_tile('objects', 'tree_01'),
+                False, (0,0,96,96), [64,32], [0,96] ],
+            "b": [ load_tile('objects', 'tree_02'),
+                False, (0,0,96,96), [40,32], [27,96] ],
+            "e": [ load_tile('objects', 'tree_03'),
+                False, (0,0,160,128), [64,32], [32,128] ],
+            "i": [ load_tile('objects', 'tree_07'),
+                False, [0,0,256,128], [32,32], [0,0] ],
+            "j": [ load_tile('objects', 'tree_08'),
+                False, (0,0,0,0), [256,160], [0,0] ],
+            "k": [ load_tile('objects', 'tree_09'),
+                False, (0,0,0,0), [192,32], [32,0] ],
+            "l": [ load_tile('objects', 'bush_01'),
+                True, (0,0,0,0), [32,32], [0,0] ],
+            "m": [ load_tile('objects', 'bush_02'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "n": [ load_tile('objects', 'bush_03'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "o": [ load_tile('objects', 'bush_04'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "p": [ load_tile('objects', 'bush_05'),
+                False, (0,0,32,32), [32,32], [0,32] ],
+            "q": [ load_tile('objects', 'bush_06'),
+                False, (0,0,32,32), [32,32], [0,32] ],
+            "r": [ load_tile('objects', 'bush_07'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "s": [ load_tile('objects', 'bush_08'),
+                False, (0,0,0,0), [32,32], [0,0] ],
+            "t": [ load_tile('objects', 'mushroom'),
+                False, (0,0,0,0), [32,32], [0,0] ] }
