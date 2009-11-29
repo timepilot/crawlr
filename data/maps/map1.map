@@ -1,7 +1,7 @@
 [Options]
 tile_set = 'world'
 tile_size = 32, 32
-num_tiles = 88, 9
+num_tiles = 88, 23
 start_tile = 85, 1
 start_direction = left
 regions = 1
@@ -18,20 +18,48 @@ regions = 1
     5  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
     6  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
     7  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    8  = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    8  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    9  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    10 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    11 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    12 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    13 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    14 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    15 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    16 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    17 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    18 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    19 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    20 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    21 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
+    22 = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     [[Terrain]]
     # g     grass
     # f     forest
-    0 =  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggf
-    1 =  ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggg
-    2 =  ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggfgfffgg
-    3 =  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfggfffffgffgg
-    4 =  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffgffffgggggfg
-    5 =  ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgfffgfffgggfff
-    6 =  ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffggggfg
-    7 =  ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffffg
-    8 =  gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
+    0  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggf
+    1  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggg
+    2  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggfgfffgg
+    3  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfggfffffgffgg
+    4  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffgffffgggggfg
+    5  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgfffgfffgggfff
+    6  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffggggfg
+    7  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffffg
+    8  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
+    9  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
+    10 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    11 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    12 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    13 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    14 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    15 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    16 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    17 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    18 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    19 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    20 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    21 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+    22 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
     [[Objects]]
     0 =  ........................................................................................
@@ -43,3 +71,17 @@ regions = 1
     6 =  ................................................................................a.......
     7 =  ......................................................................................e.
     8 =  ........................................................................................
+    9 =  ........................................................................................
+    10 = ........................................................................................
+    11 = ........................................................................................
+    12 = ........................................................................................
+    13 = ........................................................................................
+    14 = ........................................................................................
+    15 = ........................................................................................
+    16 = ........................................................................................
+    17 = ........................................................................................
+    18 = ........................................................................................
+    19 = ........................................................................................
+    20 = ........................................................................................
+    21 = ........................................................................................
+    22 = ........................................................................................

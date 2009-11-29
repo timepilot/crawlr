@@ -96,7 +96,6 @@ class TerrainCaveCeiling(Terrain):
         freq_details = 18
         Terrain.__init__(self, terrain, 1, image, image + str(num),
             num_details, freq_details)
-        self.size = [64,32]
 
 
 class TerrainCaveFloor(Terrain):
