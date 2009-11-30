@@ -90,7 +90,8 @@ class WorldScreen(Screen):
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
-            self.map.layers['foreground']])
+            self.map.layers['foreground'],
+            self.dialog])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 

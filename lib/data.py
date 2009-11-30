@@ -9,9 +9,8 @@ DATA_DIR = path.normpath(path.join(DATA_PY, '..', 'data'))
 class LoadSprite(object):
     """Load a sprite from a spritesheet."""
 
-    def __init__(self, filename):
-        self.sheet = pygame.image.load(path.join(DATA_DIR, 'images',
-            'sprites', filename + '.png'))
+    def __init__(self, type, filename):
+        self.sheet = load_tile(type, filename)
 
     def image(self, rect, colorkey=None, alpha=False):
         rect = Rect(rect)

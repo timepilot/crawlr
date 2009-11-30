@@ -19,7 +19,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
         self.start_direction = start_direction
         self.direction = direction
         self.stopped = stopped
-        self.sprite = LoadSprite(spritesheet)
+        self.sprite = LoadSprite('sprites', spritesheet)
         self.current_terrain = ""
         self.current_region = ""
         self.north = self.sprite.images(image_dict['north'], -1)
