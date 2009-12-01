@@ -2,7 +2,6 @@ import pygame
 from data import *
 from config import *
 from constants import *
-from sprite import *
 
 class Text(pygame.sprite.DirtySprite):
     """A sprite for text loaded from a font."""
