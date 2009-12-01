@@ -26,8 +26,6 @@ class Dialog(pygame.sprite.DirtySprite):
         self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
         self.rect.bottom = WINDOW_SIZE[1] - 32
         self.toggle = False
-
-    def update(self):
         self.draw()
 
     def draw(self):
@@ -39,23 +37,30 @@ class Dialog(pygame.sprite.DirtySprite):
             load_tile("interface", "window_s"),
             load_tile("interface", "window_sw"),
             load_tile("interface", "window_w"),
-            load_tile("interface", "window_nw") ]
+            load_tile("interface", "window_nw"),
+            load_tile("interface", "window_bg") ]
+        tiles_x = DIALOG_SIZE[0]/16
+        tiles_y = DIALOG_SIZE[1]/16
+        max_x = DIALOG_SIZE[0]-32
+        max_y = DIALOG_SIZE[1]-32
 
-        # Draw window corners
-        self.image.blit(self.images[1], (DIALOG_SIZE[0]-32,0))
-        self.image.blit(self.images[3], (DIALOG_SIZE[0]-32, DIALOG_SIZE[1]-32))
-        self.image.blit(self.images[5], (0,DIALOG_SIZE[1]-32))
-        self.image.blit(self.images[7], (0,0))
+        # Draw window background
+        for row in range(0, tiles_y-1):
+            for tile in range(0, tiles_x):
+                offset = (tile * 16 + 8, row * 16 + 8)
+                self.image.blit(self.images[8], offset)
 
         # Draw window sides
-        start = 16
-        tiles_x = DIALOG_SIZE[0]/32
-        tiles_y = DIALOG_SIZE[1]/32
-        for tile in (range(0, tiles_x)):
-            self.image.blit(self.images[0], (tile * 32 + start, 0))
-            self.image.blit(self.images[4], (tile * 32 + start,
-                DIALOG_SIZE[1] - 32))
-        for tile in (range(0, tiles_y-1)):
-            self.image.blit(self.images[2], (DIALOG_SIZE[0] - 32,
-                tile * 32 + start))
-            self.image.blit(self.images[6], (0, tile * 32 + start))
+        for row in (range(0, tiles_y/2-1)):
+            for tile in range(0, tiles_x/2):
+                offset2 = (tile * 32 + 16, row * 32 + 16)
+                self.image.blit(self.images[0], (offset2[0], 0))
+                self.image.blit(self.images[4], (offset2[0], max_y))
+                self.image.blit(self.images[2], (max_x, offset2[1]))
+                self.image.blit(self.images[6], (0, offset2[1]))
+
+        # Draw window corners
+        self.image.blit(self.images[1], (max_x, 0))
+        self.image.blit(self.images[3], (max_x, max_y))
+        self.image.blit(self.images[5], (0, max_y))
+        self.image.blit(self.images[7], (0, 0))
