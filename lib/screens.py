@@ -49,7 +49,7 @@ class LoadScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
-        text1 = Text("menu", 24, (255,0,0), "Loading...")
+        text1 = Font("menu", 24, (255,0,0), "Loading...")
         self.add([text1])
 
     def align(self, items):
@@ -61,8 +61,8 @@ class TitleScreen(Screen):
 
     def __init__(self):
         Screen.__init__(self)
-        text1 = Text("menu", 24, (255,0,0), "Title Screen Goes Here")
-        text2 = Text("menu", 16, (255,255,255),
+        text1 = Font("menu", 24, (255,0,0), "Title Screen Goes Here")
+        text2 = Font("menu", 16, (255,255,255),
             "Press 'n' to start a new game.")
         self.add([text1, text2])
 
@@ -90,22 +90,18 @@ class WorldScreen(Screen):
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
-            self.map.layers['foreground'],
-            self.dialog,
-            self.dialog.text])
+            self.map.layers['foreground']])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
 
-        if self.dialog.toggle:
-            self.layers.add(self.dialog)
-            self.layers.add(self.dialog.text)
-        else:
-            self.dialog.kill()
-            self.dialog.text.kill()
-            self.dialog.toggle = False
+        for sprite in self.dialog.sprites:
+            if self.dialog.toggle:
+                self.layers.add(sprite)
+            else:
+                sprite.kill()
 
         self.layers.update()
         rects = self.layers.draw(self.window)
@@ -134,8 +130,8 @@ class BattleScreen(Screen, Battle):
     def __init__(self, prevstate):
         Screen.__init__(self)
         Battle.__init__(self, prevstate)
-        text1 = Text("menu", 24, (255,0,0), "Battle Screen Goes Here")
-        text2 = Text("menu", 16, (255,255,255),
+        text1 = Font("menu", 24, (255,0,0), "Battle Screen Goes Here")
+        text2 = Font("menu", 16, (255,255,255),
             "Press 'Esc' to go back to the game.")
         self.add([text1, text2])
 
