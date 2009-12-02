@@ -91,7 +91,8 @@ class WorldScreen(Screen):
             self.map.layers['terrain'],
             characters,
             self.map.layers['foreground'],
-            self.dialog])
+            self.dialog,
+            self.dialog.text])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
@@ -100,8 +101,10 @@ class WorldScreen(Screen):
 
         if self.dialog.toggle:
             self.layers.add(self.dialog)
+            self.layers.add(self.dialog.text)
         else:
             self.dialog.kill()
+            self.dialog.text.kill()
             self.dialog.toggle = False
 
         self.layers.update()
