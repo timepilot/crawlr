@@ -118,10 +118,11 @@ class WorldScreen(Screen):
     def destroy(self):
         """Destroy the current screen."""
 
-        for sprite in self.all_sprites:
+        for sprite in self.layers:
             sprite.kill()
         self.map = None
         self.player = None
+        self.dialog = None
 
 
 class BattleScreen(Screen, Battle):

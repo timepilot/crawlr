@@ -48,8 +48,7 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.image = pygame.Surface(DIALOG_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.rect.center = [ WINDOW_SIZE[0] / 2, 0 ]
-        self.rect.bottom = WINDOW_SIZE[1] - 32
-        self.toggle = False
+        self.rect.bottom = DIALOG_BOTTOM
         self.images = [
             load_tile("interface", "window_n"),
             load_tile("interface", "window_ne"),
