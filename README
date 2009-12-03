@@ -1,0 +1,48 @@
+Crawlr
+Homepage: http://www.github.com/axedcode/crawlr
+
+A 2D dungeon exploration game in the early stages of development. The game will
+have a look and feel similar to classic 16-bit console games.
+
+NOTE: This is a development version of the game. It may or may not contain
+      features and bugs not present in the final version.
+
+*******************************************************************************
+
+INSTALLATION
+
+First, be sure you have version 2.6+ of Python, and 1.8+ of the Pygame library.
+Older versions may work, but have not been thoroughly tested. To play the game,
+change to the directory where you unpacked the game and run:
+
+python play.py
+
+*******************************************************************************
+
+CREDITS
+
+* Graphics: The graphics in this game are not open-source. They were created by
+            various third parties and released under free licenses.
+
+            MAP TILES:
+            Author:  Daniel Harris (Hyptosis)
+            Website: http://www.lorestrome.com
+            License: Stated in his Free Pixel Archive, Daniel says, "All I ask,
+                     is for credit, and for them not to be used commercially,
+                     please.". Additionally, Daniel was contacted via email and
+                     he has no problem releasing these images with an open-
+                     source project.
+
+            CHARACTER SPRITES:
+            Authors: REFMAP, Mack
+            Website: http://www.tekepon.net/fsm
+            License: The character sprite artwork in this software are free
+                     game resources created and distributed by REFMAP and Mack.
+                     You must not use the graphic data which is in this
+                     software for no purpose except playing this game. To get
+                     these resources, go to the website above. The graphics at
+                     the website above may be altered and used in any game,
+                     free or commercial if you agree to these terms. Both
+                     REFMAP and Mack distribute their materials under the same
+                     terms. The original license agreement can be viewed at:
+                     REFMAP: http://www.tekepon.net/fsm/modules/refmap/

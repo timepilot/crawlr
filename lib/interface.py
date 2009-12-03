@@ -21,7 +21,7 @@ class Dialog(object):
 
     def __init__(self):
         self.window = DialogWindow()
-        self.text = DialogText("1")
+        self.text = DialogText("hugrhgshrilghrei gih h urhg uhrseg hureghuh e shuerhguerg erhgeruhg ershg uershg erushguresglhehgersluhglhreg  g erg er gher hgregh reghr g  gher ughre g regh reusglhghrseug hersul gre g slg hers uglh rlguhs glrehglesr gheru sg  sg srg sre g erughure ghreushg sr g serg re ger gser g rrs ghrelukghlshgrlse g sg serg  seg s rgs g es glse gs ger g ers glh srelg lsre glsre gl  sg rslg sre  hglserg se rg  srg g er slg g s rg selr ghslerhgeslr g   gl g hsl gl sg sl gherg h gslgslgsglhh gs g s g srelghrehgeurhghreg lr lg re lg lre hlgkjrel lgkr lr   hrejgh jjjergh e h h  erhgjjskelhgks erhgjk h  erskhg sg")
         self.toggle = False
         self.sprites = [
             self.window,
@@ -31,11 +31,13 @@ class Dialog(object):
         """Scroll the dialog text."""
 
         self.text.dirty = 1
+        rect = self.text.rect
         height = self.text.font.get_height()
-        if dir == "up":
+        if (dir == "up") and (self.text.rect.top < DIALOG_TOP):
             self.text.rect.move_ip([0, height])
-        elif dir =="down":
-            self.text.rect.move_ip([0, -height])
+        elif (dir =="down") and (
+            self.text.rect.bottom > DIALOG_BOTTOM - height):
+                self.text.rect.move_ip([0, -height])
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
@@ -76,12 +78,17 @@ class DialogWindow(pygame.sprite.DirtySprite):
             for tile in range(0, DIALOG_TILES[0] / 2):
                 offset = (tile * 32 + 16, row * 32 + 16)
                 self.image.blit(self.images[0], (offset[0], 0))
-                self.image.blit(self.images[4], (offset[0], DIALOG_MAX[1]))
-                self.image.blit(self.images[2], (DIALOG_MAX[0], offset[1]))
+                self.image.blit(self.images[4],
+                    (offset[0], DIALOG_MAX_SIZE[1]))
+                self.image.blit(self.images[2],
+                    (DIALOG_MAX_SIZE[0], offset[1]))
                 self.image.blit(self.images[6], (0, offset[1]))
-        self.image.blit(self.images[1], (DIALOG_MAX[0], 0))
-        self.image.blit(self.images[3], (DIALOG_MAX[0], DIALOG_MAX[1]))
-        self.image.blit(self.images[5], (0, DIALOG_MAX[1]))
+        self.image.blit(self.images[1],
+            (DIALOG_MAX_SIZE[0], 0))
+        self.image.blit(self.images[3],
+            (DIALOG_MAX_SIZE[0], DIALOG_MAX_SIZE[1]))
+        self.image.blit(self.images[5],
+            (0, DIALOG_MAX_SIZE[1]))
         self.image.blit(self.images[7], (0, 0))
 
 
@@ -97,7 +104,8 @@ class DialogText(pygame.sprite.DirtySprite):
             (DIALOG_SIZE[0], DIALOG_TEXT_HEIGHT), SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
-        self.rect.top = WINDOW_SIZE[1] - DIALOG_SIZE[1] - 32
+        self.rect.top = DIALOG_TOP
+        self.num_lines = 0
         self.draw()
 
     def draw(self):
@@ -105,21 +113,21 @@ class DialogText(pygame.sprite.DirtySprite):
 
         words = self.text.rstrip().split(" ")
         line = ""
-        num_lines = 0
         lines = []
+        height = self.font.get_height()
         for word in words:
             line = line + " " + word
             if line[0] == " ":
                 line = line[1:]
-            if self.font.size(line)[0] > DIALOG_MAX[0] - 8:
+            if self.font.size(line)[0] > DIALOG_MAX_SIZE[0] - 8:
                 line = line.rstrip(word)
                 lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
                 line = word
-                num_lines = num_lines + 1
+                self.num_lines = self.num_lines + 1
         if line != "":
             lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
             line = ""
-            num_lines = num_lines + 1
-        for num in range(num_lines):
-            self.image.blit(lines[num],
-                (20, num * self.font.get_height() + 16))
+            self.num_lines = self.num_lines + 1
+        for num in range(self.num_lines):
+            self.rect.height = num * height + 32
+            self.image.blit(lines[num], (20, num * height + 16))
