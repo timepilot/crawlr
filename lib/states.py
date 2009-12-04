@@ -96,8 +96,8 @@ class WorldState(BaseState):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_d: self.screen.toggle_dialog()
-                elif event.key == K_z: self.screen.dialog.scroll("up")
-                elif event.key == K_x: self.screen.dialog.scroll("down")
+                elif event.key == K_z: self.screen.dialog.text.scroll("up")
+                elif event.key == K_x: self.screen.dialog.text.scroll("down")
                 elif event.key == K_m:
                     self.screen.destroy();
                     self.__init__(self.map_num+1)

@@ -77,7 +77,7 @@ class WorldScreen(Screen):
     def __init__(self, map_num):
         Screen.__init__(self)
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
-        self.dialog = Dialog()
+        self.dialog = DialogWindow()
         self.map = Map(map_num)
         self.player = Player(self)
         self.map.scroll(self.camera, self.player)
@@ -90,18 +90,18 @@ class WorldScreen(Screen):
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
-            self.map.layers['foreground']])
+            self.map.layers['foreground'],
+            self.dialog ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
 
-        for sprite in self.dialog.sprites:
-            if self.dialog.toggle:
-                self.layers.add(sprite)
-            else:
-                sprite.kill()
+        if self.dialog.toggle:
+            self.layers.add(self.dialog)
+        else:
+            self.dialog.kill()
 
         self.layers.update()
         rects = self.layers.draw(self.window)
