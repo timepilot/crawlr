@@ -30,14 +30,12 @@ class Dialog(object):
     def scroll(self, dir):
         """Scroll the dialog text."""
 
-        self.text.dirty = 1
         rect = self.text.rect
         height = self.text.font.get_height()
-        if (dir == "up") and (self.text.rect.top < DIALOG_TOP):
-            self.text.rect.move_ip([0, height])
-        elif (dir =="down") and (
-            self.text.rect.bottom > DIALOG_BOTTOM - height):
-                self.text.rect.move_ip([0, -height])
+        if (dir == "up") and (rect.top < DIALOG_TOP):
+            self.text.scroll([0, height])
+        elif (dir =="down") and (rect.bottom > DIALOG_BOTTOM - height):
+            self.text.scroll([0, -height])
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
@@ -130,3 +128,9 @@ class DialogText(pygame.sprite.DirtySprite):
         for num in range(self.num_lines):
             self.rect.height = num * height + 32
             self.image.blit(lines[num], (20, num * height + 16))
+
+    def scroll(self, offset):
+        """Scroll the dialog text."""
+
+        self.dirty = 1
+        self.rect.move_ip(offset)
