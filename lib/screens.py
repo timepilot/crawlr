@@ -90,8 +90,7 @@ class WorldScreen(Screen):
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
-            self.map.layers['foreground'],
-            self.dialog ])
+            self.map.layers['foreground'] ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
         self.all_layers = [
@@ -113,10 +112,7 @@ class WorldScreen(Screen):
     def toggle_dialog(self):
         """Toggles the status menu dialog."""
 
-        if self.dialog.toggle:
-            self.dialog.toggle = False
-        else:
-            self.dialog.toggle = True
+        self.dialog.toggle = not self.dialog.toggle
 
     def destroy(self):
         """Destroy the current screen."""
