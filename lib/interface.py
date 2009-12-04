@@ -73,6 +73,7 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.image.blit(self.images[5], (0, DIALOG_MAX_SIZE[1]))
         self.image.blit(self.images[7], (0, 0))
 
+
 class DialogText(pygame.sprite.DirtySprite):
     """The moving text in the dialog window."""
 

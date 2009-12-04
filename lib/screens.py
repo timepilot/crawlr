@@ -94,6 +94,9 @@ class WorldScreen(Screen):
             self.dialog ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
+        self.all_layers = [
+            self.layers,
+            self.dialog.layers ]
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
@@ -118,8 +121,9 @@ class WorldScreen(Screen):
     def destroy(self):
         """Destroy the current screen."""
 
-        for sprite in self.layers:
-            sprite.kill()
+        for layer in self.all_layers:
+            for sprite in layer:
+                sprite.kill()
         self.map = None
         self.player = None
         self.dialog = None
