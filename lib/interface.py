@@ -36,7 +36,7 @@ class DialogWindow(pygame.sprite.DirtySprite):
             load_tile("interface", "window_w"),
             load_tile("interface", "window_nw"),
             load_tile("interface", "window_bg") ]
-        self.text = DialogText("1")
+        self.text = DialogText("ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few")
         self.toggle = False
         self.layers = pygame.sprite.LayeredDirty()
         self.layers.add(self.text)
@@ -49,6 +49,14 @@ class DialogWindow(pygame.sprite.DirtySprite):
             for tile in range(0, DIALOG_TILES[0]):
                 offset = (tile * 16 + 8, row * 16 + 8)
                 self.image.blit(self.images[8], offset)
+
+    def update(self):
+        """Redraw the dialog window."""
+
+        self.dirty = 1
+        self.draw()
+        self.layers.update()
+        self.layers.draw(self.image)
 
         for row in (range(0, DIALOG_TILES[1] / 2 - 1)):
             for tile in range(0, DIALOG_TILES[0] / 2):
@@ -64,15 +72,6 @@ class DialogWindow(pygame.sprite.DirtySprite):
             (DIALOG_MAX_SIZE[0], DIALOG_MAX_SIZE[1]))
         self.image.blit(self.images[5], (0, DIALOG_MAX_SIZE[1]))
         self.image.blit(self.images[7], (0, 0))
-
-    def update(self):
-        """Redraw the dialog window."""
-
-        self.dirty = 1
-        self.draw()
-        self.layers.update()
-        self.layers.draw(self.image)
-
 
 class DialogText(pygame.sprite.DirtySprite):
     """The moving text in the dialog window."""
@@ -109,7 +108,7 @@ class DialogText(pygame.sprite.DirtySprite):
             self.num_lines = self.num_lines + 1
         for num in range(self.num_lines):
             self.rect.height = num * height + 32
-            self.image.blit(lines[num], (20, num * height + 16))
+            self.image.blit(lines[num], (20, num * height + 10))
 
     def update(self):
         """Redraw the dialog text."""
@@ -120,7 +119,7 @@ class DialogText(pygame.sprite.DirtySprite):
         """Scroll the dialog text."""
 
         offset = self.font.get_height()
-        if (dir == "up"):
+        if (dir == "up") and (self.rect.top < 0):
             self.rect.move_ip([0, offset])
-        if (dir == "down"):
+        if (dir == "down") and (self.rect.bottom > 10 * offset):
             self.rect.move_ip([0, -offset])
