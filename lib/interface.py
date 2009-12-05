@@ -79,6 +79,10 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.draw_text()
         self.draw_frame()
 
+    def destroy(self):
+        self.text.kill()
+        self.kill()
+        self.text = None
 
 class DialogText(pygame.sprite.DirtySprite):
     """The moving text in the dialog window."""

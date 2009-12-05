@@ -7,6 +7,7 @@ CAMERA_SIZE = [ WINDOW_SIZE[0], WINDOW_SIZE[1] ]
 
 # Events
 BATTLE_EVENT = pygame.USEREVENT + 1
+DIALOG_EVENT = pygame.USEREVENT + 2
 
 # Interface
 DIALOG_SIZE = (478, 192)

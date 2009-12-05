@@ -86,6 +86,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
             self.check_walls(key, rect)
             self.check_terrain(rect)
             self.check_region(rect)
+        self.check_encounter()
 
     def check_walls(self, key, rect):
         """Check if movement is blocked by a wall."""
@@ -197,7 +198,7 @@ class PlayerSprite(BasicSprite):
         if self.current_space == spaces * self.width:
             self.current_space = 0
             if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
-                pygame.time.set_timer(BATTLE_EVENT, 1000)
+                pygame.time.set_timer(BATTLE_EVENT, 100)
 
 
 class MonsterSprite(BasicSprite):

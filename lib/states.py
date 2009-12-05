@@ -11,9 +11,7 @@ class BaseState(object):
     def __init__(self, window=None):
         self.window = window
         self.clock = pygame.time.Clock()
-        load_screen = LoadScreen()
-        load_screen.draw()
-        load_screen = None
+        self.load_screen = LoadScreen()
 
     def run(self):
         """The main game loop that listens for events and draws the screen."""
@@ -78,6 +76,7 @@ class WorldState(BaseState):
 
     def __init__(self, map_num):
         BaseState.__init__(self)
+        self.load_screen.draw()
         self.map_num = map_num
         self.screen = WorldScreen(self.map_num)
 
@@ -85,7 +84,8 @@ class WorldState(BaseState):
         """
         Check for user input on the world screen.
         Esc:    exit to title screen
-        D:      toggle display
+        B:      DEBUG: send battle event
+        D:      DEBUG: send dialog event
         M:      next map number
         Arrows: move player
         """
@@ -95,9 +95,8 @@ class WorldState(BaseState):
             if event.type == QUIT: self.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
-                elif event.key == K_d: self.screen.toggle_dialog()
-                elif event.key == K_z: self.screen.dialog.text.scroll("up")
-                elif event.key == K_x: self.screen.dialog.text.scroll("down")
+                elif event.key == K_b: pygame.time.set_timer(BATTLE_EVENT, 100)
+                elif event.key == K_d: pygame.time.set_timer(DIALOG_EVENT, 100)
                 elif event.key == K_m:
                     self.screen.destroy();
                     self.__init__(self.map_num+1)
@@ -110,6 +109,10 @@ class WorldState(BaseState):
                 self.screen.player.move_keys = []
                 self.screen.player.stop = True
                 self.switch(BattleState(self))
+            elif event.type == DIALOG_EVENT:
+                self.screen.player.move_keys = []
+                self.screen.player.stop = True
+                self.switch(DialogState(self))
 
     def player_input(self, moving, name, key):
         """Controls key input to the player character."""
@@ -173,4 +176,38 @@ class BattleState(BaseState):
         for sprite in self.prev_screen:
             sprite.dirty = 1
         self.screen.destroy()
+        self.switch(self.prevstate)
+
+
+class DialogState(BaseState):
+    """A game state for a battle scene."""
+
+    def __init__(self, prevstate):
+        BaseState.__init__(self)
+        self.prevstate = prevstate
+        self.screen = prevstate.screen
+        self.dialog = DialogWindow()
+        self.screen.layers.add(self.dialog)
+
+    def check_events(self):
+        """
+        Title screen events:
+        Esc:        exit back to world screen
+        Up/Down:    scroll dialog text up or down
+        """
+
+        for event in pygame.event.get():
+            if event.type == QUIT: self.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE: self._exit()
+                elif event.key == K_UP:
+                    self.dialog.text.scroll("up")
+                elif event.key == K_DOWN:
+                    self.dialog.text.scroll("down")
+
+    def _exit(self):
+        """Quits the battle screen returning to the world screen."""
+
+        pygame.time.set_timer(DIALOG_EVENT, 0)
+        self.dialog.destroy()
         self.switch(self.prevstate)

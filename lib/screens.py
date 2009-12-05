@@ -77,7 +77,6 @@ class WorldScreen(Screen):
     def __init__(self, map_num):
         Screen.__init__(self)
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
-        self.dialog = DialogWindow()
         self.map = Map(map_num)
         self.player = Player(self)
         self.map.scroll(self.camera, self.player)
@@ -93,36 +92,21 @@ class WorldScreen(Screen):
             self.map.layers['foreground'] ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
-        self.all_layers = [
-            self.layers,
-            self.dialog.text_layer ]
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
-
-        if self.dialog.toggle:
-            self.layers.add(self.dialog)
-        else:
-            self.dialog.kill()
 
         self.layers.update()
         rects = self.layers.draw(self.window)
         pygame.display.update(rects)
 
-    def toggle_dialog(self):
-        """Toggles the status menu dialog."""
-
-        self.dialog.toggle = not self.dialog.toggle
-
     def destroy(self):
         """Destroy the current screen."""
 
-        for layer in self.all_layers:
-            for sprite in layer:
-                sprite.kill()
+        for sprite in self.all_sprites:
+            sprite.kill()
         self.map = None
         self.player = None
-        self.dialog = None
 
 
 class BattleScreen(Screen, Battle):
