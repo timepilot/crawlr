@@ -145,7 +145,7 @@ class WorldState(BaseState):
     def _exit(self):
         """Quit the main game screen returning to the title screen."""
 
-        self.screen.destroy();
+        self.screen.destroy()
         self.switch(TitleState())
 
 
@@ -188,6 +188,8 @@ class DialogState(BaseState):
         self.screen = prevstate.screen
         self.dialog = DialogWindow()
         self.screen.layers.add(self.dialog)
+        for sprite in self.screen.all_sprites:
+            sprite.dirty = 1
 
     def check_events(self):
         """

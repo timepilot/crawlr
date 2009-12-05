@@ -9,6 +9,7 @@ COLOR_DEPTH =       32
 FRAME_RATE =        30
 
 # Debug
+PROFILING =         False
 SHOW_FRAME_RATE =   False
 SHOW_RECTS =        False
 SHOW_TERRAIN =      False

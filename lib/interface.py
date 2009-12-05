@@ -39,6 +39,12 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.text = DialogText("ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few")
         self.toggle = False
         self.text_layer = pygame.sprite.LayeredDirty([self.text])
+        self.draw()
+
+    def draw(self):
+        self.draw_background()
+        self.draw_text()
+        self.draw_frame()
 
     def draw_background(self):
         """Draw the dialog window's translucent background."""
@@ -75,9 +81,9 @@ class DialogWindow(pygame.sprite.DirtySprite):
         """Redraw the dialog window."""
 
         self.dirty = 1
-        self.draw_background()
-        self.draw_text()
-        self.draw_frame()
+        if self.text.scrolling:
+            self.draw()
+            self.text.scrolling = False
 
     def destroy(self):
         self.text.kill()
@@ -95,6 +101,7 @@ class DialogText(pygame.sprite.DirtySprite):
         self.image = pygame.Surface(DIALOG_BUFFER_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.num_lines = 0
+        self.scrolling = False
         self.draw()
 
     def draw(self):
@@ -129,6 +136,7 @@ class DialogText(pygame.sprite.DirtySprite):
     def scroll(self, dir):
         """Scroll the dialog text."""
 
+        self.scrolling = True
         offset = self.font.get_height()
         if (dir == "up") and (self.rect.top < 0):
             self.rect.move_ip([0, offset])
