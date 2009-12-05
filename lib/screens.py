@@ -95,7 +95,7 @@ class WorldScreen(Screen):
             self.layers.add(sprite)
         self.all_layers = [
             self.layers,
-            self.dialog.layers ]
+            self.dialog.text_layer ]
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""

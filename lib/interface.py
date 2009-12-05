@@ -38,11 +38,10 @@ class DialogWindow(pygame.sprite.DirtySprite):
             load_tile("interface", "window_bg") ]
         self.text = DialogText("ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few ewfh fwe hfo ewhfowehfoiwe hfoe fh owef howe fhew ofh owehfo wefh owei foiw efohiwefhoiwehfoiwe hf owefh weoif hoiwe fhwe ihf weof howe ifh weofh weohf woe fowe hf weoifhowei hfoewh f owefh woe ifho wehf oweih fowei fhwe hf weof we fhowe hfoweifhowe fh weohf owef oweihf oiwe fo wehfowe fhowe hf woe fhowefhowe hfh wefwe fe wo fhwe hf wef we fhwe h fhwoefh wehf we of hwehf w eofhowe fh owehfowei hf ohwefoi weof owe fo woef h wehf hwef ewh fhw eofh we fo wefh owefew f ewfhweo hf weh foweh foe whof ewhfh ew fowe hf oew fh oew hho few")
         self.toggle = False
-        self.layers = pygame.sprite.LayeredDirty()
-        self.layers.add(self.text)
+        self.text_layer = pygame.sprite.LayeredDirty([self.text])
 
-    def draw(self):
-        """Draw the dialog window."""
+    def draw_background(self):
+        """Draw the dialog window's translucent background."""
 
         self.image = pygame.Surface(DIALOG_SIZE, SRCALPHA, 32)
         for row in range(0, DIALOG_TILES[1] - 1):
@@ -50,28 +49,35 @@ class DialogWindow(pygame.sprite.DirtySprite):
                 offset = (tile * 16 + 8, row * 16 + 8)
                 self.image.blit(self.images[8], offset)
 
+    def draw_text(self):
+        """Draw the text layer onto the window's background."""
+
+        self.text_layer.update()
+        self.text_layer.draw(self.image)
+
+    def draw_frame(self):
+        """Draw the dialog window's frame."""
+
+        blit = self.image.blit
+        for row in (range(0, DIALOG_TILES[1] / 2 - 1)):
+            for tile in range(0, DIALOG_TILES[0] / 2):
+                offset = (tile * 32 + 16, row * 32 + 16)
+                blit(self.images[0], (offset[0], 0))
+                blit(self.images[4], (offset[0], DIALOG_MAX_SIZE[1]))
+                blit(self.images[2], (DIALOG_MAX_SIZE[0], offset[1]))
+                blit(self.images[6], (0, offset[1]))
+        blit(self.images[1], (DIALOG_MAX_SIZE[0], 0))
+        blit(self.images[3], DIALOG_MAX_SIZE)
+        blit(self.images[5], (0, DIALOG_MAX_SIZE[1]))
+        blit(self.images[7], (0, 0))
+
     def update(self):
         """Redraw the dialog window."""
 
         self.dirty = 1
-        self.draw()
-        self.layers.update()
-        self.layers.draw(self.image)
-
-        for row in (range(0, DIALOG_TILES[1] / 2 - 1)):
-            for tile in range(0, DIALOG_TILES[0] / 2):
-                offset = (tile * 32 + 16, row * 32 + 16)
-                self.image.blit(self.images[0], (offset[0], 0))
-                self.image.blit(self.images[4],
-                    (offset[0], DIALOG_MAX_SIZE[1]))
-                self.image.blit(self.images[2],
-                    (DIALOG_MAX_SIZE[0], offset[1]))
-                self.image.blit(self.images[6], (0, offset[1]))
-        self.image.blit(self.images[1], (DIALOG_MAX_SIZE[0], 0))
-        self.image.blit(self.images[3],
-            (DIALOG_MAX_SIZE[0], DIALOG_MAX_SIZE[1]))
-        self.image.blit(self.images[5], (0, DIALOG_MAX_SIZE[1]))
-        self.image.blit(self.images[7], (0, 0))
+        self.draw_background()
+        self.draw_text()
+        self.draw_frame()
 
 
 class DialogText(pygame.sprite.DirtySprite):
@@ -82,7 +88,7 @@ class DialogText(pygame.sprite.DirtySprite):
         self.text = text
         self.font_sprite = Font("menu", 16, DIALOG_TEXT_COLOR, None)
         self.font = self.font_sprite.font
-        self.image = pygame.Surface((DIALOG_SIZE[0], DIALOG_TEXT_HEIGHT), SRCALPHA, 32)
+        self.image = pygame.Surface(DIALOG_BUFFER_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.num_lines = 0
         self.draw()
@@ -122,5 +128,6 @@ class DialogText(pygame.sprite.DirtySprite):
         offset = self.font.get_height()
         if (dir == "up") and (self.rect.top < 0):
             self.rect.move_ip([0, offset])
-        if (dir == "down") and (self.rect.bottom > 10 * offset):
+        if (dir == "down") and (self.rect.bottom > DIALOG_SIZE[1]):
             self.rect.move_ip([0, -offset])
+        print self.rect.bottom
