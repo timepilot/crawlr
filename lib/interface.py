@@ -130,4 +130,3 @@ class DialogText(pygame.sprite.DirtySprite):
             self.rect.move_ip([0, offset])
         if (dir == "down") and (self.rect.bottom > DIALOG_SIZE[1]):
             self.rect.move_ip([0, -offset])
-        print self.rect.bottom
