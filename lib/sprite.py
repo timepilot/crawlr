@@ -21,7 +21,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
         self.stopped = stopped
         self.sprite = LoadSprite('sprites', spritesheet)
         self.current_terrain = ""
-        self.current_region = ""
+        self.current_region = 1
         self.north = self.sprite.images(image_dict['north'], -1)
         self.south = self.sprite.images(image_dict['south'], -1)
         self.east = self.sprite.images(image_dict['east'], -1)
