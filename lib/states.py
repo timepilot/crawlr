@@ -75,8 +75,6 @@ class WorldState(BaseState):
 
     def __init__(self, map_num):
         BaseState.__init__(self)
-        self.load_screen = LoadScreen()
-        self.load_screen.draw()
         self.map_num = map_num
         self.screen = WorldScreen(self.map_num)
 

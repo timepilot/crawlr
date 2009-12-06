@@ -76,6 +76,8 @@ class WorldScreen(Screen):
 
     def __init__(self, map_num):
         Screen.__init__(self)
+        self.load_screen = LoadScreen()
+        self.load_screen.draw()
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_num)
         self.player = Player(self)
@@ -85,7 +87,8 @@ class WorldScreen(Screen):
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        characters = pygame.sprite.Group([self.player])
+        characters = pygame.sprite.Group([
+            self.player ])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,

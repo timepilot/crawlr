@@ -19,7 +19,7 @@ class BasicSprite(pygame.sprite.DirtySprite):
         self.start_direction = start_direction
         self.direction = direction
         self.stopped = stopped
-        self.sprite = LoadSprite('sprites', spritesheet)
+        self.sprite = LoadSprite('characters', spritesheet)
         self.current_terrain = ""
         self.current_region = 1
         self.north = self.sprite.images(image_dict['north'], -1)
@@ -127,7 +127,7 @@ class PlayerSprite(BasicSprite):
             screen.map.start_tile[0] * screen.map.tile_size[0],
             screen.map.start_tile[1] * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
-        image_file = 'party'
+        image_file = 'hero'
         images = {
             'north': [
                 (32, 144, width, height),
@@ -208,7 +208,7 @@ class MonsterSprite(BasicSprite):
             screen.map.start_tile[0]-1 * screen.map.tile_size[0],
             screen.map.start_tile[1]+12 * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
-        image_file = 'party'
+        image_file = 'hero'
         images = {
             'north': [
                 (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
