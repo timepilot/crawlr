@@ -63,7 +63,7 @@ class TitleState(BaseState):
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_n:
                     self.screen.destroy()
@@ -91,7 +91,7 @@ class WorldState(BaseState):
         self.move_keys = self.screen.player.move_keys
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_b: pygame.time.set_timer(BATTLE_EVENT, 100)
                 elif event.key == K_d: pygame.time.set_timer(DIALOG_EVENT, 100)
@@ -164,7 +164,7 @@ class BattleState(BaseState):
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
 
     def _exit(self):
@@ -184,7 +184,7 @@ class DialogState(BaseState):
         BaseState.__init__(self)
         self.prevstate = prevstate
         self.screen = prevstate.screen
-        self.dialog = DialogWindow()
+        self.dialog = DialogWindow(self.screen.dialog_text)
         self.screen.layers.add(self.dialog)
         for sprite in self.screen.all_sprites:
             sprite.dirty = 1
@@ -198,7 +198,7 @@ class DialogState(BaseState):
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_UP:
                     self.dialog.text.scroll("up")
