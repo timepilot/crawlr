@@ -119,11 +119,11 @@ class DialogText(pygame.sprite.DirtySprite):
                 line = line.rstrip(word)
                 lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
                 line = word
-                self.num_lines = self.num_lines + 1
+                self.num_lines += 1
         if line != "":
             lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
             line = ""
-            self.num_lines = self.num_lines + 1
+            self.num_lines += 1
         for num in range(self.num_lines):
             self.rect.height = num * height + 32
             self.image.blit(lines[num], (20, num * height + 10))
