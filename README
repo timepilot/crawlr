@@ -19,6 +19,19 @@ python play.py
 
 *******************************************************************************
 
+IDEAS
+
+These are some minor ideas I had that I'll try to squeeze in once in a while
+when I need a change of focus.
+
+*   Tiny face icon of each party member with tiny stats using the 'gui' font.
+    Text should be white with a black shadow for readability.
+
+*   When loading a map, display area name in a fancy font for a couple seconds
+    and then fade it out.
+
+*******************************************************************************
+
 CREDITS
 
 * Graphics: The graphics in this game are not open-source. They were created by
