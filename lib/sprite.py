@@ -5,7 +5,25 @@ from data import *
 from dice import Die
 
 class BasicSprite(pygame.sprite.DirtySprite):
-    """The base sprite from which all other sprites derive."""
+    """The basic sprite helper for simple sprites."""
+
+    def __init__(self, size):
+        pygame.sprite.DirtySprite.__init__(self)
+        self.image = pygame.Surface(size, SRCALPHA, 32)
+        self.image = self.image.convert_alpha()
+        self.rect = self.image.get_rect()
+
+
+class MapSprite(BasicSprite):
+    """A sprite to draw a layer of the map."""
+
+    def __init__(self, w, numx, h, numy):
+        size = (w * numx, h * numy)
+        BasicSprite.__init__(self, size)
+
+
+class CharacterSprite(pygame.sprite.DirtySprite):
+    """A sprite for moving character sprites."""
 
     def __init__(self, screen, width, height, start_direction, direction,
                 stopped, start_location, spritesheet, image_dict, collide_size,
@@ -111,13 +129,13 @@ class BasicSprite(pygame.sprite.DirtySprite):
     def check_region(self, rect):
         """Check the region the sprite moved to."""
 
-        for region in self.map.region_numbers:
+        for region in self.map.map_regions:
             if pygame.Rect(rect).collidelistall(
                 self.map.regions[region]) != []:
                 self.current_region = region
 
 
-class PlayerSprite(BasicSprite):
+class PlayerSprite(CharacterSprite):
     """The sprite for the character the player controls."""
 
     def __init__(self, screen):
@@ -151,7 +169,7 @@ class PlayerSprite(BasicSprite):
                 (64, 48, width, height) ] }
         self.move_keys = []
         self.scroll_pos = [0,0]
-        BasicSprite.__init__(self, screen, width, height,
+        CharacterSprite.__init__(self, screen, width, height,
                 start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
@@ -201,7 +219,7 @@ class PlayerSprite(BasicSprite):
                 pygame.time.set_timer(BATTLE_EVENT, 100)
 
 
-class MonsterSprite(BasicSprite):
+class MonsterSprite(CharacterSprite):
 
     def __init__(self, screen):
         start_location = [
@@ -230,7 +248,7 @@ class MonsterSprite(BasicSprite):
                 (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
-        BasicSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
+        CharacterSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
                 start_direction, None, True, start_location, image_file,
                 images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)

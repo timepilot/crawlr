@@ -1,7 +1,9 @@
 import pygame
 from pygame.locals import *
+from random import choice
 from constants import *
 from data import load_map
+from sprite import *
 from terrain import *
 from dice import Die
 
@@ -31,6 +33,7 @@ class Map(object):
         """Reads and stores keys from the map config."""
 
         options = self.config['Options']
+        tiles = self.config['Tiles']
         tile_set = options['tile_set']
         if tile_set == 'cave':
             self.terrain_list = TERRAIN_ALL_CAVE
@@ -45,33 +48,70 @@ class Map(object):
         self.num_tiles = [
             int(options['num_tiles'][0]),
             int(options['num_tiles'][1]) ]
-        self.region_numbers = options['regions']
         self.start_direction = options['start_direction']
+        self.map_regions = tiles['regions']
+        self.map_terrains = tiles['terrains']
+        self.map_objects = tiles['objects']
 
     def create_map(self):
         """Reads and creates the map from the config."""
 
         self.configure()
         self.create_layers()
-        self.store_terrains()
         self.draw_map()
 
     def create_layers(self):
         """Create the map's layers."""
 
+        # Create the map terrain and foreground sprites that the graphics
+        # will be drawn to.
+        self.layers['terrain'] = MapSprite(self.tile_size[0],
+            self.num_tiles[0], self.tile_size[1], self.num_tiles[1])
+        self.layers['foreground'] = MapSprite(self.tile_size[0],
+            self.num_tiles[0], self.tile_size[1], self.num_tiles[1])
+
+        # Generate each layer and their tiles, adhering to each individual
+        # map's size.
         temp_layer = []
-        layers = self.config['Layers']
-        for layer in layers:
-            for line in layers[layer]:
-                temp_layer.append(layers[layer][line])
+        tiles = {
+            0: self.map_regions,
+            1: self.map_terrains,
+            2: self.map_objects }
+        line = ""
+        for layer in range(0, LAYERS_NUM):
+            row_num = 0
+            tile_num = 0
+            for row in range(0, self.num_tiles[1] + 1):
+                for tile in range(0, self.num_tiles[0] + 1):
+
+                    # Add the 'X' tile to the edges to block the player from
+                    # walking off of the map."
+                    if layer == 0 and (
+                        row == 1 or row == self.num_tiles[1] - 1 or (
+                        tile == 1 or tile == self.num_tiles[0] - 1)):
+                            line = line + 'X'
+
+                    # Add a random tile from the tile dictionary
+                    else:
+                        line = line + choice(tiles[layer])
+
+                    # Store the generated terrain type in a dictionary.
+                    if layer == 1:
+                        offset = (tile_num * self.tile_size[0],
+                            row_num * self.tile_size[1])
+                        self.tile_dict[offset] = line[-1]
+                        self.set_terrain(offset)
+                    tile_num += 1
+                row_num += 1
+                tile_num = 0
+
+                # Add the current line to the temporary layer.
+                temp_layer.append(line)
+                line = ""
+
+            # Add each completed temporary layer to the master layer list.
             self.layer_list.append(temp_layer)
             temp_layer = []
-        self.layers['terrain'] = LayerSprite(self.tile_size[0],
-            len(self.layer_list[0][0]), self.tile_size[1],
-            len(self.layer_list[0]))
-        self.layers['foreground'] = LayerSprite(self.tile_size[0],
-            len(self.layer_list[0][0]), self.tile_size[1],
-            len(self.layer_list[0]))
 
     def get_size(self):
         """Get the size of the map."""
@@ -79,21 +119,6 @@ class Map(object):
         w = self.num_tiles[0] * self.tile_size[0]
         h = self.num_tiles[1] * self.tile_size[1]
         return (w, h)
-
-    def store_terrains(self):
-        """Sets each tile's position and terrain type."""
-
-        row_num = 0
-        tile_num = 0
-        for row in self.layer_list[LAYER_TERRAIN]:
-            for tile in row:
-                offset = (tile_num * self.tile_size[0],
-                    row_num * self.tile_size[1])
-                self.tile_dict[offset] = tile
-                self.set_terrain(offset)
-                tile_num+=1
-            row_num+=1
-            tile_num = 0
 
     def set_terrain(self, offset):
         """Sets the terrain type of the tile."""
@@ -285,12 +310,3 @@ class Map(object):
         self.move_map([ camera[0], camera[1] ])
         player.rect.move_ip([ camera[0], camera[1] ])
         player.scroll_pos = [ camera[0], camera[1] ]
-
-class LayerSprite(pygame.sprite.DirtySprite):
-    """Creates a map layer."""
-
-    def __init__(self, w, numx, h, numy):
-        pygame.sprite.DirtySprite.__init__(self)
-        self.image = pygame.Surface((w * numx, h * numy), SRCALPHA, 32)
-        self.image = self.image.convert_alpha()
-        self.rect = self.image.get_rect()

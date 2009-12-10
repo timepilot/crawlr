@@ -1,87 +1,62 @@
+# This is an example map file for generating a random crawlr world.
+
 [Options]
-tile_set = 'world'
-tile_size = 32, 32
-num_tiles = 88, 23
-start_tile = 85, 1
-start_direction = left
+tile_set = 'world'      # Tileset graphic to use. Currently only 'world'
+                        # is available.
+                        # Default: 'world'
+
+tile_size = 32,32       # The size of the individual tiles within the tileset.
+                        # Note: Only 32x32 has been tested.
+                        # Default: 32,32
+
+num_tiles = 88,23       # The size of the map in tiles, in the format x,y.
+                        # Default: 88,23
+
+start_tile = 85,1       # The map tile where the player starts, in the
+                        # format x,y.
+                        # Default: 85,1
+
+start_direction = left  # This is the direction the player is facing when
+                        # entering the map.
+
+# Tile Generation
+# Generating a random map in crawlr is easy with the tile generating variables
+# below.
+[Tiles]
+
+# regions
+# 'regions' is used to select a different group of random monsters.
+# For each tile, one of the regions defined below will be chosen.
+# This allows you to greatly control the chance of a battle's toughness.
+# If you would like to have a map with a bunch of weak monsters, and a slight
+# possibility of 1 really strong monster, you can set 'regions' to something
+# like: regions = '11111111111111111112'. Then in the [Monsters] section, you
+# can set the weak monsters for group 1, and the strong monster for group 2.
+# With this, each tile will have a 1 in 20 chance of having a battle from
+# monster group 2.
+# Default: 1
+
 regions = 1
 
-[Layers]
-    [[Data]]
-    # X         unwalkable
-    # other     region
-    0  = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    1  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    2  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    3  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    4  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    5  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    6  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    7  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    8  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    9  = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    10 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    11 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    12 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    13 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    14 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    15 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    16 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    17 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    18 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    19 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    20 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    21 = X11111111111111111111111111111111111111111111111111111111111111111111111111111111111111X
-    22 = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# terrains
+# 'terrains' is used to select a terrain type for each tile.
+# For each tile, one of the terrain types defined below will be chosen.
+# If you would like to have a map that is mostly grassy, and a slight chance
+# for forests, you can set 'terrains' to something like:
+# terrains = "gggggf". With this, there will be a 1 in 6 chance of a tile
+# being a forest.
+# Default: gggggf
 
-    [[Terrain]]
-    # g     grass
-    # f     forest
-    0  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggf
-    1  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggg
-    2  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgggfgfffgg
-    3  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfggfffffgffgg
-    4  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffgffffgggggfg
-    5  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffgfffgfffgggfff
-    6  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggffggggfg
-    7  = ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfffffg
-    8  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
-    9  = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggfgggg
-    10 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    11 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    12 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    13 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    14 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    15 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    16 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    17 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    18 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    19 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    20 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    21 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-    22 = gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+terrains = "gggggf"
 
-    [[Objects]]
-    0 =  ........................................................................................
-    1 =  ...................................................................................b....
-    2 =  ..................................................................................a.....
-    3 =  ..................................................................................l.....
-    4 =  ........................................................................................
-    5 =  ........................................................................................
-    6 =  ................................................................................a.......
-    7 =  ......................................................................................e.
-    8 =  ........................................................................................
-    9 =  ........................................................................................
-    10 = ........................................................................................
-    11 = ........................................................................................
-    12 = ........................................................................................
-    13 = ........................................................................................
-    14 = ........................................................................................
-    15 = ........................................................................................
-    16 = ........................................................................................
-    17 = ........................................................................................
-    18 = ........................................................................................
-    19 = ........................................................................................
-    20 = ........................................................................................
-    21 = ........................................................................................
-    22 = ........................................................................................
+# objects
+# 'objects' is used to select a terrain object available on that specific
+# terrain type.
+# If you would like to draw a rock or a tree once in a while, you can set
+# something like the following:
+# objects  = "........................................b"
+# All terrains have the "." object, which tells crawlr not to draw any object
+# at all. It should be used to pad the objects like above so that objects do
+# not litter the map.
+# Available objects:
+objects  = "............................................b"
