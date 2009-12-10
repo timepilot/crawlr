@@ -51,7 +51,9 @@ class Map(object):
         self.start_direction = options['start_direction']
         self.map_regions = tiles['regions']
         self.map_terrains = tiles['terrains']
-        self.map_objects = tiles['objects']
+        self.map_objects = {}
+        self.map_objects['g'] = tiles['objects_grass']
+        self.map_objects['f'] = tiles['objects_forest']
 
     def create_map(self):
         """Reads and creates the map from the config."""
@@ -75,8 +77,7 @@ class Map(object):
         temp_layer = []
         tiles = {
             0: self.map_regions,
-            1: self.map_terrains,
-            2: self.map_objects }
+            1: self.map_terrains }
         line = ""
         for layer in range(0, LAYERS_NUM):
             row_num = 0
@@ -86,21 +87,26 @@ class Map(object):
 
                     # Add the 'X' tile to the edges to block the player from
                     # walking off of the map."
-                    if layer == 0 and (
+                    if layer == LAYER_DATA and (
                         row == 1 or row == self.num_tiles[1] - 1 or (
                         tile == 1 or tile == self.num_tiles[0] - 1)):
                             line = line + 'X'
 
-                    # Add a random tile from the tile dictionary
+                    # Add a random tile from map configuration file.
                     else:
-                        line = line + choice(tiles[layer])
-
-                    # Store the generated terrain type in a dictionary.
-                    if layer == 1:
                         offset = (tile_num * self.tile_size[0],
                             row_num * self.tile_size[1])
-                        self.tile_dict[offset] = line[-1]
-                        self.set_terrain(offset)
+                        if layer == LAYER_DATA:
+                            line = line + choice(tiles[layer])
+                        elif layer == LAYER_TERRAIN:
+                            line = line + choice(tiles[layer])
+                            self.tile_dict[offset] = line[-1]
+                            self.set_terrain(offset)
+                        elif layer == LAYER_OBJECTS:
+                            type = self.tile_dict[offset]
+                            tiles[layer] = self.map_objects[type]
+                            line = line + choice(tiles[layer])
+
                     tile_num += 1
                 row_num += 1
                 tile_num = 0
