@@ -1,0 +1,88 @@
+# Crawlr map format help
+
+[Options]
+tile_set = 'world'      # Tileset graphic to use. Currently only 'world'
+                        # is available.
+                        # Default: 'world'
+
+tile_size = 32,32       # The size of the individual tiles within the tileset.
+                        # Note: Only 32x32 has been tested.
+                        # Default: 32,32
+
+num_tiles = 88,23       # The size of the map in tiles, in the format x,y.
+                        # Default: 88,23
+
+start_tile = 85,1       # The map tile where the player starts, in the
+                        # format x,y.
+                        # Default: 85,1
+
+start_direction = left  # This is the direction the player is facing when
+                        # entering the map.
+
+# Tile Generation
+# Generating a random map in crawlr is easy with the tile generating variables
+# below.
+[Tiles]
+
+# regions
+# 'regions' is used to select a different group of random monsters.
+# For each tile, one of the regions defined below will be chosen.
+# This allows you to greatly control the chance of a battle's toughness.
+# If you would like to have a map with a bunch of weak monsters, and a slight
+# possibility of 1 really strong monster, you can set 'regions' to something
+# like: regions = '11111111111111111112'. Then in the [Monsters] section, you
+# can set the weak monsters for group 1, and the strong monster for group 2.
+# With this, each tile will have a 1 in 20 chance of having a battle from
+# monster group 2.
+
+regions = "1"
+
+# terrains
+# 'terrains' is used to select a terrain type for each tile.
+# For each tile, one of the terrain types defined below will be chosen.
+# If you would like to have a map that is mostly grassy, and a slight chance
+# for forests, you can set 'terrains' to something like:
+# terrains = "gggggf". With this, there will be a 1 in 6 chance of a tile
+# being a forest.
+
+terrains = "gggggf"
+
+# objects
+# 'objects' is used to select a terrain object available on that specific
+# terrain type.
+# If you would like to draw a rock or a tree on the grass once in a while, you
+# can set something like the following:
+# objects_grass = ".......................................abcde"
+# If you would like that 'tree 1' be more common, you can define it more than
+# once:
+# objects_grass = ".......................................abccccde"
+# All terrains have the "." object, which tells the game not to draw any object
+# at all. This is only the chance there will be no object, so it is necessary
+# to pad each terrain's objects with a few empty objects so that objects do not
+# litter the map.
+# Available objects:
+#   grass:
+#       a: rock 1
+#       b: rock 2
+#       c: tree 1
+#       d: tree 2
+#       e: tree 3
+#   forest:
+#       a: tree 1
+#       b: tree 2
+#       c: tree 3
+#       d: tree 4
+#       e: tree 5
+#       f: tree 6
+#       g: bush 1
+#       h: bush 2
+#       i: bush 3
+#       j: bush 4
+#       k: bush 5
+#       l: bush 6
+#       m: bush 7
+#       n: bush 8
+#       o: mushroom
+
+objects_grass  = "...........................................ab"
+objects_forest = ".............................................abcghijklmno"
