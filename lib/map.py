@@ -56,7 +56,7 @@ class Map(object):
         self.map_objects['g'] = tiles['objects_grass']
         self.map_objects['f'] = tiles['objects_forest']
         self.region_monsters = {}
-        for i in self.map_regions:
+        for i in set(self.map_regions):
             self.region_monsters[i] = monsters[i]
 
     def create_map(self):
