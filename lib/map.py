@@ -36,10 +36,15 @@ class Map(object):
         tiles = self.config['Tiles']
         monsters = self.config['Monsters']
         tile_set = options['tile_set']
-        if tile_set == 'cave':
-            self.terrain_list = TERRAIN_ALL_CAVE
-        elif tile_set == 'world':
+        self.map_objects = {}
+        if tile_set == 'world':
             self.terrain_list = TERRAIN_ALL_WORLD
+            self.map_objects['g'] = tiles['objects_grass']
+            self.map_objects['f'] = tiles['objects_forest']
+        elif tile_set == 'cave':
+            self.terrain_list = TERRAIN_ALL_CAVE
+            self.map_objects['c'] = tiles['objects_cave_floor']
+            self.map_objects['C'] = tiles['objects_cave_ceiling']
         self.start_tile = [
             int(options['start_tile'][0]),
             int(options['start_tile'][1]) ]
@@ -52,9 +57,6 @@ class Map(object):
         self.start_direction = options['start_direction']
         self.map_regions = tiles['regions']
         self.map_terrains = tiles['terrains']
-        self.map_objects = {}
-        self.map_objects['g'] = tiles['objects_grass']
-        self.map_objects['f'] = tiles['objects_forest']
         self.region_monsters = {}
         for i in set(self.map_regions):
             self.region_monsters[i] = monsters[i]

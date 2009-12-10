@@ -120,7 +120,7 @@ class TerrainGrass(Terrain):
             "a": [ load_tile('objects', 'rock_01'),
                 False, (0,0,0,0), [20,20], [6,6] ],
             "b": [ load_tile('objects', 'rock_02'),
-                False, (0,0,0,0), [32,32], [0,0] ],
+                False, (0,0,0,0), [22,16], [6,4] ],
             "c": [ load_tile('objects', 'tree_04'),
                 False, (0,0,32,32), [32,32], [0,32] ],
             "d": [ load_tile('objects', 'tree_05'),
@@ -163,8 +163,8 @@ class TerrainForest(Terrain):
             "l": [ load_tile('objects', 'bush_06'),
                 False, (0,0,32,32), [32,32], [0,32] ],
             "m": [ load_tile('objects', 'bush_07'),
-                False, (0,0,0,0), [32,32], [0,0] ],
+                False, (0,0,64,32), [64,32], [0,32] ],
             "n": [ load_tile('objects', 'bush_08'),
-                False, (0,0,0,0), [32,32], [0,0] ],
+                False, (0,0,64,32), [96,32], [0,32] ],
             "o": [ load_tile('objects', 'mushroom'),
-                False, (0,0,0,0), [32,32], [0,0] ] }
+                True, (0,0,0,0), [32,32], [0,0] ] }
