@@ -52,5 +52,8 @@ class Hawk(Monster):
 
 
 MONSTER_DICT = {
-    1: [ Slug, PoisonSlug, MagiSlug, Hawk ]
+    "Slug":         Slug,
+    "PoisonSlug":   PoisonSlug,
+    "MagiSlug":     MagiSlug,
+    "Hawk":         Hawk
     }

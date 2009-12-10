@@ -6,7 +6,11 @@ start_tile = 85,1
 start_direction = left
 
 [Tiles]
-regions = "1"
+regions = "111111111111111112"
 terrains = "gggggf"
 objects_grass  = "...........................................ab"
 objects_forest = ".............................................abcghijklmno"
+
+[Monsters]
+1 = Slug, Hawk
+2 = Slug, Hawk, MagiSlug, PoisonSlug

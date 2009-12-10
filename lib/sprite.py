@@ -38,8 +38,8 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.direction = direction
         self.stopped = stopped
         self.sprite = LoadSprite('characters', spritesheet)
-        self.current_terrain = ""
-        self.current_region = 1
+        self.current_terrain = self.map.map_terrains[0:1]
+        self.current_region = self.map.map_regions[0:1]
         self.north = self.sprite.images(image_dict['north'], -1)
         self.south = self.sprite.images(image_dict['south'], -1)
         self.east = self.sprite.images(image_dict['east'], -1)

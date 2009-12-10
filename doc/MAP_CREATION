@@ -35,7 +35,7 @@ start_direction = left  # This is the direction the player is facing when
 # With this, each tile will have a 1 in 20 chance of having a battle from
 # monster group 2.
 
-regions = "1"
+regions = "1112"
 
 # terrains
 # 'terrains' is used to select a terrain type for each tile.
@@ -86,3 +86,18 @@ terrains = "gggggf"
 
 objects_grass  = "...........................................ab"
 objects_forest = ".............................................abcghijklmno"
+
+# Monster Groups
+[Monsters]
+
+# For each region number defined in the tiles section, specify a group of
+# monsters for that region.
+# Region 1 is set most of the time above, so we'll allow some weak monsters
+# here:
+# 1 = Slug, Hawk
+# Region 2 is set only 25% of the time, so we'll allow some even more
+# powerful monsters here:
+# 2 = Slug, Hawk, MagiSlug, PoisonSlug
+
+1 = Slug, Hawk
+2 = Slug, Hawk, MagiSlug, PoisonSlug

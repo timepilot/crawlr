@@ -34,6 +34,7 @@ class Map(object):
 
         options = self.config['Options']
         tiles = self.config['Tiles']
+        monsters = self.config['Monsters']
         tile_set = options['tile_set']
         if tile_set == 'cave':
             self.terrain_list = TERRAIN_ALL_CAVE
@@ -54,6 +55,9 @@ class Map(object):
         self.map_objects = {}
         self.map_objects['g'] = tiles['objects_grass']
         self.map_objects['f'] = tiles['objects_forest']
+        self.region_monsters = {}
+        for i in self.map_regions:
+            self.region_monsters[i] = monsters[i]
 
     def create_map(self):
         """Reads and creates the map from the config."""
@@ -88,8 +92,8 @@ class Map(object):
                     # Add the 'X' tile to the edges to block the player from
                     # walking off of the map."
                     if layer == LAYER_DATA and (
-                        row == 1 or row == self.num_tiles[1] - 1 or (
-                        tile == 1 or tile == self.num_tiles[0] - 1)):
+                        row == 0 or row == self.num_tiles[1] - 1 or (
+                        tile == 0 or tile == self.num_tiles[0] - 1)):
                             line = line + 'X'
 
                     # Add a random tile from map configuration file.

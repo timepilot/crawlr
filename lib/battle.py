@@ -9,8 +9,8 @@ class Battle(object):
     def __init__(self, screen):
         self.screen = screen
         self.map = screen.map
-        self.region = int(screen.player.current_region)
-        self.region_monsters = MONSTER_DICT[self.region]
+        self.region = screen.player.current_region
+        self.map_monsters = self.map.region_monsters[self.region]
         self.temp_monsters = []
         self.battle_monsters = []
         self.create_monsters()
@@ -20,8 +20,8 @@ class Battle(object):
         """Randomly create the monsters for the battle."""
 
         # Create a list of monster instances for the current region.
-        for monster in self.region_monsters:
-            self.temp_monsters.append(monster(self))
+        for monster in self.map_monsters:
+            self.temp_monsters.append(MONSTER_DICT[monster](self))
 
         # Randomly select 1-4 regional monsters.
         num = Die(MONSTERS_MAX_AMOUNT).roll()
