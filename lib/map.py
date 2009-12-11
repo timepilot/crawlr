@@ -21,8 +21,6 @@ class Map(object):
             TERRAIN_GRASS[0]:           TerrainGrass(0),
             TERRAIN_GRASS[1]:           TerrainGrass(1),
             TERRAIN_GRASS[2]:           TerrainGrass(2),
-            TERRAIN_CAVE_FLOOR[0]:      TerrainCaveFloor(0),
-            TERRAIN_CAVE_CEILING[0]:    TerrainCaveCeiling(0),
             TERRAIN_FOREST[0]:          TerrainForest(0) }
         self.layer_list = []
         self.layers = {}
@@ -41,10 +39,6 @@ class Map(object):
             self.terrain_list = TERRAIN_ALL_WORLD
             self.map_objects['g'] = tiles['objects_grass']
             self.map_objects['f'] = tiles['objects_forest']
-        elif tile_set == 'cave':
-            self.terrain_list = TERRAIN_ALL_CAVE
-            self.map_objects['c'] = tiles['objects_cave_floor']
-            self.map_objects['C'] = tiles['objects_cave_ceiling']
         self.start_tile = [
             int(options['start_tile'][0]),
             int(options['start_tile'][1]) ]
@@ -221,15 +215,15 @@ class Map(object):
                         # Draw side transitions
                         for key in sides:
                             if type in edges and (dict.get(key) == type):
-                                blit(edges[type][0][key], offset)
+                                blit(edges[type][key], offset)
 
-                        # Draw curve transitions
+                        # Draw corner transitions
                         for key in diags:
                             if dict.get(key[0]) == type and (
                                 dict.get(key[1]) == type):
-                                blit(edges[type][0][key[0]+key[1]], offset)
+                                blit(edges[type][key[0]+key[1]], offset)
                             if type in corners and (dict.get(key) == type):
-                                blit(corners[type][0][key], offset)
+                                blit(corners[type][key], offset)
 
                         if type in TERRAIN_UNWALKABLE:
                             self.set_nowalk(offset)
@@ -254,7 +248,7 @@ class Map(object):
             curX, curY = current
             maxX, maxY = self.get_size()
             if (0 <= curX <= maxX and 0 <= curY <= maxY and
-                    current in self.position and offset in self.position):
+                current in self.position and offset in self.position):
                 self.position[offset][1][edge] = self.position[current][0].type
 
     def align_objects(self, w, h, offset):

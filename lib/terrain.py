@@ -18,65 +18,51 @@ class Terrain(object):
         self.danger = danger
         self.collide = []
         self.edges = {
-            TERRAIN_CAVE_FLOOR[0]: [
-                { 'n':  load_tile('edges', 'grass1_edge_n'),
-                  'ne': load_tile('edges', 'grass1_edge_ne'),
-                  'e':  load_tile('edges', 'grass1_edge_e'),
-                  'se': load_tile('edges', 'grass1_edge_se'),
-                  's':  load_tile('edges', 'cave_floor_edge_s'),
-                  'sw': load_tile('edges', 'grass1_edge_sw'),
-                  'w':  load_tile('edges', 'grass1_edge_w'),
-                  'nw': load_tile('edges', 'grass1_edge_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ],
-            TERRAIN_GRASS[1]: [
-                { 'n':  load_tile('edges', 'grass1_edge_n'),
-                  'ne': load_tile('edges', 'grass1_edge_ne'),
-                  'e':  load_tile('edges', 'grass1_edge_e'),
-                  'se': load_tile('edges', 'grass1_edge_se'),
-                  's':  load_tile('edges', 'grass1_edge_s'),
-                  'sw': load_tile('edges', 'grass1_edge_sw'),
-                  'w':  load_tile('edges', 'grass1_edge_w'),
-                  'nw': load_tile('edges', 'grass1_edge_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ],
-            TERRAIN_GRASS[2]: [
-                { 'n':  load_tile('edges', 'grass2_edge_n'),
-                  'ne': load_tile('edges', 'grass2_edge_ne'),
-                  'e':  load_tile('edges', 'grass2_edge_e'),
-                  'se': load_tile('edges', 'grass2_edge_se'),
-                  's':  load_tile('edges', 'grass2_edge_s'),
-                  'sw': load_tile('edges', 'grass2_edge_sw'),
-                  'w':  load_tile('edges', 'grass2_edge_w'),
-                  'nw': load_tile('edges', 'grass2_edge_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ],
-            TERRAIN_FOREST[0]: [
-                { 'n':  load_tile('edges', 'forest_edge_n'),
-                  'ne': load_tile('edges', 'forest_edge_ne'),
-                  'e':  load_tile('edges', 'forest_edge_e'),
-                  'se': load_tile('edges', 'forest_edge_se'),
-                  's':  load_tile('edges', 'forest_edge_s'),
-                  'sw': load_tile('edges', 'forest_edge_sw'),
-                  'w':  load_tile('edges', 'forest_edge_w'),
-                  'nw': load_tile('edges', 'forest_edge_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ] }
+            TERRAIN_GRASS[1]: {
+                'n':  load_tile('edges', 'grass1_edge_n'),
+                'ne': load_tile('edges', 'grass1_edge_ne'),
+                'e':  load_tile('edges', 'grass1_edge_e'),
+                'se': load_tile('edges', 'grass1_edge_se'),
+                's':  load_tile('edges', 'grass1_edge_s'),
+                'sw': load_tile('edges', 'grass1_edge_sw'),
+                'w':  load_tile('edges', 'grass1_edge_w'),
+                'nw': load_tile('edges', 'grass1_edge_nw') },
+            TERRAIN_GRASS[2]: {
+                'n':  load_tile('edges', 'grass2_edge_n'),
+                'ne': load_tile('edges', 'grass2_edge_ne'),
+                'e':  load_tile('edges', 'grass2_edge_e'),
+                'se': load_tile('edges', 'grass2_edge_se'),
+                's':  load_tile('edges', 'grass2_edge_s'),
+                'sw': load_tile('edges', 'grass2_edge_sw'),
+                'w':  load_tile('edges', 'grass2_edge_w'),
+                'nw': load_tile('edges', 'grass2_edge_nw') },
+            TERRAIN_FOREST[0]: {
+                'n':  load_tile('edges', 'forest_edge_n'),
+                'ne': load_tile('edges', 'forest_edge_ne'),
+                'e':  load_tile('edges', 'forest_edge_e'),
+                'se': load_tile('edges', 'forest_edge_se'),
+                's':  load_tile('edges', 'forest_edge_s'),
+                'sw': load_tile('edges', 'forest_edge_sw'),
+                'w':  load_tile('edges', 'forest_edge_w'),
+                'nw': load_tile('edges', 'forest_edge_nw') }
+            }
         self.corners = {
-            TERRAIN_GRASS[1]: [
-                { 'ne': load_tile('edges', 'grass1_corner_ne'),
-                  'se': load_tile('edges', 'grass1_corner_se'),
-                  'sw': load_tile('edges', 'grass1_corner_sw'),
-                  'nw': load_tile('edges', 'grass1_corner_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ],
-            TERRAIN_GRASS[2]: [
-                { 'ne': load_tile('edges', 'grass2_corner_ne'),
-                  'se': load_tile('edges', 'grass2_corner_se'),
-                  'sw': load_tile('edges', 'grass2_corner_sw'),
-                  'nw': load_tile('edges', 'grass2_corner_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ],
-            TERRAIN_FOREST[0]: [
-                { 'ne': load_tile('edges', 'forest_corner_ne'),
-                  'se': load_tile('edges', 'forest_corner_se'),
-                  'sw': load_tile('edges', 'forest_corner_sw'),
-                  'nw': load_tile('edges', 'forest_corner_nw')
-                }, True, (0,0,0,0), [32,32], [0,0] ] }
+            TERRAIN_GRASS[1]: {
+                'ne': load_tile('edges', 'grass1_corner_ne'),
+                'se': load_tile('edges', 'grass1_corner_se'),
+                'sw': load_tile('edges', 'grass1_corner_sw'),
+                'nw': load_tile('edges', 'grass1_corner_nw') },
+            TERRAIN_GRASS[2]: {
+                'ne': load_tile('edges', 'grass2_corner_ne'),
+                'se': load_tile('edges', 'grass2_corner_se'),
+                'sw': load_tile('edges', 'grass2_corner_sw'),
+                'nw': load_tile('edges', 'grass2_corner_nw') },
+            TERRAIN_FOREST[0]: {
+                'ne': load_tile('edges', 'forest_corner_ne'),
+                'se': load_tile('edges', 'forest_corner_se'),
+                'sw': load_tile('edges', 'forest_corner_sw'),
+                'nw': load_tile('edges', 'forest_corner_nw') }
+            }
 
     def draw_details(self, layer, offset):
         """Draw details on the terrain."""
@@ -86,26 +72,6 @@ class Terrain(object):
             if Die(20).roll() >= self.freq_details:
                 tile = load_tile('details', self.image_name + str(detail))
                 layer.image.blit(tile, offset)
-
-
-class TerrainCaveCeiling(Terrain):
-
-    def __init__(self, num, image='cave_ceiling'):
-        terrain = TERRAIN_CAVE_CEILING[num]
-        num_details = 3
-        freq_details = 18
-        Terrain.__init__(self, terrain, 1, image, image + str(num),
-            num_details, freq_details)
-
-
-class TerrainCaveFloor(Terrain):
-
-    def __init__(self, num, image='cave_floor'):
-        terrain = TERRAIN_CAVE_FLOOR[num]
-        num_details = 0
-        freq_details = 18
-        Terrain.__init__(self, terrain, 2, image, image + str(num),
-            num_details, freq_details)
 
 
 class TerrainGrass(Terrain):
