@@ -179,25 +179,25 @@ class PlayerSprite(CharacterSprite):
                 if self.rect.centery < PLAYER_SCROLL_TOP and (
                         self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
-                    self.map.move_map([0, self.movement])
+                    self.map.move([0, self.movement])
                 else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
                         map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
-                    self.map.move_map([0, -self.movement])
+                    self.map.move([0, -self.movement])
                 else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < PLAYER_SCROLL_LEFT and (
                         self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
-                    self.map.move_map([self.movement, 0])
+                    self.map.move([self.movement, 0])
                 else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
                         map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
-                    self.map.move_map([-self.movement, 0])
+                    self.map.move([-self.movement, 0])
                 else: self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
@@ -217,8 +217,8 @@ class MonsterSprite(CharacterSprite):
 
     def __init__(self, screen):
         start_location = [
-            screen.map.start_tile[0]-1 * screen.map.tile_size[0],
-            screen.map.start_tile[1]+12 * screen.map.tile_size[1] ]
+            (screen.map.start_tile[0] - 1) * screen.map.tile_size[0],
+            (screen.map.start_tile[1] + 12) * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
         image_file = 'hero'
         images = {
