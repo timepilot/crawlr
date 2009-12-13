@@ -42,8 +42,8 @@ def load_font(name, size):
     """
     Create a new font object in the specified size.
     """
-    font_file = path.join(DATA_DIR, 'fonts', name + '.ttf')
-    font = pygame.font.Font(font_file, size)
+    file = path.join(DATA_DIR, 'fonts', name + '.ttf')
+    font = pygame.font.Font(file, size)
     return font
 
 def load_map(map, mode='rb'):
@@ -55,6 +55,6 @@ def load_map(map, mode='rb'):
 def load_tile(type, filename):
     """Load a map's tile."""
 
-    file = path.join(DATA_DIR, 'images', type, str(filename) + '.png')
+    file = path.join(DATA_DIR, 'images', type, filename + '.png')
     tile = pygame.image.load(file).convert_alpha()
     return tile

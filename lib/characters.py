@@ -4,8 +4,8 @@ from sprite import *
 class BaseCharacter(object):
     """The base class from which all other game characters derive."""
 
-    def __init__(self, name, hp, hp_max, mp, mp_max, attack, defense, spells,
-            items, exp, gold):
+    def __init__(self, name, hp, hp_max, mp, mp_max, attack, defense,
+            spells=[], items=[], exp=0, gold=0):
         self.name = name
         self.hp = hp
         self.hp_max = hp_max
@@ -23,27 +23,35 @@ class Player(PlayerSprite, BaseCharacter):
     """The main player character."""
 
     def __init__(self, screen, name="Hero", hp=10, hp_max=10, mp=0, mp_max=0,
-            attack=1, defense=1, spells=[], items=[], exp=0, gold=0):
+            attack=1, defense=1):
         PlayerSprite.__init__(self, screen)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
-            defense, spells, items, exp, gold)
+            defense)
         self.exp_max = 1000
         self.equipment = {
-            'ArmorBody': '', 'ArmorHead': '', 'ArmorHands': '',
-            'ArmorFeet': '', 'ArmorShield': '', 'RingLeft': '',
-            'RingRight': '', 'BraceletLeft': '', 'BraceletRight': '',
-            'Necklace': '', 'WeaponLeft': '', 'WeaponRight': '',
-            'Items': items }
+            'ArmorBody':        '',
+            'ArmorHead':        '',
+            'ArmorHands':       '',
+            'ArmorFeet':        '',
+            'ArmorShield':      '',
+            'RingLeft':         '',
+            'RingRight':        '',
+            'BraceletLeft':     '',
+            'BraceletRight':    '',
+            'Necklace':         '',
+            'WeaponLeft':       '',
+            'WeaponRight':      '',
+            'Items':            [] }
 
 
 class Monster(MonsterSprite, BaseCharacter):
     """The base class for all other monsters."""
 
     def __init__(self, screen, name="Monster", hp=1, hp_max=1, mp=0, mp_max=0,
-            attack=1, defense=1, spells=[], items=[], exp=5, gold=0):
+            attack=1, defense=1):
         MonsterSprite.__init__(self, screen)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
-            defense, spells, items, exp, gold)
+            defense)
         self.max_amount = 1
         self.frequency = 0
         self.size = 2
