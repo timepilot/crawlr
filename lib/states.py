@@ -67,7 +67,7 @@ class TitleState(BaseState):
                 if event.key == K_ESCAPE: self.exit()
                 elif event.key == K_n:
                     self.screen.destroy()
-                    self.switch(WorldState(1))
+                    self.switch(WorldState(STARTING_MAP))
 
 
 class WorldState(BaseState):
@@ -93,7 +93,6 @@ class WorldState(BaseState):
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
-                elif event.key == K_b: pygame.time.set_timer(BATTLE_EVENT, 100)
                 elif event.key == K_d: pygame.time.set_timer(DIALOG_EVENT, 100)
                 elif event.key == K_m:
                     self.screen.destroy();

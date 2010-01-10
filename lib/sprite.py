@@ -37,7 +37,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.start_direction = start_direction
         self.direction = direction
         self.stopped = stopped
-        self.sprite = LoadSprite('characters', spritesheet)
+        self.sprite = LoadSprite('char', 'sprites', spritesheet)
         self.current_terrain = self.map.map_terrains[0:1]
         self.current_region = self.map.map_regions[0:1]
         self.walking = {

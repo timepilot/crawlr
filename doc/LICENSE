@@ -1,0 +1,51 @@
+LICENSE
+
+The graphics in this game are not open-source. They were created by various
+third parties and released under free licenses.
+
+*******************************************************************************
+
+MAP TILES
+
+Resource:   data/images/map/*
+Author:     Daniel Harris (Hyptosis)
+Website:    http://www.lorestrome.com
+License:    Stated in his Free Pixel Archive, Daniel says, "All I ask, is for
+            credit, and for them not to be used commercially, please.".
+            Additionally, Daniel was contacted via email and he has no problem
+            releasing these images with an open-source project.
+
+*******************************************************************************
+
+CHARACTERS
+
+Resource:   data/images/char/*
+Author:     REFMAP, Mack
+Website:    http://www.tekepon.net/fsm
+License:    The character sprite artwork in this software are free game
+            resources created and distributed by REFMAP and Mack. You must not
+            use the graphic data which is in this software for no purpose
+            except playing this game. To get these resources, go to the website
+            above. The graphics at the website may be altered and used in any
+            game, free or commercial if you agree to these terms. Both REFMAP
+            and Mack distribute their materials under the same terms. The
+            original license agreement can be viewed at:
+            REFMAP: http://www.tekepon.net/fsm/modules/refmap
+
+*******************************************************************************
+
+FONTS
+
+Resource:   data/fonts/gui.ttf
+Author:     Jason Kottke
+Website:    http://kottke.org/plus/type/silkscreen
+License:    You may use it or distribute it as a freeware font on your site,
+            but just don't claim you made it. You may not modify and then
+            redistribute this type family. You may, however, modify it for your
+            own personal use. You also may not charge any money for this font.
+
+Resource:   data/fonts/menu.ttf
+Website:    http://dejavu-fonts.org
+License:    http://dejavu-fonts.org/wiki/index.php?title=License
+
+*******************************************************************************

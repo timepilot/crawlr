@@ -8,6 +8,9 @@ FULL_SCREEN =       False
 COLOR_DEPTH =       32
 FRAME_RATE =        30
 
+# Customization
+STARTING_MAP =      "demo"
+
 # Debug
 PROFILING =         False
 SHOW_FRAME_RATE =   False

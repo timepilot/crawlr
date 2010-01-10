@@ -14,10 +14,8 @@ class Screen(object):
         pygame.init()
         pygame.display.set_caption(GAME_NAME)
         pygame.mouse.set_visible(False)
-        if FULL_SCREEN:
-            fullscreen = FULLSCREEN
-        else:
-            fullscreen = False
+        if FULL_SCREEN: fullscreen = FULLSCREEN
+        else: fullscreen = False
         self.window = pygame.display.set_mode(WINDOW_SIZE, fullscreen,
             COLOR_DEPTH)
         self.layers = pygame.sprite.LayeredDirty()

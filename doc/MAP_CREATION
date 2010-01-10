@@ -1,60 +1,56 @@
-# Crawlr map format help
+CUSTOM MAP CREATION
+
+You can create a custom map for the game with a simple map configuration file.
+The file should have a ".map" filename extension and be in the map format
+described below.
+
+The following is an example of a map file with comments explaining the various
+options:
+
 
 [Options]
-tile_set = 'world'      # Tileset graphic to use. Currently only 'world'
-                        # is available.
-                        # Default: 'world'
 
-tile_size = 32,32       # The size of the individual tiles within the tileset.
-                        # Note: Only 32x32 has been tested.
-                        # Default: 32,32
+# Tileset graphics to use. Currently only 'world' is valid.
+tile_set = 'world'
 
-num_tiles = 88,23       # The size of the map in tiles, in the format x,y.
-                        # Default: 88,23
+# The size of the individual tiles within the tileset.
+tile_size = 32,32
 
-start_tile = 85,1       # The map tile where the player starts, in the
-                        # format x,y.
-                        # Default: 85,1
+# The size of the map in tiles, in the format width,height.
+num_tiles = 88,23
 
-start_direction = left  # This is the direction the player is facing when
-                        # entering the map.
+# The map tile where the player starts, in the format x,y.
+start_tile = 85,1
 
-# Tile Generation
-# Generating a random map in crawlr is easy with the tile generating variables
-# below.
+# This is the direction the player is facing when entering the map.
+start_direction = left
+
 [Tiles]
 
-# regions
-# 'regions' is used to select a different group of random monsters.
-# For each tile, one of the regions defined below will be chosen.
-# This allows you to greatly control the chance of a battle's toughness.
-# If you would like to have a map with a bunch of weak monsters, and a slight
-# possibility of 1 really strong monster, you can set 'regions' to something
-# like: regions = '11111111111111111112'. Then in the [Monsters] section, you
-# can set the weak monsters for group 1, and the strong monster for group 2.
-# With this, each tile will have a 1 in 20 chance of having a battle from
-# monster group 2.
-
+# 'regions' is used to select a different group of random monsters. For each
+# tile, one of the regions defined below will be chosen. This allows you to
+# greatly control the chance of a battle's toughness. If you would like to have
+# a map with a bunch of weak monsters, and a slight possibility of 1 really
+# strong monster, you can set this to: regions = '11111111111111111112'. Then
+# in the [Monsters] section, you can set the weak monsters for group 1, and the
+# strong monster for group 2. With this, each tile will have a 1 in 20 chance
+# of having a battle from monster group 2.
+# Valid values: any integer between 1-9
 regions = "1112"
 
-# terrains
-# 'terrains' is used to select a terrain type for each tile.
-# For each tile, one of the terrain types defined below will be chosen.
-# If you would like to have a map that is mostly grassy, and a slight chance
-# for forests, you can set 'terrains' to something like:
-# terrains = "gggggf". With this, there will be a 1 in 6 chance of a tile
+# 'terrains' is used to select a terrain type for each tile. For each tile, one
+# of the terrain types defined below will be chosen. If you would like to have
+# a map that is mostly grassy, and a slight chance for forests, you can set
+# this to: terrains = "gggggf". With this, there will be a 1/6 chance of a tile
 # being a forest.
-
+# Valid values: g, f
 terrains = "gggggf"
 
-# objects
 # 'objects' is used to select a terrain object available on that specific
-# terrain type.
-# If you would like to draw a rock or a tree on the grass once in a while, you
-# can set something like the following:
-# objects_grass = ".......................................abcde"
-# If you would like that 'tree 1' be more common, you can define it more than
-# once:
+# terrain type. If you would like to draw a rock or a tree on the grass once in
+# a while, you can set this to:
+# objects_grass = ".......................................abcde". If you would
+# like that 'tree 1' be more common, you can define it more than once:
 # objects_grass = ".......................................abccccde"
 # All terrains have the "." object, which tells the game not to draw any object
 # at all. This is only the chance there will be no object, so it is necessary
@@ -83,21 +79,17 @@ terrains = "gggggf"
 #       m: bush 7
 #       n: bush 8
 #       o: mushroom
-
 objects_grass  = "...........................................ab"
 objects_forest = ".............................................abcghijklmno"
 
-# Monster Groups
 [Monsters]
 
 # For each region number defined in the tiles section, specify a group of
 # monsters for that region.
-# Region 1 is set most of the time above, so we'll allow some weak monsters
-# here:
-# 1 = Slug, Hawk
+
+# Region 1 is set most of the time above, so we'll allow some weak monsters:
+1 = Slug, Hawk
+
 # Region 2 is set only 25% of the time, so we'll allow some even more
 # powerful monsters here:
-# 2 = Slug, Hawk, MagiSlug, PoisonSlug
-
-1 = Slug, Hawk
 2 = Slug, Hawk, MagiSlug, PoisonSlug
