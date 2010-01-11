@@ -27,15 +27,15 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
         self.rect.top = DIALOG_TOP
         self.images = [
-            load_tile("interface", "window_n"),
-            load_tile("interface", "window_ne"),
-            load_tile("interface", "window_e"),
-            load_tile("interface", "window_se"),
-            load_tile("interface", "window_s"),
-            load_tile("interface", "window_sw"),
-            load_tile("interface", "window_w"),
-            load_tile("interface", "window_nw"),
-            load_tile("interface", "window_bg") ]
+            load_image("gui", "dialog", "dialog_n"),
+            load_image("gui", "dialog", "dialog_ne"),
+            load_image("gui", "dialog", "dialog_e"),
+            load_image("gui", "dialog", "dialog_se"),
+            load_image("gui", "dialog", "dialog_s"),
+            load_image("gui", "dialog", "dialog_sw"),
+            load_image("gui", "dialog", "dialog_w"),
+            load_image("gui", "dialog", "dialog_nw"),
+            load_image("gui", "dialog", "dialog_bg") ]
         self.text = DialogText(text)
         self.toggle = False
         self.text_layer = pygame.sprite.LayeredDirty([self.text])

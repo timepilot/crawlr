@@ -134,12 +134,12 @@ class CharacterSprite(pygame.sprite.DirtySprite):
 class PlayerSprite(CharacterSprite):
     """The sprite for the character the player controls."""
 
-    def __init__(self, screen):
+    def __init__(self, screen, char):
         start_location = [
             screen.map.start_tile[0] * screen.map.tile_size[0],
             screen.map.start_tile[1] * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
-        image_file = 'hero'
+        image_file = char
         images = {
             'north': [
                 (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),

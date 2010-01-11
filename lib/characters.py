@@ -22,9 +22,9 @@ class BaseCharacter(object):
 class Player(PlayerSprite, BaseCharacter):
     """The main player character."""
 
-    def __init__(self, screen, name="Hero", hp=10, hp_max=10, mp=0, mp_max=0,
+    def __init__(self, screen, name, hp=10, hp_max=10, mp=0, mp_max=0,
             attack=1, defense=1):
-        PlayerSprite.__init__(self, screen)
+        PlayerSprite.__init__(self, screen, name)
         BaseCharacter.__init__(self, name, hp, hp_max, mp, mp_max, attack,
             defense)
         self.exp_max = 1000

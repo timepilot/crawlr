@@ -8,8 +8,8 @@ start_direction = left
 [Tiles]
 regions = "111111111111111112"
 terrains = "gggf"
-objects_grass  = "...................................................................................................................................................................................................................ab"
-objects_forest = "......................................aaabbbcccgghhiijjkkllmno"
+objects_grass  = 50, "ab"
+objects_forest = 2, "aaabbbcccgghhiijjkkllmno"
 
 [Monsters]
 1 = Slug, Hawk

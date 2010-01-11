@@ -78,16 +78,16 @@ class WorldScreen(Screen):
         self.load_screen.draw()
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_num)
-        self.player = Player(self)
+        self.hero = Player(self, "hero")
         self.dialog_text = "111111111111112 222222424353552435255543543 734573746246427748453656 754375754737ewfwe fwegwergerwgewrgerhreh"
-        self.map.scroll(self.camera, self.player)
+        self.map.scroll(self.camera, self.hero)
         self.add()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
         characters = pygame.sprite.Group([
-            self.player ])
+            self.hero ])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             characters,
@@ -108,7 +108,7 @@ class WorldScreen(Screen):
         for sprite in self.all_sprites:
             sprite.kill()
         self.map = None
-        self.player = None
+        self.hero = None
 
 
 class BattleScreen(Screen, Battle):

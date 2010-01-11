@@ -30,30 +30,30 @@ class Map(object):
     def configure(self):
         """Reads and stores keys from the map config."""
 
-        options = self.config['Options']
-        tiles = self.config['Tiles']
-        monsters = self.config['Monsters']
-        tile_set = options['tile_set']
+        self.config_options = self.config['Options']
+        self.config_tiles = self.config['Tiles']
+        self.config_monsters = self.config['Monsters']
+        tile_set = self.config_options['tile_set']
         self.map_objects = {}
         if tile_set == 'world':
             self.terrain_list = TERRAIN_ALL_WORLD
-            self.map_objects['g'] = tiles['objects_grass']
-            self.map_objects['f'] = tiles['objects_forest']
+            self.map_objects['g'] = self.config_tiles['objects_grass']
+            self.map_objects['f'] = self.config_tiles['objects_forest']
         self.start_tile = [
-            int(options['start_tile'][0]),
-            int(options['start_tile'][1]) ]
+            int(self.config_options['start_tile'][0]),
+            int(self.config_options['start_tile'][1]) ]
         self.tile_size = [
-            int(options['tile_size'][0]),
-            int(options['tile_size'][1]) ]
+            int(self.config_options['tile_size'][0]),
+            int(self.config_options['tile_size'][1]) ]
         self.num_tiles = [
-            int(options['num_tiles'][0]),
-            int(options['num_tiles'][1]) ]
-        self.start_direction = options['start_direction']
-        self.map_regions = tiles['regions']
-        self.map_terrains = tiles['terrains']
+            int(self.config_options['num_tiles'][0]),
+            int(self.config_options['num_tiles'][1]) ]
+        self.start_direction = self.config_options['start_direction']
+        self.map_regions = self.config_tiles['regions']
+        self.map_terrains = self.config_tiles['terrains']
         self.region_monsters = {}
         for i in set(self.map_regions):
-            self.region_monsters[i] = monsters[i]
+            self.region_monsters[i] = self.config_monsters[i]
 
     def create_map(self):
         """Reads and creates the map from the config."""
@@ -102,8 +102,13 @@ class Map(object):
                             self.set_terrain(offset)
                         elif layer == LAYER_OBJECTS:
                             type = self.tile_dict[offset]
-                            tiles[layer] = self.map_objects[type]
-                            line = line + choice(tiles[layer])
+                            chance = int(self.map_objects[type][0])
+                            tiles[layer] = self.map_objects[type][1]
+                            if Die(chance).roll() == 1:
+                                line = line + choice(tiles[layer])
+                            else:
+                                line = line + "."
+
                     tile_num += 1
                 row_num += 1
                 tile_num = 0
