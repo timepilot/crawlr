@@ -94,9 +94,6 @@ class WorldState(BaseState):
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE: self._exit()
                 elif event.key == K_d: pygame.time.set_timer(DIALOG_EVENT, 100)
-                elif event.key == K_m:
-                    self.screen.destroy();
-                    self.__init__(self.map_num+1)
                 elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
                     self.player_input(True, pygame.key.name, event.key)
             elif event.type == KEYUP:
@@ -109,7 +106,7 @@ class WorldState(BaseState):
             elif event.type == DIALOG_EVENT:
                 self.screen.hero.move_keys = []
                 self.screen.hero.stop = True
-                self.switch(DialogState(self))
+                self.switch(DialogState(self, "2"))
 
     def player_input(self, moving, name, key):
         """Controls key input to the player character."""
@@ -179,11 +176,12 @@ class BattleState(BaseState):
 class DialogState(BaseState):
     """A game state for a battle scene."""
 
-    def __init__(self, prevstate):
+    def __init__(self, prevstate, text):
         BaseState.__init__(self)
         self.prevstate = prevstate
+        self.text = text
         self.screen = prevstate.screen
-        self.dialog = DialogWindow(self.screen.dialog_text)
+        self.dialog = DialogWindow(self.text)
         self.screen.layers.add(self.dialog)
         for sprite in self.screen.all_sprites:
             sprite.dirty = 1

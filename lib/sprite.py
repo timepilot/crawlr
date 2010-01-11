@@ -4,6 +4,32 @@ from constants import *
 from data import *
 from dice import Die
 
+class Spritesheet(object):
+    """Load a sprite from a spritesheet."""
+
+    def __init__(self, type, subtype, filename):
+        self.sheet = load_image(type, subtype, filename)
+
+    def image(self, rect, colorkey=None, alpha=False):
+        rect = Rect(rect)
+        if alpha:
+            image = pygame.Surface(rect.size).convert_alpha()
+        else:
+            image = pygame.Surface(rect.size).convert()
+        image.blit(self.sheet, (0,0), rect)
+        if colorkey is not None:
+            if colorkey == -1:
+                colorkey = image.get_at((0,0))
+            image.set_colorkey(colorkey, RLEACCEL)
+        return image
+
+    def images(self, rects, colorkey=None):
+        imgs = []
+        for rect in rects:
+            imgs.append(self.image(rect, colorkey))
+        return imgs
+
+
 class BasicSprite(pygame.sprite.DirtySprite):
     """The basic sprite helper for simple sprites."""
 
@@ -37,7 +63,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.start_direction = start_direction
         self.direction = direction
         self.stopped = stopped
-        self.sprite = LoadSprite('char', 'sprites', spritesheet)
+        self.sprite = Spritesheet('char', 'sprites', spritesheet)
         self.current_terrain = self.map.map_terrains[0:1]
         self.current_region = self.map.map_regions[0:1]
         self.walking = {

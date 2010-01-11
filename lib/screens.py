@@ -79,7 +79,7 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_num)
         self.hero = Player(self, "hero")
-        self.dialog_text = "111111111111112 222222424353552435255543543 734573746246427748453656 754375754737ewfwe fwegwergerwgewrgerhreh"
+        self.dialog_text = "1"
         self.map.scroll(self.camera, self.hero)
         self.add()
 
