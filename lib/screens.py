@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from constants import *
 from data import *
-from interface import *
+from gui import *
 from map import Map
 from characters import Player
 from battle import Battle
@@ -79,19 +79,23 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_num)
         self.hero = Player(self, "hero")
-        self.dialog_text = "1"
+        self.dialog_text = "Sample dialog text."
+        self.gui_stats = StatsWindow()
         self.map.scroll(self.camera, self.hero)
         self.add()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        characters = pygame.sprite.Group([
+        char_sprites = pygame.sprite.Group([
             self.hero ])
+        gui_sprites = pygame.sprite.Group([
+            self.gui_stats ])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
-            characters,
-            self.map.layers['foreground'] ])
+            char_sprites,
+            self.map.layers['foreground'],
+            gui_sprites ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
