@@ -23,13 +23,18 @@ class StatsWindow(pygame.sprite.DirtySprite):
 
     def __init__(self):
         pygame.sprite.DirtySprite.__init__(self)
-        self.image = pygame.Surface((128,384), SRCALPHA, 32)
+        self.image = pygame.Surface((128,256), SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.rect.left = 32
         self.rect.top = 32
+        self.image1 = load_image("gui", "dialog", "dialog_n")
+
+    def draw(self):
+        #self.image.blit(self.image1, (0,0))
+        pass
 
     def update(self):
-        pass
+        self.draw()
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
