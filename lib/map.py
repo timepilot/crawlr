@@ -73,9 +73,6 @@ class Map(object):
 
         # Generate each layer and their tiles.
         temp_layer = []
-        tiles = {
-            0: self.map_regions,
-            1: self.map_terrains }
         line = ""
         for layer in range(0, LAYERS_NUM):
             row_num = 0
@@ -95,17 +92,16 @@ class Map(object):
                         offset = (tile_num * self.tile_size[0],
                             row_num * self.tile_size[1])
                         if layer == LAYER_DATA:
-                            line = line + choice(tiles[layer])
+                            line = line + choice(self.map_regions)
                         elif layer == LAYER_TERRAIN:
-                            line = line + choice(tiles[layer])
+                            line = line + choice(self.map_terrains)
                             self.tile_dict[offset] = line[-1]
                             self.set_terrain(offset)
                         elif layer == LAYER_OBJECTS:
                             type = self.tile_dict[offset]
                             chance = int(self.map_objects[type][0])
-                            tiles[layer] = self.map_objects[type][1]
                             if Die(chance).roll() == 1:
-                                line = line + choice(tiles[layer])
+                                line = line + choice(self.map_objects[type][1])
                             else:
                                 line = line + "."
 
@@ -215,9 +211,6 @@ class Map(object):
 
                         # Draw corner transitions
                         for key in diags:
-                            if dict.get(key[0]) == type and (
-                                dict.get(key[1]) == type):
-                                blit(edges[type][key[0] + key[1]], offset)
                             if type in corners and (dict.get(key) == type):
                                 blit(corners[type][key], offset)
 
