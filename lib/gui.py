@@ -1,6 +1,5 @@
 import pygame
 from data import *
-from config import *
 from constants import *
 from random import choice
 

@@ -1,6 +1,5 @@
 from os import environ
 import sys
-from constants import *
 from screens import *
 
 class BaseState(object):
