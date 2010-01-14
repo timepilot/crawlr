@@ -77,14 +77,7 @@ class WorldState(BaseState):
         self.screen = WorldScreen(self.map_num)
 
     def check_events(self):
-        """
-        Check for user input on the world screen.
-        Esc:    exit to title screen
-        B:      DEBUG: send battle event
-        D:      DEBUG: send dialog event
-        M:      next map number
-        Arrows: move player
-        """
+        """Check for user input on the world screen."""
 
         self.move_keys = self.screen.hero.move_keys
         for event in pygame.event.get():
@@ -160,10 +153,7 @@ class BattleState(BaseState):
         self.prev_screen = self.prevstate.screen.all_sprites
 
     def check_events(self):
-        """
-        Title screen events:
-        Esc:    exit back to world screen.
-        """
+        """Title screen events"""
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
@@ -193,11 +183,7 @@ class DialogState(BaseState):
             sprite.dirty = 1
 
     def check_events(self):
-        """
-        Title screen events:
-        Esc:        exit back to world screen
-        Up/Down:    scroll dialog text up or down
-        """
+        """Title screen events"""
 
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
