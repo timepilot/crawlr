@@ -28,7 +28,8 @@ class StatsWindow(pygame.sprite.DirtySprite):
         self.rect.left = 16
         self.rect.bottom = WINDOW_SIZE[1] - 16
         self.images = [
-            load_image("gui", "dialog", "dialog_bg") ]
+            load_image("gui", "dialog", "dialog_bg"),
+            load_image("char", "faces", "hero_small") ]
         self.draw()
 
     def draw(self):
@@ -38,6 +39,7 @@ class StatsWindow(pygame.sprite.DirtySprite):
             for tile in range(0, STATS_TILES[0]):
                 offset = (tile * 16 + 8, row * 16 + 8)
                 self.image.blit(self.images[0], offset)
+        self.image.blit(self.images[1], (8,8))
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
@@ -48,7 +50,7 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.image = pygame.Surface(DIALOG_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
-        self.rect.top = DIALOG_TOP
+        self.rect.bottom = DIALOG_POSITION
         self.images = [
             load_image("gui", "dialog", "dialog_n"),
             load_image("gui", "dialog", "dialog_ne"),
