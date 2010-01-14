@@ -23,18 +23,21 @@ class StatsWindow(pygame.sprite.DirtySprite):
 
     def __init__(self):
         pygame.sprite.DirtySprite.__init__(self)
-        self.image = pygame.Surface((128,256), SRCALPHA, 32)
+        self.image = pygame.Surface(STATS_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
-        self.rect.left = 32
-        self.rect.top = 32
-        self.image1 = load_image("gui", "dialog", "dialog_n")
+        self.rect.left = 16
+        self.rect.bottom = WINDOW_SIZE[1] - 16
+        self.images = [
+            load_image("gui", "dialog", "dialog_bg") ]
+        self.draw()
 
     def draw(self):
-        #self.image.blit(self.image1, (0,0))
-        pass
+        """Draw the status window's translucent background."""
 
-    def update(self):
-        self.draw()
+        for row in range(0, STATS_TILES[1] - 1):
+            for tile in range(0, STATS_TILES[0]):
+                offset = (tile * 16 + 8, row * 16 + 8)
+                self.image.blit(self.images[0], offset)
 
 
 class DialogWindow(pygame.sprite.DirtySprite):

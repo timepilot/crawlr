@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import *
 from constants import *
 from data import *
 from dice import Die

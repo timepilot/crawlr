@@ -1,7 +1,5 @@
 from os import environ
 import sys
-import pygame
-from pygame.locals import *
 from constants import *
 from screens import *
 
@@ -92,14 +90,22 @@ class WorldState(BaseState):
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE: self._exit()
+                if event.key == GAME_QUIT: self._exit()
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
-                elif event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    self.player_input(True, pygame.key.name, event.key)
+                elif event.key in (
+                    HERO_MOVE_DOWN,
+                    HERO_MOVE_UP,
+                    HERO_MOVE_LEFT,
+                    HERO_MOVE_RIGHT):
+                        self.player_input(True, pygame.key.name, event.key)
             elif event.type == KEYUP:
-                if event.key in (K_DOWN, K_UP, K_LEFT, K_RIGHT):
-                    self.player_input(False, pygame.key.name, event.key)
+                if event.key in (
+                    HERO_MOVE_DOWN,
+                    HERO_MOVE_UP,
+                    HERO_MOVE_LEFT,
+                    HERO_MOVE_RIGHT):
+                        self.player_input(False, pygame.key.name, event.key)
             elif event.type == BATTLE_EVENT:
                 self.screen.hero.move_keys = []
                 self.screen.hero.stop = True
@@ -162,7 +168,7 @@ class BattleState(BaseState):
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE: self._exit()
+                if event.key == GAME_QUIT: self._exit()
 
     def _exit(self):
         """Quits the battle screen returning to the world screen."""
@@ -196,10 +202,10 @@ class DialogState(BaseState):
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE: self._exit()
-                elif event.key == K_UP:
+                if event.key == DIALOG_CLOSE: self._exit()
+                elif event.key == DIALOG_SCROLL_UP:
                     self.dialog.text.scroll("up")
-                elif event.key == K_DOWN:
+                elif event.key == DIALOG_SCROLL_DOWN:
                     self.dialog.text.scroll("down")
 
     def _exit(self):

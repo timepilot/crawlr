@@ -1,7 +1,6 @@
 from os import path
 from configobj import ConfigObj
 import pygame
-from pygame.locals import *
 
 DATA_PY = path.abspath(path.dirname(__file__))
 DATA_DIR = path.normpath(path.join(DATA_PY, '..', 'data'))
