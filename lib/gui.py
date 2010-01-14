@@ -29,16 +29,35 @@ class StatsWindow(pygame.sprite.DirtySprite):
         self.images = [
             load_image("gui", "dialog", "dialog_bg"),
             load_image("char", "faces", "hero_small") ]
+        self.font_sprite = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_COLOR, None)
+        self.font = self.font_sprite.font
         self.draw()
 
     def draw(self):
+        """Draw the different layers of the status window."""
+
+        self.draw_background()
+        self.draw_faces()
+        self.draw_text()
+
+    def draw_background(self):
         """Draw the status window's translucent background."""
 
         for row in range(0, STATS_TILES[1] - 1):
             for tile in range(0, STATS_TILES[0]):
                 offset = (tile * 16 + 8, row * 16 + 8)
                 self.image.blit(self.images[0], offset)
-        self.image.blit(self.images[1], (8,8))
+
+    def draw_faces(self):
+        """Draw the small face icons for each party member."""
+
+        self.image.blit(self.images[1], (8, 8))
+
+    def draw_text(self):
+        """Draw the statistic data."""
+
+        hero_text = self.font.render("Hero", 1, STATS_TEXT_COLOR)
+        self.image.blit(hero_text, (8, 32))
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
@@ -48,7 +67,7 @@ class DialogWindow(pygame.sprite.DirtySprite):
         pygame.sprite.DirtySprite.__init__(self)
         self.image = pygame.Surface(DIALOG_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
-        self.rect.center = [ WINDOW_SIZE[0]/2, 0 ]
+        self.rect.center = [ WINDOW_SIZE[0] / 2, 0 ]
         self.rect.bottom = DIALOG_POSITION
         self.images = [
             load_image("gui", "dialog", "dialog_n"),
@@ -66,6 +85,8 @@ class DialogWindow(pygame.sprite.DirtySprite):
         self.draw()
 
     def draw(self):
+        """Draw the different layers of the dialog window."""
+
         self.draw_background()
         self.draw_text()
         self.draw_frame()
@@ -120,17 +141,18 @@ class DialogText(pygame.sprite.DirtySprite):
     def __init__(self, text):
         pygame.sprite.DirtySprite.__init__(self)
         self.text = text
-        self.font_sprite = Font("menu", 16, DIALOG_TEXT_COLOR, None)
+        self.font_sprite = Font("menu", DIALOG_TEXT_SIZE, DIALOG_TEXT_COLOR,
+            None)
         self.font = self.font_sprite.font
         self.image = pygame.Surface(DIALOG_BUFFER_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
-        self.num_lines = 0
         self.scrolling = False
         self.draw()
 
     def draw(self):
         """Draw the dialog text."""
 
+        num_lines = 0
         words = self.text.rstrip().split(" ")
         line = ""
         lines = []
@@ -143,12 +165,12 @@ class DialogText(pygame.sprite.DirtySprite):
                 line = line.rstrip(word)
                 lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
                 line = word
-                self.num_lines += 1
+                num_lines += 1
         if line != "":
             lines.append(self.font.render(line, 1, DIALOG_TEXT_COLOR))
             line = ""
-            self.num_lines += 1
-        for num in range(self.num_lines):
+            num_lines += 1
+        for num in range(num_lines):
             self.rect.height = num * height + 32
             self.image.blit(lines[num], (20, num * height + 10))
 
