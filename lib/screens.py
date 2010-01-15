@@ -78,9 +78,10 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_num)
         self.hero = Player(self, "hero")
+        self.npc = Player(self, "npc")
         self.dialog_text = "Sample dialog text."
-        self.gui_stats = StatsWindow()
         self.map.scroll(self.camera, self.hero)
+        self.gui_stats = StatsWindow([self.hero, self.npc])
         self.add()
 
     def add(self):

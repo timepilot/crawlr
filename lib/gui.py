@@ -20,44 +20,63 @@ class StatsWindow(pygame.sprite.DirtySprite):
     """The area in the top left of the screen that displays party members and
         their statistics."""
 
-    def __init__(self):
+    def __init__(self, chars):
         pygame.sprite.DirtySprite.__init__(self)
+        self.chars = chars
         self.image = pygame.Surface(STATS_SIZE, SRCALPHA, 32)
         self.rect = self.image.get_rect()
         self.rect.left = 16
         self.rect.bottom = WINDOW_SIZE[1] - 16
         self.images = [
             load_image("gui", "dialog", "dialog_bg"),
-            load_image("char", "faces", "hero_small") ]
-        self.font_sprite = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_COLOR, None)
-        self.font = self.font_sprite.font
+            load_image("char", "faces", "hero_small"),
+            load_image("char", "faces", "npc_small") ]
         self.draw()
 
     def draw(self):
-        """Draw the different layers of the status window."""
+        """Draw each character and their statistics."""
 
-        self.draw_background()
-        self.draw_faces()
-        self.draw_text()
+        stats = StatsText()
+        stats_layer = pygame.sprite.LayeredDirty([stats])
+        width = 0
+        num = 0
+        for char in self.chars:
+            self.draw_faces(char, width, num)
+            stats.draw(char, width, num)
+            width += 48
+            num += 1
+        stats_layer.draw(self.image)
 
-    def draw_background(self):
-        """Draw the status window's translucent background."""
-
-        for row in range(0, STATS_TILES[1] - 1):
-            for tile in range(0, STATS_TILES[0]):
-                offset = (tile * 16 + 8, row * 16 + 8)
-                self.image.blit(self.images[0], offset)
-
-    def draw_faces(self):
+    def draw_faces(self, char, width, num):
         """Draw the small face icons for each party member."""
 
-        self.image.blit(self.images[1], (8, 8))
+        self.image.blit(self.images[1 + num], (12 + width, 8))
 
-    def draw_text(self):
-        """Draw the statistic data."""
+    def update(self):
+        """Redraw the stats window."""
 
-        hero_text = self.font.render("Hero", 1, STATS_TEXT_COLOR)
-        self.image.blit(hero_text, (8, 32))
+        self.dirty = 1
+        self.image.fill((0,0,0))
+        self.draw()
+
+
+class StatsText(pygame.sprite.DirtySprite):
+    """The text that changes in the stats window."""
+
+    def __init__(self):
+        pygame.sprite.DirtySprite.__init__(self)
+        self.font_sprite = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_COLOR, None)
+        self.font = self.font_sprite.font
+        self.image = pygame.Surface(STATS_SIZE, SRCALPHA, 32)
+        self.rect = self.image.get_rect()
+
+    def draw(self, char, width, num):
+        """Draw the statistics for current character."""
+
+        char_name = self.font.render(char.name, 1, STATS_TEXT_COLOR)
+        char_hp = self.font.render(str(char.hp), 1, STATS_TEXT_COLOR)
+        self.image.blit(char_name, (8 + width, 32))
+        self.image.blit(char_hp, (8 + width, 32 + 8))
 
 
 class DialogWindow(pygame.sprite.DirtySprite):
