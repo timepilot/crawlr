@@ -27,8 +27,6 @@ class StatsWindow(pygame.sprite.DirtySprite):
         self.rect = self.image.get_rect()
         self.rect.left = 16
         self.rect.bottom = WINDOW_SIZE[1] - 16
-        self.images = [
-            load_image("gui", "dialog", "dialog_bg") ]
         self.font_bg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_BGCOLOR, None)
         self.font_fg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_FGCOLOR, None)
         self.draw()

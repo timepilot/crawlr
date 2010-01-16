@@ -232,12 +232,12 @@ class Map(object):
             'w':  rect.move(-w,0),
             'nw': rect.move(-w,-h) }
         for edge in edges:
-            current = (edges[edge][0], edges[edge][1])
-            cur_x, cur_y = current
+            cursor = (edges[edge][0], edges[edge][1])
+            cur_x, cur_y = cursor
             map_w, map_h = self.get_size()
             if (0 <= cur_x <= map_w and 0 <= cur_y <= map_h and
-                current in self.position and offset in self.position):
-                self.position[offset][1][edge] = self.position[current][0].type
+                cursor in self.position and offset in self.position):
+                self.position[offset][1][edge] = self.position[cursor][0].type
 
     def align_objects(self, w, h, offset):
         """Re-align bigger tiles to fit the rest."""

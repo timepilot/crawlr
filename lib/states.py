@@ -86,7 +86,7 @@ class WorldState(BaseState):
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
                 elif event.key == K_e:
-                    self.screen.hero.hp += 1
+                    self.screen.add_to_party()
                 elif event.key in (
                     HERO_MOVE_DOWN,
                     HERO_MOVE_UP,

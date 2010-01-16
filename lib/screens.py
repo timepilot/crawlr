@@ -79,30 +79,46 @@ class WorldScreen(Screen):
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
         self.hero = CharHero(self)
-        self.chartest = CharTest(self)
         self.map.scroll(self.camera, self.hero)
         self.add()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
-        # Add character objects to a new group.
-        char_sprites = pygame.sprite.Group([
-            self.hero, self.chartest ])
+        # Add party characters to a new group.
+        self.party_sprites = pygame.sprite.Group([
+            self.hero ])
+
+        # Add all characters to a new group.
+        self.char_sprites = pygame.sprite.Group([
+            self.party_sprites ])
 
         # Create GUI objects and add them to a new group.
-        gui_stats = StatsWindow(char_sprites)
+        gui_stats = StatsWindow(self.party_sprites)
 
         # Create a queue of all sprites to be drawn to the screen in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
-            char_sprites,
+            self.char_sprites,
             self.map.layers['foreground'],
             gui_stats ])
 
         # Give each item in the queue a new layer of the screen to be drawn to.
         for sprite in self.all_sprites:
             self.layers.add(sprite)
+
+    def add_to_party(self):
+        """Called during gameplay to add a new character to the existing
+            map."""
+
+        exists = False
+        for char in self.party_sprites:
+            if char.name == "test":
+                exists = True
+
+        if not exists:
+            chartest = CharTest(self)
+            self.party_sprites.add(chartest)
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
