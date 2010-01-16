@@ -1,10 +1,10 @@
-from characters import Monster
+from characters import BaseMonster
 
-class Slug(Monster):
+class Slug(BaseMonster):
     """A giant slug."""
 
     def __init__(self, screen):
-        Monster.__init__(self, screen)
+        BaseMonster.__init__(self, screen)
         self.name = "Slug"
         self.hp = 2
         self.hp_max = 2
@@ -12,11 +12,11 @@ class Slug(Monster):
         self.max_amount = 3
 
 
-class PoisonSlug(Monster):
+class PoisonSlug(BaseMonster):
     """A giant slug that has a poisonous attack."""
 
     def __init__(self, screen):
-        Monster.__init__(self, screen)
+        BaseMonster.__init__(self, screen)
         self.name = "PoisonSlug"
         self.hp = 2
         self.hp_max = 2
@@ -25,11 +25,11 @@ class PoisonSlug(Monster):
         self.max_amount = 1
 
 
-class MagiSlug(Monster):
+class MagiSlug(BaseMonster):
     """A giant slug that can cast spells."""
 
     def __init__(self, screen):
-        Monster.__init__(self, screen)
+        BaseMonster.__init__(self, screen)
         self.name = "MagiSlug"
         self.hp = 2
         self.hp_max = 2
@@ -38,11 +38,11 @@ class MagiSlug(Monster):
         self.max_amount = 1
 
 
-class Hawk(Monster):
+class Hawk(BaseMonster):
     """A flying creature."""
 
     def __init__(self, screen):
-        Monster.__init__(self, screen)
+        BaseMonster.__init__(self, screen)
         self.name = "Hawk"
         self.hp = 2
         self.hp_max = 2

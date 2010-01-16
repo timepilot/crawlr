@@ -3,7 +3,7 @@ from constants import *
 from data import *
 from gui import *
 from map import Map
-from characters import PlayerCharacter
+from characters import CharHero, CharTest
 from battle import Battle
 
 class Screen(object):
@@ -78,8 +78,8 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
-        self.hero = PlayerCharacter(self, "hero")
-        self.npc = PlayerCharacter(self, "npc")
+        self.hero = CharHero(self)
+        self.chartest = CharTest(self)
         self.map.scroll(self.camera, self.hero)
         self.add()
 
@@ -88,8 +88,7 @@ class WorldScreen(Screen):
 
         # Add character objects to a new group.
         char_sprites = pygame.sprite.Group([
-            self.hero,
-            self.npc ])
+            self.hero, self.chartest ])
 
         # Create GUI objects and add them to a new group.
         gui_stats = StatsWindow(char_sprites)

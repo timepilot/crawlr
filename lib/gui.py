@@ -28,9 +28,7 @@ class StatsWindow(pygame.sprite.DirtySprite):
         self.rect.left = 16
         self.rect.bottom = WINDOW_SIZE[1] - 16
         self.images = [
-            load_image("gui", "dialog", "dialog_bg"),
-            load_image("char", "faces", "hero_small"),
-            load_image("char", "faces", "npc_small") ]
+            load_image("gui", "dialog", "dialog_bg") ]
         self.font_bg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_BGCOLOR, None)
         self.font_fg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_FGCOLOR, None)
         self.draw()
@@ -44,24 +42,24 @@ class StatsWindow(pygame.sprite.DirtySprite):
         for char in self.chars:
             self.draw_faces(char, width, num)
             self.draw_stats(char, width, num)
-            width += 48
+            width += STATS_SPACING
             num += 1
 
     def draw_faces(self, char, width, num):
         """Draw the small face icons for each party member."""
 
-        self.image.blit(self.images[1 + num], (12 + width, 8))
+        self.image.blit(char.face_small, (width, 0))
 
     def draw_stats(self, char, width, num):
         """Draw the statistics for current character."""
 
-        offset = 0
+        shadow = 0
         for color in (STATS_TEXT_BGCOLOR, STATS_TEXT_FGCOLOR):
             char_name = self.font_bg.font.render(char.name, 1, color)
             char_hp = self.font_bg.font.render(str(char.hp), 1, color)
-            self.image.blit(char_name, (8 - offset + width, 32 - offset))
-            self.image.blit(char_hp, (8 - offset + width, 32 - offset + 8))
-            offset += 1
+            self.image.blit(char_name, (shadow + width, 32 + shadow))
+            self.image.blit(char_hp, (shadow + width, 32 + shadow + 8))
+            shadow -= 1
 
     def update(self):
         self.dirty = 1

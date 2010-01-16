@@ -164,7 +164,6 @@ class PlayerSprite(CharacterSprite):
             screen.map.start_tile[0] * screen.map.tile_size[0],
             screen.map.start_tile[1] * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
-        image_file = char
         images = {
             'north': [
                 (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
@@ -186,11 +185,12 @@ class PlayerSprite(CharacterSprite):
                 (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
                 (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
+        self.face_small = load_image("char", "faces", char + "_small")
         self.move_keys = []
         self.scroll_pos = [0,0]
         CharacterSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
-                start_direction, None, True, start_location, image_file,
-                images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
+                start_direction, None, True, start_location, char, images,
+                PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
                 PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
 
     def move(self):
