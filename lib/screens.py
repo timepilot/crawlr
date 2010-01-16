@@ -78,38 +78,35 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
-        self.hero = CharHero(self)
-        self.map.scroll(self.camera, self.hero)
-        self.add()
+        self.party = {
+            'hero':     CharHero(self),
+            'test':     CharTest(self) }
+        self.map.scroll(self.camera, self.party['hero'])
+        self.create_sprites()
+        self.add_all_sprites()
 
-    def add(self):
-        """Add sprites to the screen in the correct order."""
+    def create_sprites(self):
+        """Create all sprites and sprite groups."""
 
-        # Add party characters to a new group.
         self.party_sprites = pygame.sprite.Group([
-            self.hero ])
-
-        # Add all characters to a new group.
+            self.party['hero'] ])
         self.char_sprites = pygame.sprite.Group([
             self.party_sprites ])
+        self.gui_stats = StatsWindow(self.party_sprites)
 
-        # Create GUI objects and add them to a new group.
-        gui_stats = StatsWindow(self.party_sprites)
+    def add_all_sprites(self):
+        """Add all sprite groups to the drawing order queue."""
 
-        # Create a queue of all sprites to be drawn to the screen in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             self.char_sprites,
             self.map.layers['foreground'],
-            gui_stats ])
-
-        # Give each item in the queue a new layer of the screen to be drawn to.
+            self.gui_stats ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
     def add_to_party(self):
-        """Called during gameplay to add a new character to the existing
-            map."""
+        """Called during gameplay to add a new party character to the game."""
 
         exists = False
         for char in self.party_sprites:
@@ -117,8 +114,10 @@ class WorldScreen(Screen):
                 exists = True
 
         if not exists:
-            chartest = CharTest(self)
-            self.party_sprites.add(chartest)
+            self.party_sprites.add(self.party['test'])
+            self.char_sprites = pygame.sprite.Group([
+                self.party_sprites ])
+            self.add_all_sprites()
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""
@@ -132,9 +131,9 @@ class WorldScreen(Screen):
 
         for sprite in self.all_sprites:
             sprite.kill()
-        self.map = None
-        self.hero = None
 
+        self.map = None
+        self.party = None
 
 class BattleScreen(Screen, Battle):
     """The battle screen is where a battle takes place."""

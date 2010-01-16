@@ -74,11 +74,12 @@ class WorldState(BaseState):
         BaseState.__init__(self)
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
+        self.player = self.screen.party['hero']
 
     def check_events(self):
         """Check for user input on the world screen."""
 
-        self.move_keys = self.screen.hero.move_keys
+        self.move_keys = self.player.move_keys
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
@@ -101,12 +102,12 @@ class WorldState(BaseState):
                     HERO_MOVE_RIGHT):
                         self.player_input(False, pygame.key.name, event.key)
             elif event.type == BATTLE_EVENT:
-                self.screen.hero.move_keys = []
-                self.screen.hero.stop = True
+                self.player.move_keys = []
+                self.player.stop = True
                 self.switch(BattleState(self))
             elif event.type == DIALOG_EVENT:
-                self.screen.hero.move_keys = []
-                self.screen.hero.stop = True
+                self.player.move_keys = []
+                self.player.stop = True
                 self.switch(DialogState(self))
 
     def player_input(self, moving, name, key):
@@ -114,33 +115,39 @@ class WorldState(BaseState):
 
         if moving:
             self.move_keys.append(name(key))
-            self.screen.hero.direction = self.move_keys[-1]
-            self.screen.hero.stop = False
+            self.player.direction = self.move_keys[-1]
+            self.player.stop = False
         else:
             if len(self.move_keys) > 0:
                 keyid = self.move_keys.index(name(key))
                 del self.move_keys[keyid]
                 if len(self.move_keys) != 0:
-                    self.screen.hero.direction = (self.move_keys[-1])
-                else: self.screen.hero.stop = True
+                    self.player.direction = (self.move_keys[-1])
+                else: self.player.stop = True
 
     def show_debug(self, fps):
         BaseState.show_debug(self, fps)
         if SHOW_RECTS:
             self.screen.map.layers['terrain'].image.fill(
-                (0,0,0), self.screen.hero.collide_rect)
-            for rect in (self.screen.map.nowalk):
+                (0,0,0), self.player.collide_rect)
+            for rect in (self.player.nowalk):
                 self.screen.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
         if SHOW_TERRAIN:
-            print "Current terrain: " + self.screen.hero.current_terrain
+            print "Current terrain: " + self.player.current_terrain
         if SHOW_REGION:
-            print "Current region: " + self.screen.hero.current_region
+            print "Current region: " + self.player.current_region
+
+    def destroy(self):
+        """Cleanup some objects before we leave this state."""
+
+        self.screen.destroy()
+        self.player = None
 
     def _exit(self):
         """Quit the main game screen returning to the title screen."""
 
-        self.screen.destroy()
+        self.destroy()
         self.switch(TitleState())
 
 
