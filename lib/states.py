@@ -70,10 +70,10 @@ class TitleState(BaseState):
 class WorldState(BaseState):
     """A game state for the main world screen."""
 
-    def __init__(self, map_num):
+    def __init__(self, map_name):
         BaseState.__init__(self)
-        self.map_num = map_num
-        self.screen = WorldScreen(self.map_num)
+        self.map_name = map_name
+        self.screen = WorldScreen(self.map_name)
 
     def check_events(self):
         """Check for user input on the world screen."""
@@ -85,6 +85,8 @@ class WorldState(BaseState):
                 if event.key == GAME_QUIT: self._exit()
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
+                elif event.key == K_e:
+                    self.screen.hero.hp += 1
                 elif event.key in (
                     HERO_MOVE_DOWN,
                     HERO_MOVE_UP,

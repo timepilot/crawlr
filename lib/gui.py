@@ -31,52 +31,45 @@ class StatsWindow(pygame.sprite.DirtySprite):
             load_image("gui", "dialog", "dialog_bg"),
             load_image("char", "faces", "hero_small"),
             load_image("char", "faces", "npc_small") ]
+        self.font_bg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_BGCOLOR, None)
+        self.font_fg = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_FGCOLOR, None)
         self.draw()
 
     def draw(self):
         """Draw each character and their statistics."""
 
-        stats = StatsText()
-        stats_layer = pygame.sprite.LayeredDirty([stats])
+        self.image = pygame.Surface(STATS_SIZE, SRCALPHA, 32)
         width = 0
         num = 0
         for char in self.chars:
             self.draw_faces(char, width, num)
-            stats.draw(char, width, num)
+            self.draw_stats(char, width, num)
             width += 48
             num += 1
-        stats_layer.draw(self.image)
 
     def draw_faces(self, char, width, num):
         """Draw the small face icons for each party member."""
 
         self.image.blit(self.images[1 + num], (12 + width, 8))
 
-    def update(self):
-        """Redraw the stats window."""
-
-        self.dirty = 1
-        self.image.fill((0,0,0))
-        self.draw()
-
-
-class StatsText(pygame.sprite.DirtySprite):
-    """The text that changes in the stats window."""
-
-    def __init__(self):
-        pygame.sprite.DirtySprite.__init__(self)
-        self.font_sprite = Font("gui", STATS_TEXT_SIZE, STATS_TEXT_COLOR, None)
-        self.font = self.font_sprite.font
-        self.image = pygame.Surface(STATS_SIZE, SRCALPHA, 32)
-        self.rect = self.image.get_rect()
-
-    def draw(self, char, width, num):
+    def draw_stats(self, char, width, num):
         """Draw the statistics for current character."""
 
-        char_name = self.font.render(char.name, 1, STATS_TEXT_COLOR)
-        char_hp = self.font.render(str(char.hp), 1, STATS_TEXT_COLOR)
+        # Background text
+        char_name = self.font_bg.font.render(char.name, 1, STATS_TEXT_BGCOLOR)
+        char_hp = self.font_bg.font.render(str(char.hp), 1, STATS_TEXT_BGCOLOR)
+        self.image.blit(char_name, (9 + width, 32 + 1))
+        self.image.blit(char_hp, (9 + width, 32 + 9))
+
+        # Foreground text
+        char_name = self.font_fg.font.render(char.name, 1, STATS_TEXT_FGCOLOR)
+        char_hp = self.font_fg.font.render(str(char.hp), 1, STATS_TEXT_FGCOLOR)
         self.image.blit(char_name, (8 + width, 32))
         self.image.blit(char_hp, (8 + width, 32 + 8))
+
+    def update(self):
+        self.dirty = 1
+        self.draw() # TODO: only redraw when text has changed.
 
 
 class DialogWindow(pygame.sprite.DirtySprite):

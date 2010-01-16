@@ -19,7 +19,7 @@ class BaseCharacter(object):
         self.gold = gold
 
 
-class Player(PlayerSprite, BaseCharacter):
+class PlayerCharacter(PlayerSprite, BaseCharacter):
     """The main player character."""
 
     def __init__(self, screen, name, hp=10, hp_max=10, mp=0, mp_max=0,

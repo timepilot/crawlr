@@ -3,7 +3,7 @@ from constants import *
 from data import *
 from gui import *
 from map import Map
-from characters import Player
+from characters import PlayerCharacter
 from battle import Battle
 
 class Screen(object):
@@ -71,31 +71,37 @@ class TitleScreen(Screen):
 class WorldScreen(Screen):
     """The main game screen with a world to wander around."""
 
-    def __init__(self, map_num):
+    def __init__(self, map_name):
         Screen.__init__(self)
         self.load_screen = LoadScreen()
         self.load_screen.draw()
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
-        self.map = Map(map_num)
-        self.hero = Player(self, "hero")
-        self.npc = Player(self, "npc")
+        self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
+        self.hero = PlayerCharacter(self, "hero")
+        self.npc = PlayerCharacter(self, "npc")
         self.map.scroll(self.camera, self.hero)
-        self.gui_stats = StatsWindow([self.hero, self.npc])
         self.add()
 
     def add(self):
         """Add sprites to the screen in the correct order."""
 
+        # Add character objects to a new group.
         char_sprites = pygame.sprite.Group([
-            self.hero ])
-        gui_sprites = pygame.sprite.Group([
-            self.gui_stats ])
+            self.hero,
+            self.npc ])
+
+        # Create GUI objects and add them to a new group.
+        gui_stats = StatsWindow(char_sprites)
+
+        # Create a queue of all sprites to be drawn to the screen in order.
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             char_sprites,
             self.map.layers['foreground'],
-            gui_sprites ])
+            gui_stats ])
+
+        # Give each item in the queue a new layer of the screen to be drawn to.
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
