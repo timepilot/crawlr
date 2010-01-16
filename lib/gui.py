@@ -55,17 +55,13 @@ class StatsWindow(pygame.sprite.DirtySprite):
     def draw_stats(self, char, width, num):
         """Draw the statistics for current character."""
 
-        # Background text
-        char_name = self.font_bg.font.render(char.name, 1, STATS_TEXT_BGCOLOR)
-        char_hp = self.font_bg.font.render(str(char.hp), 1, STATS_TEXT_BGCOLOR)
-        self.image.blit(char_name, (9 + width, 32 + 1))
-        self.image.blit(char_hp, (9 + width, 32 + 9))
-
-        # Foreground text
-        char_name = self.font_fg.font.render(char.name, 1, STATS_TEXT_FGCOLOR)
-        char_hp = self.font_fg.font.render(str(char.hp), 1, STATS_TEXT_FGCOLOR)
-        self.image.blit(char_name, (8 + width, 32))
-        self.image.blit(char_hp, (8 + width, 32 + 8))
+        offset = 0
+        for color in (STATS_TEXT_BGCOLOR, STATS_TEXT_FGCOLOR):
+            char_name = self.font_bg.font.render(char.name, 1, color)
+            char_hp = self.font_bg.font.render(str(char.hp), 1, color)
+            self.image.blit(char_name, (8 - offset + width, 32 - offset))
+            self.image.blit(char_hp, (8 - offset + width, 32 - offset + 8))
+            offset += 1
 
     def update(self):
         self.dirty = 1
