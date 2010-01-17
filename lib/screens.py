@@ -88,13 +88,13 @@ class WorldScreen(Screen):
 
         self.party_sprites = pygame.sprite.Group([
             self.chars.party['hero'] ])
-        self.char_sprites = pygame.sprite.Group([
-            self.party_sprites ])
         self.gui_stats = StatsWindow(self.party_sprites)
 
     def add_all_sprites(self):
         """Add all sprite groups to the drawing order queue."""
 
+        self.char_sprites = pygame.sprite.Group([
+            self.party_sprites ])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
             self.char_sprites,
@@ -102,15 +102,6 @@ class WorldScreen(Screen):
             self.gui_stats ])
         for sprite in self.all_sprites:
             self.layers.add(sprite)
-
-    def add_to_party(self, chara):
-        """Called during gameplay to add a new party character to the game."""
-
-        if not self.chars.party[chara] in self.party_sprites:
-            self.party_sprites.add(self.chars.party['test'])
-            self.char_sprites = pygame.sprite.Group([
-                self.party_sprites ])
-            self.add_all_sprites()
 
     def draw(self):
         """Draws the sprites to the screen and updates the window."""

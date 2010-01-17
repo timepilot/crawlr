@@ -87,9 +87,12 @@ class WorldState(BaseState):
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
 
-                # An example of adding the test party character to the party.
+                # An example of adding and removing a test character to the
+                # party.
                 elif event.key == K_a:
-                    self.screen.add_to_party("test")
+                    self.screen.chars.party_add("test")
+                elif event.key == K_z:
+                    self.screen.chars.party_remove("test")
 
                 elif event.key in (
                     HERO_MOVE_DOWN,

@@ -1,5 +1,5 @@
 from constants import *
-from sprite import *
+from sprite import PlayerSprite
 
 class BaseCharacter(object):
     """The base class from which all other game characters derive."""
