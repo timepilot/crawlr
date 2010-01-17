@@ -79,15 +79,15 @@ class WorldScreen(Screen):
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
         self.party = PartyManager(self)
-        self.map.scroll(self.camera, self.party.list['hero'])
         self.create_sprites()
         self.add_all_sprites()
+        self.map.scroll(self.camera, self.party.hero)
 
     def create_sprites(self):
         """Create all sprites and sprite groups."""
 
         self.party_sprites = pygame.sprite.Group([
-            self.party.list['hero'] ])
+            self.party.hero ])
         self.gui_stats = StatsWindow(self.party_sprites)
 
     def add_all_sprites(self):
@@ -118,6 +118,7 @@ class WorldScreen(Screen):
 
         self.map = None
         self.party = None
+
 
 class BattleScreen(Screen, Battle):
     """The battle screen is where a battle takes place."""

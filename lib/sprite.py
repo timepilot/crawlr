@@ -51,7 +51,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
     """A sprite for moving character sprites."""
 
     def __init__(self, screen, width, height, start_direction, direction,
-                stopped, start_location, spritesheet, image_dict, collide_size,
+                stopped, start_location, spritesheet, collide_size,
                 collide_offset, speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
         self.screen = screen
@@ -63,13 +63,32 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.direction = direction
         self.stopped = stopped
         self.sprite = Spritesheet('char', 'sprites', spritesheet)
-        self.current_terrain = self.map.map_terrains[0:1]
-        self.current_region = self.map.map_regions[0:1]
+        images = {
+            'north': [
+                (32, 144, CHAR_WIDTH, CHAR_HEIGHT),
+                (0, 144, CHAR_WIDTH, CHAR_HEIGHT),
+                (32, 144, CHAR_WIDTH, CHAR_HEIGHT),
+                (64, 144, CHAR_WIDTH, CHAR_HEIGHT) ],
+            'south': [
+                (32, 0, CHAR_WIDTH, CHAR_HEIGHT),
+                (0, 0, CHAR_WIDTH, CHAR_HEIGHT),
+                (32, 0, CHAR_WIDTH, CHAR_HEIGHT),
+                (64, 0, CHAR_WIDTH, CHAR_HEIGHT) ],
+            'east': [
+                (32, 96, CHAR_WIDTH, CHAR_HEIGHT),
+                (0, 96, CHAR_WIDTH, CHAR_HEIGHT),
+                (32, 96, CHAR_WIDTH, CHAR_HEIGHT),
+                (64, 96, CHAR_WIDTH, CHAR_HEIGHT) ],
+            'west': [
+                (32, 48, CHAR_WIDTH, CHAR_HEIGHT),
+                (0, 48, CHAR_WIDTH, CHAR_HEIGHT),
+                (32, 48, CHAR_WIDTH, CHAR_HEIGHT),
+                (64, 48, CHAR_WIDTH, CHAR_HEIGHT) ] }
         self.walking = {
-            'up':       self.sprite.images(image_dict['north'], -1),
-            'down':     self.sprite.images(image_dict['south'], -1),
-            'right':    self.sprite.images(image_dict['east'], -1),
-            'left':     self.sprite.images(image_dict['west'], -1) }
+            'up':       self.sprite.images(images['north'], -1),
+            'down':     self.sprite.images(images['south'], -1),
+            'right':    self.sprite.images(images['east'], -1),
+            'left':     self.sprite.images(images['west'], -1) }
         self.speed_walk = speed_walk
         self.speed_animate = speed_animate
         self.animate_counter = 0
@@ -156,6 +175,15 @@ class CharacterSprite(pygame.sprite.DirtySprite):
                 self.current_region = region
 
 
+class PartySprite(CharacterSprite):
+    """A sprite for party characters."""
+
+    def __init__(self, screen, char):
+        self.face_small = load_image("char", "faces", char + "_small")
+        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
+            "down", None, True, (0,0), char, (32,32), (32,32), 3, 3)
+
+
 class PlayerSprite(CharacterSprite):
     """The sprite for the character the player controls."""
 
@@ -164,34 +192,15 @@ class PlayerSprite(CharacterSprite):
             screen.map.start_tile[0] * screen.map.tile_size[0],
             screen.map.start_tile[1] * screen.map.tile_size[1] ]
         start_direction = screen.map.start_direction
-        images = {
-            'north': [
-                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 144, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'south': [
-                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 0, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'east': [
-                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 96, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'west': [
-                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
-        self.face_small = load_image("char", "faces", char + "_small")
         self.move_keys = []
         self.scroll_pos = [0,0]
-        CharacterSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
-                start_direction, None, True, start_location, char, images,
-                PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
-                PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
+        self.current_terrain = screen.map.map_terrains[0:1]
+        self.current_region = screen.map.map_regions[0:1]
+        self.face_small = load_image("char", "faces", char + "_small")
+        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
+            start_direction, None, True, start_location, char,
+            PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
+            PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
 
     def move(self):
         """Move the player."""
@@ -241,33 +250,4 @@ class PlayerSprite(CharacterSprite):
 class MonsterSprite(CharacterSprite):
 
     def __init__(self, screen, char):
-        start_location = [
-            (screen.map.start_tile[0] - 1) * screen.map.tile_size[0],
-            (screen.map.start_tile[1] + 12) * screen.map.tile_size[1] ]
-        start_direction = screen.map.start_direction
-        image_file = 'hero'
-        images = {
-            'north': [
-                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 144, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 144, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'south': [
-                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 0, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 0, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'east': [
-                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 96, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 96, PLAYER_WIDTH, PLAYER_HEIGHT) ],
-            'west': [
-                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (0, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (32, 48, PLAYER_WIDTH, PLAYER_HEIGHT),
-                (64, 48, PLAYER_WIDTH, PLAYER_HEIGHT) ] }
-        CharacterSprite.__init__(self, screen, PLAYER_WIDTH, PLAYER_HEIGHT,
-                start_direction, None, True, start_location, image_file,
-                images, PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
-                PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
+        pass

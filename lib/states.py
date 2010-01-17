@@ -74,25 +74,29 @@ class WorldState(BaseState):
         BaseState.__init__(self)
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
-        self.player = self.screen.party.list['hero']
 
     def check_events(self):
         """Check for user input on the world screen."""
 
-        self.move_keys = self.player.move_keys
+        self.move_keys = self.screen.party.hero.move_keys
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
             elif event.type == KEYDOWN:
                 if event.key == GAME_QUIT: self._exit()
+
+                # Example of showing a dialog window.
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
 
-                # An example of adding and removing a test character to the
-                # party.
+                # Example of adding and removing a test character to the party.
                 elif event.key == K_a:
                     self.screen.party.add("test")
                 elif event.key == K_z:
                     self.screen.party.remove("test")
+
+                # Example of changing the test character's statistics.
+                elif event.key == K_s:
+                    self.screen.party.chars["test"].hp += 1
 
                 elif event.key in (
                     HERO_MOVE_DOWN,
@@ -108,12 +112,12 @@ class WorldState(BaseState):
                     HERO_MOVE_RIGHT):
                         self.player_input(False, pygame.key.name, event.key)
             elif event.type == BATTLE_EVENT:
-                self.player.move_keys = []
-                self.player.stop = True
+                self.screen.party.hero.move_keys = []
+                self.screen.party.hero.stop = True
                 self.switch(BattleState(self))
             elif event.type == DIALOG_EVENT:
-                self.player.move_keys = []
-                self.player.stop = True
+                self.screen.party.hero.move_keys = []
+                self.screen.party.hero.stop = True
                 self.switch(DialogState(self))
 
     def player_input(self, moving, name, key):
@@ -121,39 +125,32 @@ class WorldState(BaseState):
 
         if moving:
             self.move_keys.append(name(key))
-            self.player.direction = self.move_keys[-1]
-            self.player.stop = False
+            self.screen.party.hero.direction = self.move_keys[-1]
+            self.screen.party.hero.stop = False
         else:
             if len(self.move_keys) > 0:
                 keyid = self.move_keys.index(name(key))
                 del self.move_keys[keyid]
                 if len(self.move_keys) != 0:
-                    self.player.direction = (self.move_keys[-1])
-                else: self.player.stop = True
+                    self.screen.party.hero.direction = (self.move_keys[-1])
+                else: self.screen.party.hero.stop = True
 
     def show_debug(self, fps):
         BaseState.show_debug(self, fps)
         if SHOW_RECTS:
-            self.screen.map.layers['terrain'].image.fill(
-                (0,0,0), self.player.collide_rect)
+            terrain = self.screen.map.layers['terrain']
+            terrain.image.fill((0,0,0), self.screen.party.hero.collide_rect)
             for rect in (self.screen.map.nowalk):
-                self.screen.map.layers['terrain'].image.fill(
-                    (255,255,255), rect)
+                terrain.image.fill((255,255,255), rect)
         if SHOW_TERRAIN:
-            print "Current terrain: " + self.player.current_terrain
+            print "Current terrain: " + self.screen.party.hero.current_terrain
         if SHOW_REGION:
-            print "Current region: " + self.player.current_region
-
-    def destroy(self):
-        """Cleanup some objects before we leave this state."""
-
-        self.screen.destroy()
-        self.player = None
+            print "Current region: " + self.screen.party.hero.current_region
 
     def _exit(self):
         """Quit the main game screen returning to the title screen."""
 
-        self.destroy()
+        self.screen.destroy()
         self.switch(TitleState())
 
 

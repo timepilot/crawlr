@@ -1,5 +1,5 @@
 from constants import *
-from sprite import PlayerSprite
+from sprite import *
 
 class BaseCharacter(object):
     """The base class from which all other game characters derive."""
@@ -43,10 +43,10 @@ class CharHero(PlayerSprite, BaseCharacter):
             attack=1, defense=1, exp_max=1000)
 
 
-class CharTest(PlayerSprite, BaseCharacter):
+class CharTest(PartySprite, BaseCharacter):
     """An extra character for testing."""
 
     def __init__(self, screen, name="test"):
-        PlayerSprite.__init__(self, screen, name)
+        PartySprite.__init__(self, screen, name)
         BaseCharacter.__init__(self, name, hp=20, hp_max=20, mp=0, mp_max=0,
             attack=1, defense=1, exp_max=1000)

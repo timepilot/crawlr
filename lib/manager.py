@@ -5,19 +5,25 @@ class PartyManager(object):
 
     def __init__(self, screen):
         self.screen = screen
-        self.list = {
+        self.all_chars = {
             'hero':     CharHero(screen),
             'test':     CharTest(screen) }
+        self.chars = {
+            'hero': self.all_chars['hero'] }
+        self.hero = self.chars['hero']
 
     def add(self, char):
-        """Add a new party character to the player's party."""
+        """Add a new party character to the party."""
 
-        if not self.list[char] in self.screen.party_sprites:
-            self.screen.party_sprites.add(self.list[char])
+        if not self.all_chars[char] in self.screen.party_sprites:
+            self.chars[char] = self.all_chars[char]
+            self.chars[char].__init__(self.screen)
+            self.screen.party_sprites.add(self.chars[char])
             self.screen.add_all_sprites()
 
     def remove(self, char):
-        """Remove a character from the player's party."""
+        """Remove a character from the party."""
 
-        if self.list[char] in self.screen.party_sprites:
-            self.list[char].kill()
+        if self.all_chars[char] in self.screen.party_sprites:
+            self.chars[char].kill()
+            del self.chars[char]
