@@ -3,7 +3,7 @@ from constants import *
 from data import *
 from gui import *
 from map import Map
-from characters import CharHero, CharTest
+from manager import CharacterManager
 from battle import Battle
 
 class Screen(object):
@@ -78,10 +78,8 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
-        self.party = {
-            'hero':     CharHero(self),
-            'test':     CharTest(self) }
-        self.map.scroll(self.camera, self.party['hero'])
+        self.chars = CharacterManager(self)
+        self.map.scroll(self.camera, self.chars.party['hero'])
         self.create_sprites()
         self.add_all_sprites()
 
@@ -89,7 +87,7 @@ class WorldScreen(Screen):
         """Create all sprites and sprite groups."""
 
         self.party_sprites = pygame.sprite.Group([
-            self.party['hero'] ])
+            self.chars.party['hero'] ])
         self.char_sprites = pygame.sprite.Group([
             self.party_sprites ])
         self.gui_stats = StatsWindow(self.party_sprites)
@@ -105,16 +103,11 @@ class WorldScreen(Screen):
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 
-    def add_to_party(self):
+    def add_to_party(self, chara):
         """Called during gameplay to add a new party character to the game."""
 
-        exists = False
-        for char in self.party_sprites:
-            if char.name == "test":
-                exists = True
-
-        if not exists:
-            self.party_sprites.add(self.party['test'])
+        if not self.chars.party[chara] in self.party_sprites:
+            self.party_sprites.add(self.chars.party['test'])
             self.char_sprites = pygame.sprite.Group([
                 self.party_sprites ])
             self.add_all_sprites()
@@ -133,7 +126,7 @@ class WorldScreen(Screen):
             sprite.kill()
 
         self.map = None
-        self.party = None
+        self.chars = None
 
 class BattleScreen(Screen, Battle):
     """The battle screen is where a battle takes place."""

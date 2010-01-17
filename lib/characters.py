@@ -34,22 +34,6 @@ class BaseCharacter(object):
             'Items':            [] }
 
 
-class BaseMonster(MonsterSprite, BaseCharacter):
-    """The base class for all other monsters."""
-
-    def __init__(self, screen, name="Monster"):
-        MonsterSprite.__init__(self, screen)
-        BaseCharacter.__init__(self, name, hp=1, hp_max=1, mp=0, mp_max=0,
-            attack=1, defense=1)
-        self.max_amount = 1
-        self.frequency = 0
-        self.size = 2
-        self.movement = 1
-        self.num_attacks = 1
-        self.damage = 1
-        self.morale = 5
-
-
 class CharHero(PlayerSprite, BaseCharacter):
     """The hero of the game."""
 

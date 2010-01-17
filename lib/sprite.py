@@ -240,7 +240,7 @@ class PlayerSprite(CharacterSprite):
 
 class MonsterSprite(CharacterSprite):
 
-    def __init__(self, screen):
+    def __init__(self, screen, char):
         start_location = [
             (screen.map.start_tile[0] - 1) * screen.map.tile_size[0],
             (screen.map.start_tile[1] + 12) * screen.map.tile_size[1] ]

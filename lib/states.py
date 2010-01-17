@@ -74,7 +74,7 @@ class WorldState(BaseState):
         BaseState.__init__(self)
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
-        self.player = self.screen.party['hero']
+        self.player = self.screen.chars.party['hero']
 
     def check_events(self):
         """Check for user input on the world screen."""
@@ -86,8 +86,11 @@ class WorldState(BaseState):
                 if event.key == GAME_QUIT: self._exit()
                 elif event.key == K_d:
                     pygame.time.set_timer(DIALOG_EVENT, 100)
-                elif event.key == K_e:
-                    self.screen.add_to_party()
+
+                # An example of adding the test party character to the party.
+                elif event.key == K_a:
+                    self.screen.add_to_party("test")
+
                 elif event.key in (
                     HERO_MOVE_DOWN,
                     HERO_MOVE_UP,
