@@ -27,7 +27,7 @@ STARTING_MAP =          "demo"
 # Debug
 PROFILING =             False
 SHOW_FRAME_RATE =       False
-SHOW_RECTS =            False
+SHOW_RECTS =            True
 SHOW_TERRAIN =          False
 SHOW_REGION =           False
 SHOW_MONSTERS =         True

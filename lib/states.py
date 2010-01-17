@@ -136,7 +136,7 @@ class WorldState(BaseState):
         if SHOW_RECTS:
             self.screen.map.layers['terrain'].image.fill(
                 (0,0,0), self.player.collide_rect)
-            for rect in (self.player.nowalk):
+            for rect in (self.screen.map.nowalk):
                 self.screen.map.layers['terrain'].image.fill(
                     (255,255,255), rect)
         if SHOW_TERRAIN:

@@ -53,10 +53,13 @@ class StatsWindow(pygame.sprite.DirtySprite):
 
         shadow = 0
         for color in (STATS_TEXT_BGCOLOR, STATS_TEXT_FGCOLOR):
+
             char_name = self.font_bg.font.render(char.name, 1, color)
-            char_hp = self.font_bg.font.render(str(char.hp), 1, color)
             self.image.blit(char_name, (shadow + width, 32 + shadow))
+
+            char_hp = self.font_bg.font.render(str(char.hp), 1, color)
             self.image.blit(char_hp, (shadow + width, 32 + shadow + 8))
+
             shadow -= 1
 
     def update(self):
