@@ -3,7 +3,7 @@ from constants import *
 from data import *
 from gui import *
 from map import Map
-from manager import CharacterManager
+from manager import PartyManager
 from battle import Battle
 
 class Screen(object):
@@ -78,8 +78,8 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
         self.dialog_text = "Sample dialog text."
-        self.chars = CharacterManager(self)
-        self.map.scroll(self.camera, self.chars.party['hero'])
+        self.party = PartyManager(self)
+        self.map.scroll(self.camera, self.party.list['hero'])
         self.create_sprites()
         self.add_all_sprites()
 
@@ -87,7 +87,7 @@ class WorldScreen(Screen):
         """Create all sprites and sprite groups."""
 
         self.party_sprites = pygame.sprite.Group([
-            self.chars.party['hero'] ])
+            self.party.list['hero'] ])
         self.gui_stats = StatsWindow(self.party_sprites)
 
     def add_all_sprites(self):
@@ -117,7 +117,7 @@ class WorldScreen(Screen):
             sprite.kill()
 
         self.map = None
-        self.chars = None
+        self.party = None
 
 class BattleScreen(Screen, Battle):
     """The battle screen is where a battle takes place."""

@@ -74,7 +74,7 @@ class WorldState(BaseState):
         BaseState.__init__(self)
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
-        self.player = self.screen.chars.party['hero']
+        self.player = self.screen.party.list['hero']
 
     def check_events(self):
         """Check for user input on the world screen."""
@@ -90,9 +90,9 @@ class WorldState(BaseState):
                 # An example of adding and removing a test character to the
                 # party.
                 elif event.key == K_a:
-                    self.screen.chars.party_add("test")
+                    self.screen.party.add("test")
                 elif event.key == K_z:
-                    self.screen.chars.party_remove("test")
+                    self.screen.party.remove("test")
 
                 elif event.key in (
                     HERO_MOVE_DOWN,
