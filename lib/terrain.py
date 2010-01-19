@@ -1,7 +1,6 @@
 from random import choice
 from constants import *
-from data import load_image
-from dice import Die
+from data import load_image, Die
 
 class Terrain(object):
     """Terrain on the world map."""

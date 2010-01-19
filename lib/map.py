@@ -4,7 +4,6 @@ from constants import *
 from data import load_map
 from sprite import *
 from terrain import *
-from dice import Die
 
 class Map(object):
     """The game world."""

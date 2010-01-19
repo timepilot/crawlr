@@ -1,7 +1,6 @@
 import pygame
 from constants import *
 from data import *
-from dice import Die
 
 class Spritesheet(object):
     """Load a sprite from a spritesheet."""

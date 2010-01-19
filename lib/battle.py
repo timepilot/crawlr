@@ -1,6 +1,6 @@
 from random import choice
 from constants import *
-from dice import Die
+from data import *
 from monsters import *
 
 class Battle(object):
