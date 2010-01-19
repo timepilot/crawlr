@@ -77,29 +77,22 @@ class WorldScreen(Screen):
         self.load_screen.draw()
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
-        self.dialog_text = "Sample dialog text."
         self.party = PartyManager(self)
-        self.create_sprites()
-        self.add_all_sprites()
-        self.map.scroll(self.camera, self.party.hero)
+        self.gui = StatsWindow(self.party.sprites)
+        self.party.add("hero")
+        self.dialog_text = "Sample dialog text."
+        self.map.scroll(self.camera, self.party.chars['hero'])
 
-    def create_sprites(self):
-        """Create all sprites and sprite groups."""
-
-        self.party_sprites = pygame.sprite.Group([
-            self.party.hero ])
-        self.gui_stats = StatsWindow(self.party_sprites)
-
-    def add_all_sprites(self):
-        """Add all sprite groups to the drawing order queue."""
-
-        self.char_sprites = pygame.sprite.Group([
-            self.party_sprites ])
+    def add_sprites(self):
+        self.chars = pygame.sprite.Group([
+            self.party.sprites ])
         self.all_sprites = pygame.sprite.OrderedUpdates([
             self.map.layers['terrain'],
-            self.char_sprites,
+            self.chars,
             self.map.layers['foreground'],
-            self.gui_stats ])
+            self.gui ])
+
+        self.layers = pygame.sprite.LayeredDirty()
         for sprite in self.all_sprites:
             self.layers.add(sprite)
 

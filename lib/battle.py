@@ -9,7 +9,7 @@ class Battle(object):
     def __init__(self, screen):
         self.screen = screen
         self.map = screen.map
-        self.region = screen.party.hero.current_region
+        self.region = screen.party.chars['hero'].current_region
         self.map_monsters = self.map.region_monsters[self.region]
         self.battle_monsters = []
         self.create_monsters()
