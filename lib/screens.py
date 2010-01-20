@@ -111,6 +111,7 @@ class WorldScreen(Screen):
 
         self.map = None
         self.party = None
+        self.gui = None
 
 
 class BattleScreen(Screen, Battle):

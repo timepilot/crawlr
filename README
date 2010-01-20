@@ -29,11 +29,6 @@ Read the documentation in the doc/MAP_CREATION file for instructions.
 
 TODO
 
-*   Display a tiny face icon of each party member with tiny stats using a small
-    monospaced font for comparing statistics easily. Text should be white with
-    a black shadow for readability. It should be positioned in the top left
-    corner of the screen.
-
 *   When loading a map, unobstrusively display the area name in a fancy font
     for a couple of seconds and then fade it out.
 
