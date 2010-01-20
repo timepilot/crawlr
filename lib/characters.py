@@ -46,7 +46,7 @@ class CharHero(PlayerSprite, BaseCharacter):
 class CharTest(PartySprite, BaseCharacter):
     """An extra character for testing."""
 
-    def __init__(self, screen, name="test"):
-        PartySprite.__init__(self, screen, name)
+    def __init__(self, screen, hero, name="test"):
+        PartySprite.__init__(self, screen, hero, name)
         BaseCharacter.__init__(self, name, hp=20, hp_max=20, mp=0, mp_max=0,
             attack=1, defense=1, exp_max=1000)

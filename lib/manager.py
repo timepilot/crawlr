@@ -6,9 +6,10 @@ class PartyManager(object):
 
     def __init__(self, screen):
         self.screen = screen
+        self.hero = CharHero(screen)
         self.all_chars = {
-            'hero':     CharHero(screen),
-            'test':     CharTest(screen) }
+            'hero':     self.hero,
+            'test':     CharTest(screen, self.hero) }
         self.chars = {}
         self.sprites = pygame.sprite.Group()
 
@@ -17,7 +18,10 @@ class PartyManager(object):
 
         if not self.all_chars[char] in self.sprites:
             self.chars[char] = self.all_chars[char]
-            self.chars[char].__init__(self.screen)
+            if not char is "hero":
+                self.chars[char].__init__(self.screen, self.hero)
+            else:
+                self.chars[char].__init__(self.screen)
             self.sprites.add(self.chars[char])
             self.screen.add_sprites()
 
