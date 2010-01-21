@@ -32,6 +32,9 @@ TODO
 *   When loading a map, unobstrusively display the area name in a fancy font
     for a couple of seconds and then fade it out.
 
+*   Implement pathfinding algorithm needed to undraw map objects blocking
+    access to major map points and for party characters to follow the hero.
+
 *******************************************************************************
 
 CREDITS

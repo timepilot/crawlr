@@ -82,6 +82,8 @@ class WorldState(BaseState):
         self.move_keys = self.player.move_keys
         for event in pygame.event.get():
             if event.type == QUIT: self.exit()
+
+            # Listen for key presses
             elif event.type == KEYDOWN:
                 if event.key == GAME_QUIT: self._exit()
 
@@ -99,23 +101,32 @@ class WorldState(BaseState):
                 elif event.key == K_s:
                     self.screen.party.chars["test"].hp += 1
 
+                # Move the player
                 elif event.key in (
                     HERO_MOVE_DOWN,
                     HERO_MOVE_UP,
                     HERO_MOVE_LEFT,
                     HERO_MOVE_RIGHT):
                         self.player_input(True, pygame.key.name, event.key)
+
+            # Listen for key releases
             elif event.type == KEYUP:
+
+                # Stop moving the player
                 if event.key in (
                     HERO_MOVE_DOWN,
                     HERO_MOVE_UP,
                     HERO_MOVE_LEFT,
                     HERO_MOVE_RIGHT):
                         self.player_input(False, pygame.key.name, event.key)
+
+            # Switch to the battle state when a battle event is received
             elif event.type == BATTLE_EVENT:
                 self.player.move_keys = []
                 self.player.stop = True
                 self.switch(BattleState(self))
+
+            # Switch to the dialog state when a dialog event is received
             elif event.type == DIALOG_EVENT:
                 self.player.move_keys = []
                 self.player.stop = True
