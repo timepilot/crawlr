@@ -50,8 +50,8 @@ class CharacterSprite(pygame.sprite.DirtySprite):
     """A sprite for moving character sprites."""
 
     def __init__(self, screen, width, height, start_direction, direction,
-                stopped, start_location, spritesheet, collide_size,
-                collide_offset, speed_animate, speed_walk):
+            stopped, start_location, spritesheet, collide_size, collide_offset,
+            speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
         self.screen = screen
         self.window = screen.window
@@ -135,10 +135,10 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         """Check for walls, terrain, region, and random encounters."""
 
         directions = {
-                'up': self.collide_rect.move(0, -self.movement),
-                'down': self.collide_rect.move(0, self.movement),
-                'left': self.collide_rect.move(-self.movement, 0),
-                'right': self.collide_rect.move(self.movement, 0) }
+            'up':       self.collide_rect.move(0, -self.movement),
+            'down':     self.collide_rect.move(0, self.movement),
+            'left':     self.collide_rect.move(-self.movement, 0),
+            'right':    self.collide_rect.move(self.movement, 0) }
         for key, rect in directions.iteritems():
             self.check_walls(key, rect)
             self.check_terrain(rect)
@@ -150,10 +150,8 @@ class CharacterSprite(pygame.sprite.DirtySprite):
 
         if pygame.Rect(rect).collidelistall(self.map.nowalk) != []:
             self.collide[key] = True
-            if self.collide[self.direction]:
-                self.stop = True
-        else:
-            self.collide[key] = False
+            if self.collide[self.direction]: self.stop = True
+        else: self.collide[key] = False
 
     def check_terrain(self, rect):
         """Check the type of terrain the sprite moved to."""
@@ -171,18 +169,21 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         for region in self.map.map_regions:
             if pygame.Rect(rect).collidelistall(
                 self.map.regions[region]) != []:
-                self.current_region = region
+                    self.current_region = region
 
 
 class PartySprite(CharacterSprite):
     """A sprite for party characters."""
 
     def __init__(self, screen, hero, char):
+        start_direction = screen.map.start_direction
         self.face_small = load_image("char", "faces", char + "_small")
+        self.hero = hero
         hero_position = (hero.rect[0], hero.rect[1])
         self.position = (hero_position[0],hero_position[1]+32)
         CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            "down", None, True, self.position, char, (32,32), (32,32), 3, 3)
+            start_direction, None, True, self.position, char, (32,32),
+            (32,32), 3, 3)
 
 
 class PlayerSprite(CharacterSprite):
@@ -209,44 +210,32 @@ class PlayerSprite(CharacterSprite):
         self.dirty = 1
         direction = self.direction
         map_rect = self.map.layers['terrain'].rect
-        party = self.screen.party
         if not self.collide[direction]:
+
             if direction == "up":
                 if self.rect.centery < PLAYER_SCROLL_TOP and (
                         self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
                     self.map.move([0, self.movement])
-                else:
-                    for char in party.chars:
-                        party.chars[char].dirty = 1
-                        party.chars[char].rect.move_ip(0, -self.movement)
+                else: self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
                         map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
                     self.map.move([0, -self.movement])
-                else:
-                    for char in party.chars:
-                        party.chars[char].dirty = 1
-                        party.chars[char].rect.move_ip(0, self.movement)
+                else: self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < PLAYER_SCROLL_LEFT and (
                         self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
                     self.map.move([self.movement, 0])
-                else:
-                    for char in party.chars:
-                        party.chars[char].dirty = 1
-                        party.chars[char].rect.move_ip(-self.movement, 0)
+                else: self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
                         map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
                     self.map.move([-self.movement, 0])
-                else:
-                    for char in party.chars:
-                        party.chars[char].dirty = 1
-                        party.chars[char].rect.move_ip(self.movement, 0)
+                else: self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
         """Check for a random encounter."""
