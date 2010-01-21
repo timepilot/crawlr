@@ -60,7 +60,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.height = height
         self.start_direction = start_direction
         self.direction = direction
-        self.stopped = stopped
+        self.stop = stopped
         self.sprite = Spritesheet('char', 'sprites', spritesheet)
         images = {
             'north': [
@@ -180,10 +180,44 @@ class PartySprite(CharacterSprite):
         self.face_small = load_image("char", "faces", char + "_small")
         self.hero = hero
         hero_position = (hero.rect[0], hero.rect[1])
-        self.position = (hero_position[0],hero_position[1]+32)
+        self.position = (hero_position[0],hero_position[1]+64)
         CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
             start_direction, None, True, self.position, char, (32,32),
             (32,32), 3, 3)
+
+    def move_check(self):
+        """Check if party character is near the player."""
+
+        directions = [
+            self.rect.move(0, -16),
+            self.rect.move(0, 16),
+            self.rect.move(-16, 0),
+            self.rect.move(16, 0) ]
+        if len(pygame.Rect(self.hero.rect).collidelistall(directions)) == 1:
+            self.stop = True
+        else:
+            self.stop = False
+
+    def move(self):
+        if self.rect[0] > self.hero.rect[0]:
+            self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
+        elif self.rect[0] == self.hero.rect[0]:
+            pass
+        else:
+            self.rect.move_ip([PLAYER_WALK_SPEED, 0])
+
+        if self.rect[1] > self.hero.rect[1]:
+            self.rect.move_ip([0, -PLAYER_WALK_SPEED])
+        elif self.rect[1] == self.hero.rect[1]:
+            pass
+        else:
+            self.rect.move_ip([0, PLAYER_WALK_SPEED])
+
+    def update(self):
+        self.dirty = 1
+        self.move_check()
+        if not self.stop and not self.hero.stop:
+            self.move()
 
 
 class PlayerSprite(CharacterSprite):

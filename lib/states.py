@@ -147,6 +147,12 @@ class WorldState(BaseState):
                     self.player.direction = (self.move_keys[-1])
                 else: self.player.stop = True
 
+    def run_ai(self):
+        # Party movement AI
+        for char in self.screen.party.chars:
+            if not char is "hero":
+                self.screen.party.chars[char].move()
+
     def show_debug(self, fps):
         BaseState.show_debug(self, fps)
         if SHOW_RECTS:
