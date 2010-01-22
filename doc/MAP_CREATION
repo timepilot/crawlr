@@ -11,7 +11,7 @@ options:
 [Options]
 
 # Tileset graphics to use. Currently only 'world' is valid.
-tile_set = 'world'
+tile_set = world
 
 # The size of the individual tiles within the tileset.
 tile_size = 32,32
@@ -31,31 +31,27 @@ start_direction = left
 # tile, one of the regions defined below will be chosen. This allows you to
 # greatly control the chance of a battle's toughness. If you would like to have
 # a map with a bunch of weak monsters, and a slight possibility of 1 really
-# strong monster, you can set this to: regions = '11111111111111111112'. Then
+# strong monster, you can set this to: regions = 1111111111111111112. Then
 # in the [Monsters] section, you can set the weak monsters for group 1, and the
 # strong monster for group 2. With this, each tile will have a 1 in 20 chance
 # of having a battle from monster group 2.
 # Valid values: any integer between 1-9
-regions = "1112"
+regions = 1112
 
 # 'terrains' is used to select a terrain type for each tile. For each tile, one
 # of the terrain types defined below will be chosen. If you would like to have
 # a map that is mostly grassy, and a slight chance for forests, you can set
-# this to: terrains = "gggggf". With this, there will be a 1/6 chance of a tile
-# being a forest.
+# this to: terrains = ggggf
+# With this, there will be a 1/6 chance of a tile being a forest.
 # Valid values: g, f
-terrains = "gggggf"
+terrains = ggggf
 
 # 'objects' is used to select a terrain object available on that specific
 # terrain type. If you would like to draw a rock or a tree on the grass once in
 # a while, you can set this to:
-# objects_grass = ".......................................abcde". If you would
-# like that 'tree 1' be more common, you can define it more than once:
-# objects_grass = ".......................................abccccde"
-# All terrains have the "." object, which tells the game not to draw any object
-# at all. This is only the chance there will be no object, so it is necessary
-# to pad each terrain's objects with a few empty objects so that objects do not
-# litter the map.
+# objects_grass = 50, abcde
+# If you would like that 'tree 1' be more common, you can define it more than
+# once: objects_grass = 50, abccccde
 # Available objects:
 #   grass:
 #       a: rock 1
@@ -79,8 +75,8 @@ terrains = "gggggf"
 #       m: bush 7
 #       n: bush 8
 #       o: mushroom
-objects_grass  = "...........................................ab"
-objects_forest = ".............................................abcghijklmno"
+objects_grass  = 2, ab
+objects_forest = 50, abcghijklmno
 
 [Monsters]
 
