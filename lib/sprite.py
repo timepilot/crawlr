@@ -204,9 +204,13 @@ class PartySprite(CharacterSprite):
 
     def update(self):
         self.move_check()
-        if not self.stop and not self.hero.stop:
+        if not self.stop:
             self.move()
-            self.draw()
+            if not self.hero.stop:
+                self.draw()
+        else:
+            self.image = self.walking[self.direction][0]
+            self.dirty = 1
 
 
 class PlayerSprite(CharacterSprite):
