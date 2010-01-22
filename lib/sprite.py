@@ -97,6 +97,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.y = start_location[1]
         self.image = self.walking[self.start_direction][self.frame]
         self.rect = self.image.get_rect(left=self.x, top=self.y)
+        self.rear_rect = self.rect
         self.collide = {}
         self.collide_size = collide_size
         self.collide_offset = collide_offset
@@ -188,12 +189,7 @@ class PartySprite(CharacterSprite):
     def move_check(self):
         """Check if party character is near the player."""
 
-        directions = [
-            self.rect.move(0, -16),
-            self.rect.move(0, 16),
-            self.rect.move(-16, 0),
-            self.rect.move(16, 0) ]
-        if len(pygame.Rect(self.hero.rect).collidelistall(directions)) == 1:
+        if pygame.Rect(self.hero.rear_rect).colliderect(self.rect):
             self.stop = True
         else:
             self.stop = False
@@ -251,25 +247,33 @@ class PlayerSprite(CharacterSprite):
                         self.scroll_pos[1] < 0):
                     self.scroll_pos[1] += self.movement
                     self.map.move([0, self.movement])
-                else: self.rect.move_ip(0, -self.movement)
+                else:
+                    self.rear_rect = self.rect.move([0, -16])
+                    self.rect.move_ip(0, -self.movement)
             elif direction == "down":
                 if self.rect.centery > PLAYER_SCROLL_BOTTOM and (
                         map_rect.height + self.scroll_pos[1] > CAMERA_SIZE[1]):
                     self.scroll_pos[1] -= self.movement
                     self.map.move([0, -self.movement])
-                else: self.rect.move_ip(0, self.movement)
+                else:
+                    self.rear_rect = self.rect.move([0, 16])
+                    self.rect.move_ip(0, self.movement)
             elif direction == "left":
                 if self.rect.centerx < PLAYER_SCROLL_LEFT and (
                         self.scroll_pos[0] < 0):
                     self.scroll_pos[0] += self.movement
                     self.map.move([self.movement, 0])
-                else: self.rect.move_ip(-self.movement, 0)
+                else:
+                    self.rear_rect = self.rect
+                    self.rect.move_ip(-self.movement, 0)
             elif direction == "right":
                 if self.rect.centerx > PLAYER_SCROLL_RIGHT and (
                         map_rect.width + self.scroll_pos[0] > CAMERA_SIZE[0]):
                     self.scroll_pos[0] -= self.movement
                     self.map.move([-self.movement, 0])
-                else: self.rect.move_ip(self.movement, 0)
+                else:
+                    self.rear_rect = self.rect
+                    self.rect.move_ip(self.movement, 0)
 
     def check_encounter(self):
         """Check for a random encounter."""

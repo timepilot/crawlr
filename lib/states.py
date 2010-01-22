@@ -141,17 +141,12 @@ class WorldState(BaseState):
             self.player.stop = False
         else:
             if len(self.move_keys) > 0:
-                keyid = self.move_keys.index(name(key))
-                del self.move_keys[keyid]
+                if name(key) in self.move_keys:
+                    keyid = self.move_keys.index(name(key))
+                    del self.move_keys[keyid]
                 if len(self.move_keys) != 0:
                     self.player.direction = (self.move_keys[-1])
                 else: self.player.stop = True
-
-    def run_ai(self):
-        # Party movement AI
-        for char in self.screen.party.chars:
-            if not char is "hero":
-                self.screen.party.chars[char].move()
 
     def show_debug(self, fps):
         BaseState.show_debug(self, fps)
