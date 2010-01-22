@@ -156,9 +156,9 @@ class WorldState(BaseState):
             for rect in (self.screen.map.nowalk):
                 terrain.image.fill((255,255,255), rect)
         if SHOW_TERRAIN:
-            print "Current terrain: " + self.player.current_terrain
+            print "Current terrain: %s" % self.player.current_terrain
         if SHOW_REGION:
-            print "Current region: " + self.player.current_region
+            print "Current region: %s" % self.player.current_region
 
     def destroy(self):
         """Cleanup before exiting this state."""
