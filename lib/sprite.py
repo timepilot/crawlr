@@ -151,6 +151,8 @@ class PartySprite(CharacterSprite):
             self.stop = False
 
     def move(self):
+        """Move the party character."""
+
         self.dirty = 1
         if self.rect[0] > self.hero.rect[0]:
             self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
