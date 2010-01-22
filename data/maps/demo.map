@@ -1,15 +1,15 @@
 [Options]
-tile_set = 'world'
+tile_set = world
 tile_size = 32,32
 num_tiles = 88,23
 start_tile = 85,1
 start_direction = left
 
 [Tiles]
-regions = "111111111111111112"
-terrains = "ggggf"
-objects_grass  = 50, "ab"
-objects_forest = 2, "aaabbbcccgghhiijjkkllmno"
+regions = 111111111111111112
+terrains = ggggf
+objects_grass  = 50, ab
+objects_forest = 2, aaabbbcccgghhiijjkkllmno
 
 [Monsters]
 1 = Slug, Hawk
