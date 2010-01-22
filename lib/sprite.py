@@ -208,6 +208,7 @@ class PartySprite(CharacterSprite):
             self.move()
             self.draw()
 
+
 class PlayerSprite(CharacterSprite):
     """The sprite for the character the player controls."""
 
@@ -232,12 +233,6 @@ class PlayerSprite(CharacterSprite):
         self.dirty = 1
         direction = self.direction
         map_rect = self.map.layers['terrain'].rect
-
-        # Move the player's collision rectangle.
-        self.collide_rect.left = self.rect.left - self.scroll_pos[0] + (
-            self.collide_offset[0])
-        self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
-            self.collide_offset[1])
 
         # If no collision, move the player.
         if not self.collide[direction]:
@@ -273,6 +268,13 @@ class PlayerSprite(CharacterSprite):
                 else:
                     self.rear_rect = self.rect
                     self.rect.move_ip(self.movement, 0)
+
+            # Move the player's collision rectangle.
+            self.collide_rect.left = self.rect.left - self.scroll_pos[0] + (
+                self.collide_offset[0])
+            self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
+                self.collide_offset[1])
+
 
     def check_encounter(self):
         """Check for a random encounter."""
