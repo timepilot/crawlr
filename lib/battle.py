@@ -37,5 +37,3 @@ class Battle(object):
             monsters = [monster.name for monster in self.battle_monsters]
             print """A battle has started on region #%s with: %s""" % (
                 self.region, monsters)
-
-
