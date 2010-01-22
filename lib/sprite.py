@@ -49,8 +49,8 @@ class MapSprite(BasicSprite):
 class CharacterSprite(pygame.sprite.DirtySprite):
     """A sprite for moving character sprites."""
 
-    def __init__(self, screen, width, height, start_direction, direction,
-            stopped, start_location, spritesheet, collide_size, collide_offset,
+    def __init__(self, screen, width, height, direction, stopped,
+            start_location, spritesheet, collide_size, collide_offset,
             speed_animate, speed_walk):
         pygame.sprite.DirtySprite.__init__(self)
         self.screen = screen
@@ -58,7 +58,6 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.map = screen.map
         self.width = width
         self.height = height
-        self.start_direction = start_direction
         self.direction = direction
         self.stop = stopped
         self.sprite = Spritesheet('char', 'sprites', spritesheet)
@@ -95,7 +94,7 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         self.frame = 0
         self.x = start_location[0]
         self.y = start_location[1]
-        self.image = self.walking[self.start_direction][self.frame]
+        self.image = self.walking[self.direction][self.frame]
         self.rect = self.image.get_rect(left=self.x, top=self.y)
         self.rear_rect = self.rect
         self.collide = {}
@@ -114,10 +113,6 @@ class CharacterSprite(pygame.sprite.DirtySprite):
         if self.animate_counter == 0:
             self.frame = (self.frame + 1) % len(direction)
         self.image = direction[self.frame]
-        self.collide_rect.left = self.rect.left - self.scroll_pos[0] + (
-            self.collide_offset[0])
-        self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
-            self.collide_offset[1])
 
     def update(self):
         """Redraw the sprite if it moved."""
@@ -177,14 +172,15 @@ class PartySprite(CharacterSprite):
     """A sprite for party characters."""
 
     def __init__(self, screen, hero, char):
-        start_direction = screen.map.start_direction
         self.face_small = load_image("char", "faces", char + "_small")
         self.hero = hero
+        direction = self.hero.direction
         hero_position = (hero.rect[0], hero.rect[1])
-        self.position = (hero_position[0],hero_position[1]+64)
+        self.position = (hero_position[0],hero_position[1] + 32)
         CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            start_direction, None, True, self.position, char, (32,32),
-            (32,32), 3, 3)
+            direction, True, self.position, char, PLAYER_COLLIDE_SIZE,
+            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
+            PLAYER_WALK_SPEED)
 
     def move_check(self):
         """Check if party character is near the player."""
@@ -195,6 +191,7 @@ class PartySprite(CharacterSprite):
             self.stop = False
 
     def move(self):
+        self.dirty = 1
         if self.rect[0] > self.hero.rect[0]:
             self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
         elif not self.rect[0] == self.hero.rect[0]:
@@ -206,11 +203,10 @@ class PartySprite(CharacterSprite):
             self.rect.move_ip([0, PLAYER_WALK_SPEED])
 
     def update(self):
-        self.dirty = 1
         self.move_check()
         if not self.stop and not self.hero.stop:
             self.move()
-
+            self.draw()
 
 class PlayerSprite(CharacterSprite):
     """The sprite for the character the player controls."""
@@ -219,16 +215,16 @@ class PlayerSprite(CharacterSprite):
         start_location = [
             screen.map.start_tile[0] * screen.map.tile_size[0],
             screen.map.start_tile[1] * screen.map.tile_size[1] ]
-        start_direction = screen.map.start_direction
+        direction = screen.map.start_direction
         self.move_keys = []
-        self.scroll_pos = [0,0]
+        self.scroll_pos = [0, 0]
         self.current_terrain = screen.map.map_terrains[0:1]
         self.current_region = screen.map.map_regions[0:1]
         self.face_small = load_image("char", "faces", char + "_small")
         CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            start_direction, None, True, start_location, char,
-            PLAYER_COLLIDE_SIZE, PLAYER_COLLIDE_OFFSET,
-            PLAYER_WALK_ANIMATION_SPEED, PLAYER_WALK_SPEED)
+            direction, True, start_location, char, PLAYER_COLLIDE_SIZE,
+            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
+            PLAYER_WALK_SPEED)
 
     def move(self):
         """Move the player."""
@@ -237,6 +233,13 @@ class PlayerSprite(CharacterSprite):
         direction = self.direction
         map_rect = self.map.layers['terrain'].rect
 
+        # Move the player's collision rectangle.
+        self.collide_rect.left = self.rect.left - self.scroll_pos[0] + (
+            self.collide_offset[0])
+        self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
+            self.collide_offset[1])
+
+        # If no collision, move the player.
         if not self.collide[direction]:
             if direction == "up":
                 if self.rect.centery < PLAYER_SCROLL_TOP and (
