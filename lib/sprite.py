@@ -119,13 +119,67 @@ class CharacterSprite(pygame.sprite.DirtySprite):
 
         self.movement = self.speed_walk
         if self.direction:
+            self.move_check()
             if self.stop:
                 self.image = self.walking[self.direction][0]
                 self.dirty = 1
             else:
-                self.move_check()
                 self.move()
                 self.draw()
+
+
+class PartySprite(CharacterSprite):
+    """A sprite for party characters."""
+
+    def __init__(self, screen, hero, char):
+        self.face_small = load_image("char", "faces", char + "_small")
+        self.hero = hero
+        direction = self.hero.direction
+        hero_position = (hero.rect[0], hero.rect[1])
+        self.position = (hero_position[0],hero_position[1] + 32)
+        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
+            direction, True, self.position, char, PLAYER_COLLIDE_SIZE,
+            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
+            PLAYER_WALK_SPEED)
+
+    def move_check(self):
+        """Check if party character is near the player."""
+
+        if pygame.Rect(self.hero.rear_rect).colliderect(self.rect):
+            self.stop = True
+        else:
+            self.stop = False
+
+    def move(self):
+        self.dirty = 1
+        if self.rect[0] > self.hero.rect[0]:
+            self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
+        elif not self.rect[0] == self.hero.rect[0]:
+            self.rect.move_ip([PLAYER_WALK_SPEED, 0])
+
+        if self.rect[1] > self.hero.rect[1]:
+            self.rect.move_ip([0, -PLAYER_WALK_SPEED])
+        elif not self.rect[1] == self.hero.rect[1]:
+            self.rect.move_ip([0, PLAYER_WALK_SPEED])
+
+
+class PlayerSprite(CharacterSprite):
+    """The sprite for the character the player controls."""
+
+    def __init__(self, screen, char):
+        start_location = [
+            screen.map.start_tile[0] * screen.map.tile_size[0],
+            screen.map.start_tile[1] * screen.map.tile_size[1] ]
+        direction = screen.map.start_direction
+        self.move_keys = []
+        self.scroll_pos = [0, 0]
+        self.current_terrain = screen.map.map_terrains[0:1]
+        self.current_region = screen.map.map_regions[0:1]
+        self.face_small = load_image("char", "faces", char + "_small")
+        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
+            direction, True, start_location, char, PLAYER_COLLIDE_SIZE,
+            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
+            PLAYER_WALK_SPEED)
 
     def move_check(self):
         """Check for walls, terrain, region, and random encounters."""
@@ -166,70 +220,6 @@ class CharacterSprite(pygame.sprite.DirtySprite):
             if pygame.Rect(rect).collidelistall(
                 self.map.regions[region]) != []:
                     self.current_region = region
-
-
-class PartySprite(CharacterSprite):
-    """A sprite for party characters."""
-
-    def __init__(self, screen, hero, char):
-        self.face_small = load_image("char", "faces", char + "_small")
-        self.hero = hero
-        direction = self.hero.direction
-        hero_position = (hero.rect[0], hero.rect[1])
-        self.position = (hero_position[0],hero_position[1] + 32)
-        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            direction, True, self.position, char, PLAYER_COLLIDE_SIZE,
-            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
-            PLAYER_WALK_SPEED)
-
-    def move_check(self):
-        """Check if party character is near the player."""
-
-        if pygame.Rect(self.hero.rear_rect).colliderect(self.rect):
-            self.stop = True
-        else:
-            self.stop = False
-
-    def move(self):
-        self.dirty = 1
-        if self.rect[0] > self.hero.rect[0]:
-            self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
-        elif not self.rect[0] == self.hero.rect[0]:
-            self.rect.move_ip([PLAYER_WALK_SPEED, 0])
-
-        if self.rect[1] > self.hero.rect[1]:
-            self.rect.move_ip([0, -PLAYER_WALK_SPEED])
-        elif not self.rect[1] == self.hero.rect[1]:
-            self.rect.move_ip([0, PLAYER_WALK_SPEED])
-
-    def update(self):
-        self.move_check()
-        if not self.stop:
-            self.move()
-            if not self.hero.stop:
-                self.draw()
-        else:
-            self.image = self.walking[self.direction][0]
-            self.dirty = 1
-
-
-class PlayerSprite(CharacterSprite):
-    """The sprite for the character the player controls."""
-
-    def __init__(self, screen, char):
-        start_location = [
-            screen.map.start_tile[0] * screen.map.tile_size[0],
-            screen.map.start_tile[1] * screen.map.tile_size[1] ]
-        direction = screen.map.start_direction
-        self.move_keys = []
-        self.scroll_pos = [0, 0]
-        self.current_terrain = screen.map.map_terrains[0:1]
-        self.current_region = screen.map.map_regions[0:1]
-        self.face_small = load_image("char", "faces", char + "_small")
-        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            direction, True, start_location, char, PLAYER_COLLIDE_SIZE,
-            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
-            PLAYER_WALK_SPEED)
 
     def move(self):
         """Move the player."""
@@ -278,7 +268,6 @@ class PlayerSprite(CharacterSprite):
                 self.collide_offset[0])
             self.collide_rect.bottom = self.rect.bottom - self.scroll_pos[1] + (
                 self.collide_offset[1])
-
 
     def check_encounter(self):
         """Check for a random encounter."""
