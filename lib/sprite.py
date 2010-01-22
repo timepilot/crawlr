@@ -197,16 +197,12 @@ class PartySprite(CharacterSprite):
     def move(self):
         if self.rect[0] > self.hero.rect[0]:
             self.rect.move_ip([-PLAYER_WALK_SPEED, 0])
-        elif self.rect[0] == self.hero.rect[0]:
-            pass
-        else:
+        elif not self.rect[0] == self.hero.rect[0]:
             self.rect.move_ip([PLAYER_WALK_SPEED, 0])
 
         if self.rect[1] > self.hero.rect[1]:
             self.rect.move_ip([0, -PLAYER_WALK_SPEED])
-        elif self.rect[1] == self.hero.rect[1]:
-            pass
-        else:
+        elif not self.rect[1] == self.hero.rect[1]:
             self.rect.move_ip([0, PLAYER_WALK_SPEED])
 
     def update(self):

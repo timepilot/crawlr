@@ -34,7 +34,8 @@ class Battle(object):
         """Print the battle debug message."""
 
         if SHOW_MONSTERS:
-            print "A battle has started on region #" + str(self.region) + (
-                " with:")
-            for monster in self.battle_monsters:
-                print monster.name
+            monsters = [monster.name for monster in self.battle_monsters]
+            print """A battle has started on region #%s with: %s""" % (
+                self.region, monsters)
+
+
