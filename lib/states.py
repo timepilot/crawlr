@@ -74,7 +74,8 @@ class WorldState(BaseState):
         BaseState.__init__(self)
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
-        self.player = self.screen.party.chars['hero']
+        self.party = self.screen.party
+        self.player = self.party.chars['hero']
 
     def check_events(self):
         """Check for user input on the world screen."""
@@ -93,13 +94,13 @@ class WorldState(BaseState):
 
                 # Example of adding and removing a test character to the party.
                 elif event.key == K_a:
-                    self.screen.party.add("test")
+                    self.party.add("test")
                 elif event.key == K_z:
-                    self.screen.party.remove("test")
+                    self.party.remove("test")
 
                 # Example of changing the test character's statistics.
                 elif event.key == K_s:
-                    self.screen.party.chars["test"].hp += 1
+                    self.party.chars["test"].hp += 1
 
                 # Move the player
                 elif event.key in (
@@ -137,7 +138,8 @@ class WorldState(BaseState):
 
         if moving:
             self.move_keys.append(name(key))
-            self.player.direction = self.move_keys[-1]
+            for char in self.party.chars:
+                self.party.chars[char].direction = self.move_keys[-1]
             self.player.stop = False
         else:
             if len(self.move_keys) > 0:
@@ -145,7 +147,8 @@ class WorldState(BaseState):
                     keyid = self.move_keys.index(name(key))
                     del self.move_keys[keyid]
                 if len(self.move_keys) != 0:
-                    self.player.direction = (self.move_keys[-1])
+                    for char in self.party.chars:
+                        self.party.chars[char].direction = self.move_keys[-1]
                 else: self.player.stop = True
 
     def show_debug(self, fps):
@@ -163,6 +166,7 @@ class WorldState(BaseState):
     def destroy(self):
         """Cleanup before exiting this state."""
 
+        self.party = None
         self.player = None
         self.screen.destroy()
 
