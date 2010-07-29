@@ -39,14 +39,21 @@ class CharHero(PlayerSprite, BaseCharacter):
 
     def __init__(self, screen, name="hero"):
         PlayerSprite.__init__(self, screen, name)
-        BaseCharacter.__init__(self, name, hp=10, hp_max=10, mp=0, mp_max=0,
-            attack=1, defense=1, exp_max=1000)
+        BaseCharacter.__init__(self, name, hp=10, hp_max=10, mp=0,
+			mp_max=0, attack=1, defense=1, exp_max=1000)
 
 
-class CharTest(PartySprite, BaseCharacter):
-    """An extra character for testing."""
+class CharParty(PartySprite, BaseCharacter):
+    """A basic party character."""
 
     def __init__(self, screen, hero, name="test"):
         PartySprite.__init__(self, screen, hero, name)
-        BaseCharacter.__init__(self, name, hp=20, hp_max=20, mp=0, mp_max=0,
-            attack=1, defense=1, exp_max=1000)
+        BaseCharacter.__init__(self, name, hp=20, hp_max=20, mp=0,
+			mp_max=0, attack=1, defense=1, exp_max=1000)
+			
+
+class CharNPC(NPCSprite, BaseCharacter):
+	"""A basic NPC character."""
+	
+	def __init__(self, screen, name="npc"):
+		NPCSprite.__init__(self, screen, name)

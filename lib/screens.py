@@ -3,7 +3,7 @@ from constants import *
 from data import *
 from gui import *
 from map import Map
-from manager import PartyManager
+from manager import *
 from battle import Battle
 
 class Screen(object):
@@ -78,8 +78,10 @@ class WorldScreen(Screen):
         self.camera = pygame.Rect((0,0), CAMERA_SIZE)
         self.map = Map(map_name)
         self.party = PartyManager(self)
+        self.npcs = NPCManager(self)
         self.gui = StatsWindow(self.party.sprites)
         self.party.add("hero")
+        self.npcs.add("npc")
         self.dialog_text = "Sample dialog text."
         self.map.scroll(self.camera, self.party.chars['hero'])
 

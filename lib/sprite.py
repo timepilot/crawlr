@@ -126,19 +126,18 @@ class CharacterSprite(pygame.sprite.DirtySprite):
             else:
                 self.move()
                 self.draw()
-
-
+            
+            
 class PartySprite(CharacterSprite):
     """A sprite for party characters."""
 
     def __init__(self, screen, hero, char):
-        self.face_small = load_image("char", "faces", char + "_small")
         self.hero = hero
-        direction = self.hero.direction
-        hero_position = (hero.rect[0], hero.rect[1])
-        self.position = (hero_position[0],hero_position[1] + 32)
+        self.face_small = load_image("char", "faces", char + "_small")
+        direction = hero.direction
+        position = (hero.rect[0], hero.rect[1] + 32)
         CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
-            direction, True, self.position, char, PLAYER_COLLIDE_SIZE,
+            direction, True, position, char, PLAYER_COLLIDE_SIZE,
             PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
             PLAYER_WALK_SPEED)
 
@@ -163,6 +162,17 @@ class PartySprite(CharacterSprite):
             self.rect.move_ip([0, -PLAYER_WALK_SPEED])
         elif not self.rect[1] == self.hero.rect[1]:
             self.rect.move_ip([0, PLAYER_WALK_SPEED])
+
+
+class NPCSprite(CharacterSprite):
+    """A sprite for non-player characters."""
+
+    def __init__(self, screen, char):
+        self.face_small = load_image("char", "faces", char + "_small")
+        CharacterSprite.__init__(self, screen, CHAR_WIDTH, CHAR_HEIGHT,
+            "left", True, (128,128), char, PLAYER_COLLIDE_SIZE,
+            PLAYER_COLLIDE_OFFSET, PLAYER_WALK_ANIMATION_SPEED,
+            PLAYER_WALK_SPEED)
 
 
 class PlayerSprite(CharacterSprite):
@@ -282,8 +292,8 @@ class PlayerSprite(CharacterSprite):
             self.current_space = 0
             if Die(PLAYER_ENCOUNTER_ROLL).roll() == 1:
                 pygame.time.set_timer(BATTLE_EVENT, 100)
-
-
+            
+            
 class MonsterSprite(CharacterSprite):
 
     def __init__(self, screen, char):

@@ -75,6 +75,7 @@ class WorldState(BaseState):
         self.map_name = map_name
         self.screen = WorldScreen(self.map_name)
         self.party = self.screen.party
+        self.npcs = self.screen.npcs
         self.player = self.party.chars['hero']
 
     def check_events(self):
@@ -97,6 +98,10 @@ class WorldState(BaseState):
                     self.party.add("test")
                 elif event.key == K_z:
                     self.party.remove("test")
+
+                elif event.key == K_s:
+                    self.npcs.add("npc")
+
 
                 # Example of changing the test character's statistics.
                 elif event.key == K_s:
